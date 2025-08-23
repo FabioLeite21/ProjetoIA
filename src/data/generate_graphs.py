@@ -3,6 +3,7 @@ import pandas as pd
 import networkx as nx
 import numpy as np
 from src.data.utils import infer_timestamps, filter_fixation_events
+from src.data.eeg_interpolation import process_subject_data
 
 # Definições de caminhos
 EYE_RAW_DIR = 'database/raw/Eye_raw/seed_v_eye_feature_raw_excel'
@@ -73,6 +74,14 @@ def generate_saccadic_graphs(eye_raw_dir=EYE_RAW_DIR, output_base_dir=GRAPHS_OUT
                 # Criar grafo
                 G = nx.DiGraph()
                 
+                # Carregar dados EEG correspondentes
+                eeg_timestamps, eeg_segments, eeg_labels = process_subject_data(
+                    int(subject_id), int(session_id), trial_idx + 1
+                )
+                
+                # Criar mapeamento de índices para nodes
+                node_counter = 0
+                
                 for idx, row in df_events.iterrows():
                     start_time = str(row.get('start_time', 'NA'))
                     end_time = str(row.get('end_time', 'NA'))
@@ -81,6 +90,13 @@ def generate_saccadic_graphs(eye_raw_dir=EYE_RAW_DIR, output_base_dir=GRAPHS_OUT
                     pupil_y = str(row.get('Average Pupil Size [px] Y', 'NA'))
                     dispersion_x = str(row.get('Dispersion X', 'NA'))
                     dispersion_y = str(row.get('Dispersion Y', 'NA'))
+                    
+                    # Obter dados EEG correspondentes ao evento atual
+                    eeg_data_str = "NA"
+                    if eeg_segments and node_counter < len(eeg_segments):
+                        # Converter array numpy para string serializável
+                        eeg_array = eeg_segments[node_counter]
+                        eeg_data_str = ','.join([f'{x:.6f}' for x in eeg_array])
                     
                     node_id = idx
                     G.add_node(node_id, 
@@ -91,7 +107,9 @@ def generate_saccadic_graphs(eye_raw_dir=EYE_RAW_DIR, output_base_dir=GRAPHS_OUT
                                pupil_y=pupil_y,
                                dispersion_x=dispersion_x,
                                dispersion_y=dispersion_y,
-                               eeg_data="NA")
+                               eeg_data=eeg_data_str)
+                    
+                    node_counter += 1
                     
                     if idx > 0:
                         prev_node = idx - 1
@@ -104,7 +122,11 @@ def generate_saccadic_graphs(eye_raw_dir=EYE_RAW_DIR, output_base_dir=GRAPHS_OUT
                 # Salvar grafo
                 graph_file = os.path.join(subject_dir, f'session_{session_id}_trial_{trial_idx+1}.gml')
                 nx.write_gml(G, graph_file)
-                print(f"Grafo gerado: {graph_file}")
+                
+                # Log de informações sobre EEG
+                eeg_status = "com dados EEG" if eeg_segments else "sem dados EEG"
+                eeg_count = len(eeg_segments) if eeg_segments else 0
+                print(f"Grafo gerado: {graph_file} ({eeg_status}, {eeg_count} segmentos)")
 
 if __name__ == "__main__":
     generate_saccadic_graphs()
