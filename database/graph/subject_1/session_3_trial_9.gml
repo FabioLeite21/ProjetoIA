@@ -6243,104 +6243,104 @@ graph [
   edge [
     source 0
     target 1
-    saccade_duration "99.0"
-    saccade_amplitude "7.3"
+    saccade_duration "100.0"
+    saccade_amplitude "1.5"
   ]
   edge [
     source 1
     target 2
-    saccade_duration "65.0"
-    saccade_amplitude "3.4"
+    saccade_duration "99.0"
+    saccade_amplitude "7.3"
   ]
   edge [
     source 2
     target 3
-    saccade_duration "99.0"
-    saccade_amplitude "5.1"
+    saccade_duration "65.0"
+    saccade_amplitude "3.4"
   ]
   edge [
     source 3
     target 4
-    saccade_duration "66.0"
-    saccade_amplitude "5.5"
+    saccade_duration "99.0"
+    saccade_amplitude "5.1"
   ]
   edge [
     source 4
     target 5
-    saccade_duration "67.0"
-    saccade_amplitude "2.4"
+    saccade_duration "66.0"
+    saccade_amplitude "5.5"
   ]
   edge [
     source 5
     target 6
-    saccade_duration "100.0"
-    saccade_amplitude "1.2"
+    saccade_duration "67.0"
+    saccade_amplitude "2.4"
   ]
   edge [
     source 6
     target 7
-    saccade_duration "66.0"
-    saccade_amplitude "3.0"
+    saccade_duration "100.0"
+    saccade_amplitude "1.2"
   ]
   edge [
     source 7
     target 8
     saccade_duration "66.0"
-    saccade_amplitude "1.2"
+    saccade_amplitude "3.0"
   ]
   edge [
     source 8
     target 9
-    saccade_duration "99.0"
-    saccade_amplitude "3.6"
+    saccade_duration "66.0"
+    saccade_amplitude "1.2"
   ]
   edge [
     source 9
     target 10
-    saccade_duration "66.0"
-    saccade_amplitude "2.5"
+    saccade_duration "99.0"
+    saccade_amplitude "3.6"
   ]
   edge [
     source 10
     target 11
-    saccade_duration "67.0"
-    saccade_amplitude "4.0"
+    saccade_duration "66.0"
+    saccade_amplitude "2.5"
   ]
   edge [
     source 11
     target 12
-    saccade_duration "66.0"
-    saccade_amplitude "0.6"
+    saccade_duration "67.0"
+    saccade_amplitude "4.0"
   ]
   edge [
     source 12
     target 13
     saccade_duration "66.0"
-    saccade_amplitude "0.7"
+    saccade_amplitude "0.6"
   ]
   edge [
     source 13
     target 14
     saccade_duration "66.0"
-    saccade_amplitude "0.9"
+    saccade_amplitude "0.7"
   ]
   edge [
     source 14
     target 15
     saccade_duration "66.0"
-    saccade_amplitude "0.7"
+    saccade_amplitude "0.9"
   ]
   edge [
     source 15
     target 16
-    saccade_duration "99.0"
-    saccade_amplitude "0.8"
+    saccade_duration "66.0"
+    saccade_amplitude "0.7"
   ]
   edge [
     source 16
     target 17
-    saccade_duration "66.0"
-    saccade_amplitude "0.6"
+    saccade_duration "99.0"
+    saccade_amplitude "0.8"
   ]
   edge [
     source 17
@@ -6352,139 +6352,139 @@ graph [
     source 18
     target 19
     saccade_duration "66.0"
-    saccade_amplitude "3.7"
+    saccade_amplitude "0.6"
   ]
   edge [
     source 19
     target 20
     saccade_duration "66.0"
-    saccade_amplitude "2.1"
+    saccade_amplitude "3.7"
   ]
   edge [
     source 20
     target 21
     saccade_duration "66.0"
-    saccade_amplitude "0.9"
+    saccade_amplitude "2.1"
   ]
   edge [
     source 21
     target 22
     saccade_duration "66.0"
-    saccade_amplitude "0.4"
+    saccade_amplitude "0.9"
   ]
   edge [
     source 22
     target 23
     saccade_duration "66.0"
-    saccade_amplitude "0.6"
+    saccade_amplitude "0.4"
   ]
   edge [
     source 23
     target 24
     saccade_duration "66.0"
-    saccade_amplitude "1.1"
+    saccade_amplitude "0.6"
   ]
   edge [
     source 24
     target 25
-    saccade_duration "67.0"
-    saccade_amplitude "0.4"
+    saccade_duration "66.0"
+    saccade_amplitude "1.1"
   ]
   edge [
     source 25
     target 26
-    saccade_duration "63.0"
-    saccade_amplitude "0.6"
+    saccade_duration "67.0"
+    saccade_amplitude "0.4"
   ]
   edge [
     source 26
     target 27
-    saccade_duration "66.0"
+    saccade_duration "63.0"
     saccade_amplitude "0.6"
   ]
   edge [
     source 27
     target 28
     saccade_duration "66.0"
-    saccade_amplitude "1.2"
+    saccade_amplitude "0.6"
   ]
   edge [
     source 28
     target 29
-    saccade_duration "99.0"
-    saccade_amplitude "1.1"
+    saccade_duration "66.0"
+    saccade_amplitude "1.2"
   ]
   edge [
     source 29
     target 30
-    saccade_duration "66.0"
-    saccade_amplitude "0.5"
+    saccade_duration "99.0"
+    saccade_amplitude "1.1"
   ]
   edge [
     source 30
     target 31
     saccade_duration "66.0"
-    saccade_amplitude "0.9"
+    saccade_amplitude "0.5"
   ]
   edge [
     source 31
     target 32
-    saccade_duration "99.0"
-    saccade_amplitude "1.6"
+    saccade_duration "66.0"
+    saccade_amplitude "0.9"
   ]
   edge [
     source 32
     target 33
-    saccade_duration "66.0"
-    saccade_amplitude "0.4"
+    saccade_duration "99.0"
+    saccade_amplitude "1.6"
   ]
   edge [
     source 33
     target 34
     saccade_duration "66.0"
-    saccade_amplitude "1.2"
+    saccade_amplitude "0.4"
   ]
   edge [
     source 34
     target 35
     saccade_duration "66.0"
-    saccade_amplitude "0.7"
+    saccade_amplitude "1.2"
   ]
   edge [
     source 35
     target 36
-    saccade_duration "99.0"
-    saccade_amplitude "1.3"
+    saccade_duration "66.0"
+    saccade_amplitude "0.7"
   ]
   edge [
     source 36
     target 37
-    saccade_duration "66.0"
-    saccade_amplitude "0.5"
+    saccade_duration "99.0"
+    saccade_amplitude "1.3"
   ]
   edge [
     source 37
     target 38
     saccade_duration "66.0"
-    saccade_amplitude "1.3"
+    saccade_amplitude "0.5"
   ]
   edge [
     source 38
     target 39
     saccade_duration "66.0"
-    saccade_amplitude "2.3"
+    saccade_amplitude "1.3"
   ]
   edge [
     source 39
     target 40
-    saccade_duration "68.0"
-    saccade_amplitude "0.4"
+    saccade_duration "66.0"
+    saccade_amplitude "2.3"
   ]
   edge [
     source 40
     target 41
-    saccade_duration "66.0"
-    saccade_amplitude "1.3"
+    saccade_duration "68.0"
+    saccade_amplitude "0.4"
   ]
   edge [
     source 41
@@ -6496,577 +6496,577 @@ graph [
     source 42
     target 43
     saccade_duration "66.0"
-    saccade_amplitude "1.6"
+    saccade_amplitude "1.3"
   ]
   edge [
     source 43
     target 44
     saccade_duration "66.0"
-    saccade_amplitude "1.3"
+    saccade_amplitude "1.6"
   ]
   edge [
     source 44
     target 45
     saccade_duration "66.0"
-    saccade_amplitude "2.3"
+    saccade_amplitude "1.3"
   ]
   edge [
     source 45
     target 46
     saccade_duration "66.0"
-    saccade_amplitude "0.6"
+    saccade_amplitude "2.3"
   ]
   edge [
     source 46
     target 47
     saccade_duration "66.0"
-    saccade_amplitude "3.9"
+    saccade_amplitude "0.6"
   ]
   edge [
     source 47
     target 48
-    saccade_duration "60.0"
-    saccade_amplitude "0.5"
+    saccade_duration "66.0"
+    saccade_amplitude "3.9"
   ]
   edge [
     source 48
     target 49
-    saccade_duration "99.0"
-    saccade_amplitude "8.8"
+    saccade_duration "60.0"
+    saccade_amplitude "0.5"
   ]
   edge [
     source 49
     target 50
-    saccade_duration "66.0"
-    saccade_amplitude "1.9"
+    saccade_duration "99.0"
+    saccade_amplitude "8.8"
   ]
   edge [
     source 50
     target 51
-    saccade_duration "99.0"
-    saccade_amplitude "13.1"
+    saccade_duration "66.0"
+    saccade_amplitude "1.9"
   ]
   edge [
     source 51
     target 52
-    saccade_duration "66.0"
-    saccade_amplitude "3.0"
+    saccade_duration "99.0"
+    saccade_amplitude "13.1"
   ]
   edge [
     source 52
     target 53
     saccade_duration "66.0"
-    saccade_amplitude "1.3"
+    saccade_amplitude "3.0"
   ]
   edge [
     source 53
     target 54
     saccade_duration "66.0"
-    saccade_amplitude "2.2"
+    saccade_amplitude "1.3"
   ]
   edge [
     source 54
     target 55
     saccade_duration "66.0"
-    saccade_amplitude "2.3"
+    saccade_amplitude "2.2"
   ]
   edge [
     source 55
     target 56
-    saccade_duration "133.0"
-    saccade_amplitude "3.8"
+    saccade_duration "66.0"
+    saccade_amplitude "2.3"
   ]
   edge [
     source 56
     target 57
-    saccade_duration "99.0"
-    saccade_amplitude "3.0"
+    saccade_duration "133.0"
+    saccade_amplitude "3.8"
   ]
   edge [
     source 57
     target 58
-    saccade_duration "66.0"
-    saccade_amplitude "2.2"
+    saccade_duration "99.0"
+    saccade_amplitude "3.0"
   ]
   edge [
     source 58
     target 59
     saccade_duration "66.0"
-    saccade_amplitude "1.7"
+    saccade_amplitude "2.2"
   ]
   edge [
     source 59
     target 60
-    saccade_duration "100.0"
-    saccade_amplitude "7.3"
+    saccade_duration "66.0"
+    saccade_amplitude "1.7"
   ]
   edge [
     source 60
     target 61
-    saccade_duration "99.0"
-    saccade_amplitude "3.2"
+    saccade_duration "100.0"
+    saccade_amplitude "7.3"
   ]
   edge [
     source 61
     target 62
-    saccade_duration "98.0"
-    saccade_amplitude "2.8"
+    saccade_duration "99.0"
+    saccade_amplitude "3.2"
   ]
   edge [
     source 62
     target 63
-    saccade_duration "66.0"
-    saccade_amplitude "3.0"
+    saccade_duration "98.0"
+    saccade_amplitude "2.8"
   ]
   edge [
     source 63
     target 64
     saccade_duration "66.0"
-    saccade_amplitude "3.1"
+    saccade_amplitude "3.0"
   ]
   edge [
     source 64
     target 65
-    saccade_duration "99.0"
-    saccade_amplitude "3.4"
+    saccade_duration "66.0"
+    saccade_amplitude "3.1"
   ]
   edge [
     source 65
     target 66
-    saccade_duration "66.0"
-    saccade_amplitude "3.3"
+    saccade_duration "99.0"
+    saccade_amplitude "3.4"
   ]
   edge [
     source 66
     target 67
     saccade_duration "66.0"
-    saccade_amplitude "6.9"
+    saccade_amplitude "3.3"
   ]
   edge [
     source 67
     target 68
-    saccade_duration "100.0"
-    saccade_amplitude "0.8"
+    saccade_duration "66.0"
+    saccade_amplitude "6.9"
   ]
   edge [
     source 68
     target 69
-    saccade_duration "66.0"
-    saccade_amplitude "8.9"
+    saccade_duration "100.0"
+    saccade_amplitude "0.8"
   ]
   edge [
     source 69
     target 70
-    saccade_duration "99.0"
-    saccade_amplitude "0.5"
+    saccade_duration "66.0"
+    saccade_amplitude "8.9"
   ]
   edge [
     source 70
     target 71
     saccade_duration "99.0"
-    saccade_amplitude "3.2"
+    saccade_amplitude "0.5"
   ]
   edge [
     source 71
     target 72
     saccade_duration "99.0"
-    saccade_amplitude "8.2"
+    saccade_amplitude "3.2"
   ]
   edge [
     source 72
     target 73
-    saccade_duration "65.0"
-    saccade_amplitude "3.3"
+    saccade_duration "99.0"
+    saccade_amplitude "8.2"
   ]
   edge [
     source 73
     target 74
-    saccade_duration "66.0"
-    saccade_amplitude "1.6"
+    saccade_duration "65.0"
+    saccade_amplitude "3.3"
   ]
   edge [
     source 74
     target 75
     saccade_duration "66.0"
-    saccade_amplitude "1.7"
+    saccade_amplitude "1.6"
   ]
   edge [
     source 75
     target 76
     saccade_duration "66.0"
-    saccade_amplitude "2.6"
+    saccade_amplitude "1.7"
   ]
   edge [
     source 76
     target 77
     saccade_duration "66.0"
-    saccade_amplitude "0.3"
+    saccade_amplitude "2.6"
   ]
   edge [
     source 77
     target 78
-    saccade_duration "99.0"
-    saccade_amplitude "3.4"
+    saccade_duration "66.0"
+    saccade_amplitude "0.3"
   ]
   edge [
     source 78
     target 79
-    saccade_duration "66.0"
-    saccade_amplitude "2.5"
+    saccade_duration "99.0"
+    saccade_amplitude "3.4"
   ]
   edge [
     source 79
     target 80
-    saccade_duration "69.0"
-    saccade_amplitude "0.5"
+    saccade_duration "66.0"
+    saccade_amplitude "2.5"
   ]
   edge [
     source 80
     target 81
-    saccade_duration "100.0"
-    saccade_amplitude "1.4"
+    saccade_duration "69.0"
+    saccade_amplitude "0.5"
   ]
   edge [
     source 81
     target 82
-    saccade_duration "66.0"
-    saccade_amplitude "1.0"
+    saccade_duration "100.0"
+    saccade_amplitude "1.4"
   ]
   edge [
     source 82
     target 83
     saccade_duration "66.0"
-    saccade_amplitude "1.7"
+    saccade_amplitude "1.0"
   ]
   edge [
     source 83
     target 84
     saccade_duration "66.0"
-    saccade_amplitude "0.8"
+    saccade_amplitude "1.7"
   ]
   edge [
     source 84
     target 85
-    saccade_duration "64.0"
-    saccade_amplitude "0.4"
+    saccade_duration "66.0"
+    saccade_amplitude "0.8"
   ]
   edge [
     source 85
     target 86
-    saccade_duration "99.0"
-    saccade_amplitude "2.2"
+    saccade_duration "64.0"
+    saccade_amplitude "0.4"
   ]
   edge [
     source 86
     target 87
     saccade_duration "99.0"
-    saccade_amplitude "1.8"
+    saccade_amplitude "2.2"
   ]
   edge [
     source 87
     target 88
-    saccade_duration "66.0"
-    saccade_amplitude "3.3"
+    saccade_duration "99.0"
+    saccade_amplitude "1.8"
   ]
   edge [
     source 88
     target 89
-    saccade_duration "67.0"
-    saccade_amplitude "3.2"
+    saccade_duration "66.0"
+    saccade_amplitude "3.3"
   ]
   edge [
     source 89
     target 90
-    saccade_duration "99.0"
-    saccade_amplitude "2.6"
+    saccade_duration "67.0"
+    saccade_amplitude "3.2"
   ]
   edge [
     source 90
     target 91
     saccade_duration "99.0"
-    saccade_amplitude "5.1"
+    saccade_amplitude "2.6"
   ]
   edge [
     source 91
     target 92
-    saccade_duration "72.0"
-    saccade_amplitude "5.5"
+    saccade_duration "99.0"
+    saccade_amplitude "5.1"
   ]
   edge [
     source 92
     target 93
-    saccade_duration "128.0"
-    saccade_amplitude "2.1"
+    saccade_duration "72.0"
+    saccade_amplitude "5.5"
   ]
   edge [
     source 93
     target 94
-    saccade_duration "64.0"
-    saccade_amplitude "1.5"
+    saccade_duration "128.0"
+    saccade_amplitude "2.1"
   ]
   edge [
     source 94
     target 95
-    saccade_duration "99.0"
-    saccade_amplitude "1.7"
+    saccade_duration "64.0"
+    saccade_amplitude "1.5"
   ]
   edge [
     source 95
     target 96
-    saccade_duration "66.0"
-    saccade_amplitude "3.3"
+    saccade_duration "99.0"
+    saccade_amplitude "1.7"
   ]
   edge [
     source 96
     target 97
     saccade_duration "66.0"
-    saccade_amplitude "1.8"
+    saccade_amplitude "3.3"
   ]
   edge [
     source 97
     target 98
     saccade_duration "66.0"
-    saccade_amplitude "0.9"
+    saccade_amplitude "1.8"
   ]
   edge [
     source 98
     target 99
     saccade_duration "66.0"
-    saccade_amplitude "0.4"
+    saccade_amplitude "0.9"
   ]
   edge [
     source 99
     target 100
     saccade_duration "66.0"
-    saccade_amplitude "6.3"
+    saccade_amplitude "0.4"
   ]
   edge [
     source 100
     target 101
-    saccade_duration "99.0"
-    saccade_amplitude "7.8"
+    saccade_duration "66.0"
+    saccade_amplitude "6.3"
   ]
   edge [
     source 101
     target 102
     saccade_duration "99.0"
-    saccade_amplitude "4.8"
+    saccade_amplitude "7.8"
   ]
   edge [
     source 102
     target 103
     saccade_duration "99.0"
-    saccade_amplitude "12.6"
+    saccade_amplitude "4.8"
   ]
   edge [
     source 103
     target 104
-    saccade_duration "66.0"
-    saccade_amplitude "1.4"
+    saccade_duration "99.0"
+    saccade_amplitude "12.6"
   ]
   edge [
     source 104
     target 105
-    saccade_duration "133.0"
-    saccade_amplitude "19.9"
+    saccade_duration "66.0"
+    saccade_amplitude "1.4"
   ]
   edge [
     source 105
     target 106
-    saccade_duration "100.0"
-    saccade_amplitude "13.0"
+    saccade_duration "133.0"
+    saccade_amplitude "19.9"
   ]
   edge [
     source 106
     target 107
-    saccade_duration "66.0"
-    saccade_amplitude "2.0"
+    saccade_duration "100.0"
+    saccade_amplitude "13.0"
   ]
   edge [
     source 107
     target 108
     saccade_duration "66.0"
-    saccade_amplitude "3.5"
+    saccade_amplitude "2.0"
   ]
   edge [
     source 108
     target 109
-    saccade_duration "99.0"
-    saccade_amplitude "1.7"
+    saccade_duration "66.0"
+    saccade_amplitude "3.5"
   ]
   edge [
     source 109
     target 110
-    saccade_duration "66.0"
-    saccade_amplitude "16.1"
+    saccade_duration "99.0"
+    saccade_amplitude "1.7"
   ]
   edge [
     source 110
     target 111
     saccade_duration "66.0"
-    saccade_amplitude "1.5"
+    saccade_amplitude "16.1"
   ]
   edge [
     source 111
     target 112
     saccade_duration "66.0"
-    saccade_amplitude "0.9"
+    saccade_amplitude "1.5"
   ]
   edge [
     source 112
     target 113
-    saccade_duration "100.0"
-    saccade_amplitude "12.6"
+    saccade_duration "66.0"
+    saccade_amplitude "0.9"
   ]
   edge [
     source 113
     target 114
-    saccade_duration "67.0"
-    saccade_amplitude "2.0"
+    saccade_duration "100.0"
+    saccade_amplitude "12.6"
   ]
   edge [
     source 114
     target 115
-    saccade_duration "64.0"
-    saccade_amplitude "0.6"
+    saccade_duration "67.0"
+    saccade_amplitude "2.0"
   ]
   edge [
     source 115
     target 116
-    saccade_duration "66.0"
-    saccade_amplitude "10.8"
+    saccade_duration "64.0"
+    saccade_amplitude "0.6"
   ]
   edge [
     source 116
     target 117
-    saccade_duration "133.0"
-    saccade_amplitude "2.0"
+    saccade_duration "66.0"
+    saccade_amplitude "10.8"
   ]
   edge [
     source 117
     target 118
-    saccade_duration "99.0"
-    saccade_amplitude "13.0"
+    saccade_duration "133.0"
+    saccade_amplitude "2.0"
   ]
   edge [
     source 118
     target 119
     saccade_duration "99.0"
-    saccade_amplitude "3.4"
+    saccade_amplitude "13.0"
   ]
   edge [
     source 119
     target 120
     saccade_duration "99.0"
-    saccade_amplitude "1.1"
+    saccade_amplitude "3.4"
   ]
   edge [
     source 120
     target 121
-    saccade_duration "66.0"
-    saccade_amplitude "11.1"
+    saccade_duration "99.0"
+    saccade_amplitude "1.1"
   ]
   edge [
     source 121
     target 122
-    saccade_duration "99.0"
-    saccade_amplitude "9.1"
+    saccade_duration "66.0"
+    saccade_amplitude "11.1"
   ]
   edge [
     source 122
     target 123
-    saccade_duration "66.0"
-    saccade_amplitude "3.9"
+    saccade_duration "99.0"
+    saccade_amplitude "9.1"
   ]
   edge [
     source 123
     target 124
     saccade_duration "66.0"
-    saccade_amplitude "2.8"
+    saccade_amplitude "3.9"
   ]
   edge [
     source 124
     target 125
     saccade_duration "66.0"
-    saccade_amplitude "6.8"
+    saccade_amplitude "2.8"
   ]
   edge [
     source 125
     target 126
     saccade_duration "66.0"
-    saccade_amplitude "5.1"
+    saccade_amplitude "6.8"
   ]
   edge [
     source 126
     target 127
     saccade_duration "66.0"
-    saccade_amplitude "1.2"
+    saccade_amplitude "5.1"
   ]
   edge [
     source 127
     target 128
-    saccade_duration "132.0"
-    saccade_amplitude "1.3"
+    saccade_duration "66.0"
+    saccade_amplitude "1.2"
   ]
   edge [
     source 128
     target 129
-    saccade_duration "102.0"
-    saccade_amplitude "3.3"
+    saccade_duration "132.0"
+    saccade_amplitude "1.3"
   ]
   edge [
     source 129
     target 130
-    saccade_duration "66.0"
-    saccade_amplitude "7.5"
+    saccade_duration "102.0"
+    saccade_amplitude "3.3"
   ]
   edge [
     source 130
     target 131
-    saccade_duration "65.0"
-    saccade_amplitude "1.6"
+    saccade_duration "66.0"
+    saccade_amplitude "7.5"
   ]
   edge [
     source 131
     target 132
-    saccade_duration "66.0"
-    saccade_amplitude "0.5"
+    saccade_duration "65.0"
+    saccade_amplitude "1.6"
   ]
   edge [
     source 132
     target 133
-    saccade_duration "99.0"
-    saccade_amplitude "1.0"
+    saccade_duration "66.0"
+    saccade_amplitude "0.5"
   ]
   edge [
     source 133
     target 134
-    saccade_duration "66.0"
-    saccade_amplitude "1.9"
+    saccade_duration "99.0"
+    saccade_amplitude "1.0"
   ]
   edge [
     source 134
     target 135
     saccade_duration "66.0"
-    saccade_amplitude "1.2"
+    saccade_amplitude "1.9"
   ]
   edge [
     source 135
     target 136
-    saccade_duration "65.0"
-    saccade_amplitude "1.0"
+    saccade_duration "66.0"
+    saccade_amplitude "1.2"
   ]
   edge [
     source 136
     target 137
-    saccade_duration "66.0"
-    saccade_amplitude "0.5"
+    saccade_duration "65.0"
+    saccade_amplitude "1.0"
   ]
   edge [
     source 137
     target 138
     saccade_duration "66.0"
-    saccade_amplitude "0.6"
+    saccade_amplitude "0.5"
   ]
   edge [
     source 138
@@ -7078,43 +7078,43 @@ graph [
     source 139
     target 140
     saccade_duration "66.0"
-    saccade_amplitude "1.1"
+    saccade_amplitude "0.6"
   ]
   edge [
     source 140
     target 141
-    saccade_duration "99.0"
-    saccade_amplitude "1.7"
+    saccade_duration "66.0"
+    saccade_amplitude "1.1"
   ]
   edge [
     source 141
     target 142
-    saccade_duration "66.0"
-    saccade_amplitude "0.7"
+    saccade_duration "99.0"
+    saccade_amplitude "1.7"
   ]
   edge [
     source 142
     target 143
     saccade_duration "66.0"
-    saccade_amplitude "1.5"
+    saccade_amplitude "0.7"
   ]
   edge [
     source 143
     target 144
     saccade_duration "66.0"
-    saccade_amplitude "0.8"
+    saccade_amplitude "1.5"
   ]
   edge [
     source 144
     target 145
     saccade_duration "66.0"
-    saccade_amplitude "1.0"
+    saccade_amplitude "0.8"
   ]
   edge [
     source 145
     target 146
     saccade_duration "66.0"
-    saccade_amplitude "0.5"
+    saccade_amplitude "1.0"
   ]
   edge [
     source 146
@@ -7126,67 +7126,67 @@ graph [
     source 147
     target 148
     saccade_duration "66.0"
-    saccade_amplitude "1.0"
+    saccade_amplitude "0.5"
   ]
   edge [
     source 148
     target 149
     saccade_duration "66.0"
-    saccade_amplitude "0.8"
+    saccade_amplitude "1.0"
   ]
   edge [
     source 149
     target 150
     saccade_duration "66.0"
-    saccade_amplitude "0.7"
+    saccade_amplitude "0.8"
   ]
   edge [
     source 150
     target 151
     saccade_duration "66.0"
-    saccade_amplitude "0.8"
+    saccade_amplitude "0.7"
   ]
   edge [
     source 151
     target 152
     saccade_duration "66.0"
-    saccade_amplitude "2.6"
+    saccade_amplitude "0.8"
   ]
   edge [
     source 152
     target 153
     saccade_duration "66.0"
-    saccade_amplitude "1.0"
+    saccade_amplitude "2.6"
   ]
   edge [
     source 153
     target 154
     saccade_duration "66.0"
-    saccade_amplitude "0.5"
+    saccade_amplitude "1.0"
   ]
   edge [
     source 154
     target 155
     saccade_duration "66.0"
-    saccade_amplitude "0.7"
+    saccade_amplitude "0.5"
   ]
   edge [
     source 155
     target 156
-    saccade_duration "99.0"
-    saccade_amplitude "1.3"
+    saccade_duration "66.0"
+    saccade_amplitude "0.7"
   ]
   edge [
     source 156
     target 157
-    saccade_duration "66.0"
-    saccade_amplitude "1.0"
+    saccade_duration "99.0"
+    saccade_amplitude "1.3"
   ]
   edge [
     source 157
     target 158
     saccade_duration "66.0"
-    saccade_amplitude "0.6"
+    saccade_amplitude "1.0"
   ]
   edge [
     source 158
@@ -7209,158 +7209,158 @@ graph [
   edge [
     source 161
     target 162
-    saccade_duration "99.0"
-    saccade_amplitude "8.4"
+    saccade_duration "66.0"
+    saccade_amplitude "0.6"
   ]
   edge [
     source 162
     target 163
-    saccade_duration "66.0"
-    saccade_amplitude "0.5"
+    saccade_duration "99.0"
+    saccade_amplitude "8.4"
   ]
   edge [
     source 163
     target 164
     saccade_duration "66.0"
-    saccade_amplitude "1.7"
+    saccade_amplitude "0.5"
   ]
   edge [
     source 164
     target 165
     saccade_duration "66.0"
-    saccade_amplitude "0.6"
+    saccade_amplitude "1.7"
   ]
   edge [
     source 165
     target 166
     saccade_duration "66.0"
-    saccade_amplitude "0.8"
+    saccade_amplitude "0.6"
   ]
   edge [
     source 166
     target 167
     saccade_duration "66.0"
-    saccade_amplitude "6.1"
+    saccade_amplitude "0.8"
   ]
   edge [
     source 167
     target 168
     saccade_duration "66.0"
-    saccade_amplitude "0.5"
+    saccade_amplitude "6.1"
   ]
   edge [
     source 168
     target 169
-    saccade_duration "67.0"
-    saccade_amplitude "0.7"
+    saccade_duration "66.0"
+    saccade_amplitude "0.5"
   ]
   edge [
     source 169
     target 170
-    saccade_duration "66.0"
-    saccade_amplitude "0.6"
+    saccade_duration "67.0"
+    saccade_amplitude "0.7"
   ]
   edge [
     source 170
     target 171
     saccade_duration "66.0"
-    saccade_amplitude "0.8"
+    saccade_amplitude "0.6"
   ]
   edge [
     source 171
     target 172
-    saccade_duration "67.0"
-    saccade_amplitude "0.6"
+    saccade_duration "66.0"
+    saccade_amplitude "0.8"
   ]
   edge [
     source 172
     target 173
-    saccade_duration "99.0"
-    saccade_amplitude "9.5"
+    saccade_duration "67.0"
+    saccade_amplitude "0.6"
   ]
   edge [
     source 173
     target 174
     saccade_duration "99.0"
-    saccade_amplitude "2.4"
+    saccade_amplitude "9.5"
   ]
   edge [
     source 174
     target 175
-    saccade_duration "67.0"
-    saccade_amplitude "1.8"
+    saccade_duration "99.0"
+    saccade_amplitude "2.4"
   ]
   edge [
     source 175
     target 176
-    saccade_duration "66.0"
-    saccade_amplitude "0.5"
+    saccade_duration "67.0"
+    saccade_amplitude "1.8"
   ]
   edge [
     source 176
     target 177
     saccade_duration "66.0"
-    saccade_amplitude "0.6"
+    saccade_amplitude "0.5"
   ]
   edge [
     source 177
     target 178
     saccade_duration "66.0"
-    saccade_amplitude "2.0"
+    saccade_amplitude "0.6"
   ]
   edge [
     source 178
     target 179
     saccade_duration "66.0"
-    saccade_amplitude "0.8"
+    saccade_amplitude "2.0"
   ]
   edge [
     source 179
     target 180
     saccade_duration "66.0"
-    saccade_amplitude "2.1"
+    saccade_amplitude "0.8"
   ]
   edge [
     source 180
     target 181
-    saccade_duration "99.0"
-    saccade_amplitude "0.8"
+    saccade_duration "66.0"
+    saccade_amplitude "2.1"
   ]
   edge [
     source 181
     target 182
-    saccade_duration "66.0"
-    saccade_amplitude "0.6"
+    saccade_duration "99.0"
+    saccade_amplitude "0.8"
   ]
   edge [
     source 182
     target 183
-    saccade_duration "67.0"
-    saccade_amplitude "2.5"
+    saccade_duration "66.0"
+    saccade_amplitude "0.6"
   ]
   edge [
     source 183
     target 184
-    saccade_duration "66.0"
-    saccade_amplitude "1.3"
+    saccade_duration "67.0"
+    saccade_amplitude "2.5"
   ]
   edge [
     source 184
     target 185
-    saccade_duration "99.0"
-    saccade_amplitude "1.0"
+    saccade_duration "66.0"
+    saccade_amplitude "1.3"
   ]
   edge [
     source 185
     target 186
-    saccade_duration "66.0"
+    saccade_duration "99.0"
     saccade_amplitude "1.0"
   ]
   edge [
     source 186
     target 187
     saccade_duration "66.0"
-    saccade_amplitude "0.7"
+    saccade_amplitude "1.0"
   ]
   edge [
     source 187
@@ -7372,391 +7372,391 @@ graph [
     source 188
     target 189
     saccade_duration "66.0"
-    saccade_amplitude "9.0"
+    saccade_amplitude "0.7"
   ]
   edge [
     source 189
     target 190
-    saccade_duration "100.0"
-    saccade_amplitude "5.4"
+    saccade_duration "66.0"
+    saccade_amplitude "9.0"
   ]
   edge [
     source 190
     target 191
-    saccade_duration "66.0"
-    saccade_amplitude "1.3"
+    saccade_duration "100.0"
+    saccade_amplitude "5.4"
   ]
   edge [
     source 191
     target 192
     saccade_duration "66.0"
-    saccade_amplitude "3.6"
+    saccade_amplitude "1.3"
   ]
   edge [
     source 192
     target 193
     saccade_duration "66.0"
-    saccade_amplitude "0.8"
+    saccade_amplitude "3.6"
   ]
   edge [
     source 193
     target 194
     saccade_duration "66.0"
-    saccade_amplitude "4.6"
+    saccade_amplitude "0.8"
   ]
   edge [
     source 194
     target 195
     saccade_duration "66.0"
-    saccade_amplitude "6.6"
+    saccade_amplitude "4.6"
   ]
   edge [
     source 195
     target 196
-    saccade_duration "65.0"
-    saccade_amplitude "0.8"
+    saccade_duration "66.0"
+    saccade_amplitude "6.6"
   ]
   edge [
     source 196
     target 197
-    saccade_duration "66.0"
-    saccade_amplitude "4.0"
+    saccade_duration "65.0"
+    saccade_amplitude "0.8"
   ]
   edge [
     source 197
     target 198
-    saccade_duration "99.0"
-    saccade_amplitude "3.0"
+    saccade_duration "66.0"
+    saccade_amplitude "4.0"
   ]
   edge [
     source 198
     target 199
-    saccade_duration "66.0"
-    saccade_amplitude "1.3"
+    saccade_duration "99.0"
+    saccade_amplitude "3.0"
   ]
   edge [
     source 199
     target 200
-    saccade_duration "99.0"
-    saccade_amplitude "11.7"
+    saccade_duration "66.0"
+    saccade_amplitude "1.3"
   ]
   edge [
     source 200
     target 201
-    saccade_duration "66.0"
-    saccade_amplitude "1.4"
+    saccade_duration "99.0"
+    saccade_amplitude "11.7"
   ]
   edge [
     source 201
     target 202
-    saccade_duration "99.0"
-    saccade_amplitude "1.8"
+    saccade_duration "66.0"
+    saccade_amplitude "1.4"
   ]
   edge [
     source 202
     target 203
-    saccade_duration "66.0"
-    saccade_amplitude "1.6"
+    saccade_duration "99.0"
+    saccade_amplitude "1.8"
   ]
   edge [
     source 203
     target 204
     saccade_duration "66.0"
-    saccade_amplitude "1.4"
+    saccade_amplitude "1.6"
   ]
   edge [
     source 204
     target 205
-    saccade_duration "64.0"
-    saccade_amplitude "1.5"
+    saccade_duration "66.0"
+    saccade_amplitude "1.4"
   ]
   edge [
     source 205
     target 206
-    saccade_duration "99.0"
-    saccade_amplitude "3.4"
+    saccade_duration "64.0"
+    saccade_amplitude "1.5"
   ]
   edge [
     source 206
     target 207
-    saccade_duration "66.0"
-    saccade_amplitude "1.5"
+    saccade_duration "99.0"
+    saccade_amplitude "3.4"
   ]
   edge [
     source 207
     target 208
-    saccade_duration "99.0"
-    saccade_amplitude "8.0"
+    saccade_duration "66.0"
+    saccade_amplitude "1.5"
   ]
   edge [
     source 208
     target 209
-    saccade_duration "66.0"
-    saccade_amplitude "8.1"
+    saccade_duration "99.0"
+    saccade_amplitude "8.0"
   ]
   edge [
     source 209
     target 210
-    saccade_duration "99.0"
-    saccade_amplitude "4.5"
+    saccade_duration "66.0"
+    saccade_amplitude "8.1"
   ]
   edge [
     source 210
     target 211
-    saccade_duration "66.0"
-    saccade_amplitude "1.2"
+    saccade_duration "99.0"
+    saccade_amplitude "4.5"
   ]
   edge [
     source 211
     target 212
     saccade_duration "66.0"
-    saccade_amplitude "2.6"
+    saccade_amplitude "1.2"
   ]
   edge [
     source 212
     target 213
-    saccade_duration "67.0"
-    saccade_amplitude "5.4"
+    saccade_duration "66.0"
+    saccade_amplitude "2.6"
   ]
   edge [
     source 213
     target 214
-    saccade_duration "99.0"
-    saccade_amplitude "3.0"
+    saccade_duration "67.0"
+    saccade_amplitude "5.4"
   ]
   edge [
     source 214
     target 215
-    saccade_duration "67.0"
-    saccade_amplitude "5.8"
+    saccade_duration "99.0"
+    saccade_amplitude "3.0"
   ]
   edge [
     source 215
     target 216
-    saccade_duration "66.0"
-    saccade_amplitude "3.3"
+    saccade_duration "67.0"
+    saccade_amplitude "5.8"
   ]
   edge [
     source 216
     target 217
     saccade_duration "66.0"
-    saccade_amplitude "2.1"
+    saccade_amplitude "3.3"
   ]
   edge [
     source 217
     target 218
-    saccade_duration "99.0"
-    saccade_amplitude "1.0"
+    saccade_duration "66.0"
+    saccade_amplitude "2.1"
   ]
   edge [
     source 218
     target 219
-    saccade_duration "66.0"
-    saccade_amplitude "1.2"
+    saccade_duration "99.0"
+    saccade_amplitude "1.0"
   ]
   edge [
     source 219
     target 220
     saccade_duration "66.0"
-    saccade_amplitude "0.7"
+    saccade_amplitude "1.2"
   ]
   edge [
     source 220
     target 221
-    saccade_duration "99.0"
-    saccade_amplitude "4.9"
+    saccade_duration "66.0"
+    saccade_amplitude "0.7"
   ]
   edge [
     source 221
     target 222
-    saccade_duration "66.0"
-    saccade_amplitude "6.9"
+    saccade_duration "99.0"
+    saccade_amplitude "4.9"
   ]
   edge [
     source 222
     target 223
     saccade_duration "66.0"
-    saccade_amplitude "4.8"
+    saccade_amplitude "6.9"
   ]
   edge [
     source 223
     target 224
-    saccade_duration "99.0"
-    saccade_amplitude "4.0"
+    saccade_duration "66.0"
+    saccade_amplitude "4.8"
   ]
   edge [
     source 224
     target 225
-    saccade_duration "66.0"
-    saccade_amplitude "2.3"
+    saccade_duration "99.0"
+    saccade_amplitude "4.0"
   ]
   edge [
     source 225
     target 226
     saccade_duration "66.0"
-    saccade_amplitude "2.0"
+    saccade_amplitude "2.3"
   ]
   edge [
     source 226
     target 227
-    saccade_duration "100.0"
-    saccade_amplitude "4.2"
+    saccade_duration "66.0"
+    saccade_amplitude "2.0"
   ]
   edge [
     source 227
     target 228
-    saccade_duration "99.0"
-    saccade_amplitude "4.7"
+    saccade_duration "100.0"
+    saccade_amplitude "4.2"
   ]
   edge [
     source 228
     target 229
     saccade_duration "99.0"
-    saccade_amplitude "7.3"
+    saccade_amplitude "4.7"
   ]
   edge [
     source 229
     target 230
-    saccade_duration "66.0"
-    saccade_amplitude "0.8"
+    saccade_duration "99.0"
+    saccade_amplitude "7.3"
   ]
   edge [
     source 230
     target 231
     saccade_duration "66.0"
-    saccade_amplitude "6.1"
+    saccade_amplitude "0.8"
   ]
   edge [
     source 231
     target 232
-    saccade_duration "67.0"
-    saccade_amplitude "2.3"
+    saccade_duration "66.0"
+    saccade_amplitude "6.1"
   ]
   edge [
     source 232
     target 233
-    saccade_duration "99.0"
-    saccade_amplitude "2.1"
+    saccade_duration "67.0"
+    saccade_amplitude "2.3"
   ]
   edge [
     source 233
     target 234
-    saccade_duration "66.0"
-    saccade_amplitude "2.3"
+    saccade_duration "99.0"
+    saccade_amplitude "2.1"
   ]
   edge [
     source 234
     target 235
-    saccade_duration "69.0"
-    saccade_amplitude "2.0"
+    saccade_duration "66.0"
+    saccade_amplitude "2.3"
   ]
   edge [
     source 235
     target 236
-    saccade_duration "97.0"
-    saccade_amplitude "2.1"
+    saccade_duration "69.0"
+    saccade_amplitude "2.0"
   ]
   edge [
     source 236
     target 237
-    saccade_duration "66.0"
-    saccade_amplitude "3.7"
+    saccade_duration "97.0"
+    saccade_amplitude "2.1"
   ]
   edge [
     source 237
     target 238
     saccade_duration "66.0"
-    saccade_amplitude "6.9"
+    saccade_amplitude "3.7"
   ]
   edge [
     source 238
     target 239
     saccade_duration "66.0"
-    saccade_amplitude "1.1"
+    saccade_amplitude "6.9"
   ]
   edge [
     source 239
     target 240
     saccade_duration "66.0"
-    saccade_amplitude "7.1"
+    saccade_amplitude "1.1"
   ]
   edge [
     source 240
     target 241
     saccade_duration "66.0"
-    saccade_amplitude "1.7"
+    saccade_amplitude "7.1"
   ]
   edge [
     source 241
     target 242
     saccade_duration "66.0"
-    saccade_amplitude "1.9"
+    saccade_amplitude "1.7"
   ]
   edge [
     source 242
     target 243
     saccade_duration "66.0"
-    saccade_amplitude "4.8"
+    saccade_amplitude "1.9"
   ]
   edge [
     source 243
     target 244
     saccade_duration "66.0"
-    saccade_amplitude "0.6"
+    saccade_amplitude "4.8"
   ]
   edge [
     source 244
     target 245
-    saccade_duration "99.0"
-    saccade_amplitude "3.4"
+    saccade_duration "66.0"
+    saccade_amplitude "0.6"
   ]
   edge [
     source 245
     target 246
-    saccade_duration "66.0"
-    saccade_amplitude "0.6"
+    saccade_duration "99.0"
+    saccade_amplitude "3.4"
   ]
   edge [
     source 246
     target 247
     saccade_duration "66.0"
-    saccade_amplitude "4.4"
+    saccade_amplitude "0.6"
   ]
   edge [
     source 247
     target 248
-    saccade_duration "99.0"
-    saccade_amplitude "7.3"
+    saccade_duration "66.0"
+    saccade_amplitude "4.4"
   ]
   edge [
     source 248
     target 249
     saccade_duration "99.0"
-    saccade_amplitude "7.6"
+    saccade_amplitude "7.3"
   ]
   edge [
     source 249
     target 250
-    saccade_duration "66.0"
-    saccade_amplitude "0.6"
+    saccade_duration "99.0"
+    saccade_amplitude "7.6"
   ]
   edge [
     source 250
     target 251
     saccade_duration "66.0"
-    saccade_amplitude "3.9"
+    saccade_amplitude "0.6"
   ]
   edge [
     source 251
     target 252
-    saccade_duration "67.0"
-    saccade_amplitude "1.1"
+    saccade_duration "66.0"
+    saccade_amplitude "3.9"
   ]
   edge [
     source 252
     target 253
-    saccade_duration "66.0"
-    saccade_amplitude "0.5"
+    saccade_duration "67.0"
+    saccade_amplitude "1.1"
   ]
   edge [
     source 253
@@ -7768,271 +7768,271 @@ graph [
     source 254
     target 255
     saccade_duration "66.0"
-    saccade_amplitude "1.0"
+    saccade_amplitude "0.5"
   ]
   edge [
     source 255
     target 256
     saccade_duration "66.0"
-    saccade_amplitude "1.1"
+    saccade_amplitude "1.0"
   ]
   edge [
     source 256
     target 257
     saccade_duration "66.0"
-    saccade_amplitude "0.7"
+    saccade_amplitude "1.1"
   ]
   edge [
     source 257
     target 258
     saccade_duration "66.0"
-    saccade_amplitude "0.6"
+    saccade_amplitude "0.7"
   ]
   edge [
     source 258
     target 259
-    saccade_duration "99.0"
-    saccade_amplitude "0.8"
+    saccade_duration "66.0"
+    saccade_amplitude "0.6"
   ]
   edge [
     source 259
     target 260
-    saccade_duration "68.0"
-    saccade_amplitude "0.7"
+    saccade_duration "99.0"
+    saccade_amplitude "0.8"
   ]
   edge [
     source 260
     target 261
-    saccade_duration "66.0"
-    saccade_amplitude "4.9"
+    saccade_duration "68.0"
+    saccade_amplitude "0.7"
   ]
   edge [
     source 261
     target 262
-    saccade_duration "132.0"
-    saccade_amplitude "1.0"
+    saccade_duration "66.0"
+    saccade_amplitude "4.9"
   ]
   edge [
     source 262
     target 263
-    saccade_duration "66.0"
-    saccade_amplitude "5.0"
+    saccade_duration "132.0"
+    saccade_amplitude "1.0"
   ]
   edge [
     source 263
     target 264
     saccade_duration "66.0"
-    saccade_amplitude "7.6"
+    saccade_amplitude "5.0"
   ]
   edge [
     source 264
     target 265
-    saccade_duration "99.0"
-    saccade_amplitude "1.1"
+    saccade_duration "66.0"
+    saccade_amplitude "7.6"
   ]
   edge [
     source 265
     target 266
     saccade_duration "99.0"
-    saccade_amplitude "5.9"
+    saccade_amplitude "1.1"
   ]
   edge [
     source 266
     target 267
     saccade_duration "99.0"
-    saccade_amplitude "5.3"
+    saccade_amplitude "5.9"
   ]
   edge [
     source 267
     target 268
-    saccade_duration "67.0"
-    saccade_amplitude "1.4"
+    saccade_duration "99.0"
+    saccade_amplitude "5.3"
   ]
   edge [
     source 268
     target 269
-    saccade_duration "80.0"
-    saccade_amplitude "1.5"
+    saccade_duration "67.0"
+    saccade_amplitude "1.4"
   ]
   edge [
     source 269
     target 270
-    saccade_duration "66.0"
-    saccade_amplitude "1.3"
+    saccade_duration "80.0"
+    saccade_amplitude "1.5"
   ]
   edge [
     source 270
     target 271
-    saccade_duration "99.0"
-    saccade_amplitude "5.4"
+    saccade_duration "66.0"
+    saccade_amplitude "1.3"
   ]
   edge [
     source 271
     target 272
-    saccade_duration "66.0"
-    saccade_amplitude "2.7"
+    saccade_duration "99.0"
+    saccade_amplitude "5.4"
   ]
   edge [
     source 272
     target 273
     saccade_duration "66.0"
-    saccade_amplitude "3.9"
+    saccade_amplitude "2.7"
   ]
   edge [
     source 273
     target 274
-    saccade_duration "100.0"
-    saccade_amplitude "2.4"
+    saccade_duration "66.0"
+    saccade_amplitude "3.9"
   ]
   edge [
     source 274
     target 275
-    saccade_duration "66.0"
-    saccade_amplitude "3.8"
+    saccade_duration "100.0"
+    saccade_amplitude "2.4"
   ]
   edge [
     source 275
     target 276
     saccade_duration "66.0"
-    saccade_amplitude "2.4"
+    saccade_amplitude "3.8"
   ]
   edge [
     source 276
     target 277
     saccade_duration "66.0"
-    saccade_amplitude "2.1"
+    saccade_amplitude "2.4"
   ]
   edge [
     source 277
     target 278
     saccade_duration "66.0"
-    saccade_amplitude "1.3"
+    saccade_amplitude "2.1"
   ]
   edge [
     source 278
     target 279
     saccade_duration "66.0"
-    saccade_amplitude "3.2"
+    saccade_amplitude "1.3"
   ]
   edge [
     source 279
     target 280
     saccade_duration "66.0"
-    saccade_amplitude "2.7"
+    saccade_amplitude "3.2"
   ]
   edge [
     source 280
     target 281
     saccade_duration "66.0"
-    saccade_amplitude "4.2"
+    saccade_amplitude "2.7"
   ]
   edge [
     source 281
     target 282
     saccade_duration "66.0"
-    saccade_amplitude "0.8"
+    saccade_amplitude "4.2"
   ]
   edge [
     source 282
     target 283
-    saccade_duration "99.0"
-    saccade_amplitude "3.1"
+    saccade_duration "66.0"
+    saccade_amplitude "0.8"
   ]
   edge [
     source 283
     target 284
-    saccade_duration "66.0"
-    saccade_amplitude "10.4"
+    saccade_duration "99.0"
+    saccade_amplitude "3.1"
   ]
   edge [
     source 284
     target 285
-    saccade_duration "96.0"
-    saccade_amplitude "14.6"
+    saccade_duration "66.0"
+    saccade_amplitude "10.4"
   ]
   edge [
     source 285
     target 286
-    saccade_duration "133.0"
-    saccade_amplitude "15.7"
+    saccade_duration "96.0"
+    saccade_amplitude "14.6"
   ]
   edge [
     source 286
     target 287
-    saccade_duration "66.0"
-    saccade_amplitude "4.6"
+    saccade_duration "133.0"
+    saccade_amplitude "15.7"
   ]
   edge [
     source 287
     target 288
     saccade_duration "66.0"
-    saccade_amplitude "4.3"
+    saccade_amplitude "4.6"
   ]
   edge [
     source 288
     target 289
     saccade_duration "66.0"
-    saccade_amplitude "0.7"
+    saccade_amplitude "4.3"
   ]
   edge [
     source 289
     target 290
-    saccade_duration "98.0"
-    saccade_amplitude "3.1"
+    saccade_duration "66.0"
+    saccade_amplitude "0.7"
   ]
   edge [
     source 290
     target 291
-    saccade_duration "66.0"
-    saccade_amplitude "0.9"
+    saccade_duration "98.0"
+    saccade_amplitude "3.1"
   ]
   edge [
     source 291
     target 292
-    saccade_duration "67.0"
-    saccade_amplitude "2.8"
+    saccade_duration "66.0"
+    saccade_amplitude "0.9"
   ]
   edge [
     source 292
     target 293
-    saccade_duration "99.0"
-    saccade_amplitude "1.2"
+    saccade_duration "67.0"
+    saccade_amplitude "2.8"
   ]
   edge [
     source 293
     target 294
-    saccade_duration "66.0"
-    saccade_amplitude "2.5"
+    saccade_duration "99.0"
+    saccade_amplitude "1.2"
   ]
   edge [
     source 294
     target 295
-    saccade_duration "99.0"
-    saccade_amplitude "3.6"
+    saccade_duration "66.0"
+    saccade_amplitude "2.5"
   ]
   edge [
     source 295
     target 296
-    saccade_duration "66.0"
-    saccade_amplitude "0.6"
+    saccade_duration "99.0"
+    saccade_amplitude "3.6"
   ]
   edge [
     source 296
     target 297
     saccade_duration "66.0"
-    saccade_amplitude "1.0"
+    saccade_amplitude "0.6"
   ]
   edge [
     source 297
     target 298
     saccade_duration "66.0"
-    saccade_amplitude "0.7"
+    saccade_amplitude "1.0"
   ]
   edge [
     source 298
     target 299
     saccade_duration "66.0"
-    saccade_amplitude "0.5"
+    saccade_amplitude "0.7"
   ]
   edge [
     source 299
@@ -8043,254 +8043,254 @@ graph [
   edge [
     source 300
     target 301
-    saccade_duration "64.0"
-    saccade_amplitude "4.3"
+    saccade_duration "66.0"
+    saccade_amplitude "0.5"
   ]
   edge [
     source 301
     target 302
-    saccade_duration "99.0"
-    saccade_amplitude "2.7"
+    saccade_duration "64.0"
+    saccade_amplitude "4.3"
   ]
   edge [
     source 302
     target 303
-    saccade_duration "66.0"
-    saccade_amplitude "0.4"
+    saccade_duration "99.0"
+    saccade_amplitude "2.7"
   ]
   edge [
     source 303
     target 304
     saccade_duration "66.0"
-    saccade_amplitude "2.3"
+    saccade_amplitude "0.4"
   ]
   edge [
     source 304
     target 305
     saccade_duration "66.0"
-    saccade_amplitude "5.3"
+    saccade_amplitude "2.3"
   ]
   edge [
     source 305
     target 306
     saccade_duration "66.0"
-    saccade_amplitude "12.2"
+    saccade_amplitude "5.3"
   ]
   edge [
     source 306
     target 307
-    saccade_duration "67.0"
-    saccade_amplitude "0.6"
+    saccade_duration "66.0"
+    saccade_amplitude "12.2"
   ]
   edge [
     source 307
     target 308
-    saccade_duration "66.0"
-    saccade_amplitude "3.8"
+    saccade_duration "67.0"
+    saccade_amplitude "0.6"
   ]
   edge [
     source 308
     target 309
-    saccade_duration "132.0"
-    saccade_amplitude "9.1"
+    saccade_duration "66.0"
+    saccade_amplitude "3.8"
   ]
   edge [
     source 309
     target 310
-    saccade_duration "133.0"
-    saccade_amplitude "9.4"
+    saccade_duration "132.0"
+    saccade_amplitude "9.1"
   ]
   edge [
     source 310
     target 311
-    saccade_duration "66.0"
-    saccade_amplitude "4.1"
+    saccade_duration "133.0"
+    saccade_amplitude "9.4"
   ]
   edge [
     source 311
     target 312
-    saccade_duration "166.0"
-    saccade_amplitude "16.4"
+    saccade_duration "66.0"
+    saccade_amplitude "4.1"
   ]
   edge [
     source 312
     target 313
-    saccade_duration "66.0"
-    saccade_amplitude "6.9"
+    saccade_duration "166.0"
+    saccade_amplitude "16.4"
   ]
   edge [
     source 313
     target 314
-    saccade_duration "67.0"
-    saccade_amplitude "0.7"
+    saccade_duration "66.0"
+    saccade_amplitude "6.9"
   ]
   edge [
     source 314
     target 315
-    saccade_duration "133.0"
-    saccade_amplitude "7.1"
+    saccade_duration "67.0"
+    saccade_amplitude "0.7"
   ]
   edge [
     source 315
     target 316
-    saccade_duration "66.0"
-    saccade_amplitude "0.5"
+    saccade_duration "133.0"
+    saccade_amplitude "7.1"
   ]
   edge [
     source 316
     target 317
     saccade_duration "66.0"
-    saccade_amplitude "4.4"
+    saccade_amplitude "0.5"
   ]
   edge [
     source 317
     target 318
-    saccade_duration "166.0"
-    saccade_amplitude "10.1"
+    saccade_duration "66.0"
+    saccade_amplitude "4.4"
   ]
   edge [
     source 318
     target 319
-    saccade_duration "132.0"
-    saccade_amplitude "11.3"
+    saccade_duration "166.0"
+    saccade_amplitude "10.1"
   ]
   edge [
     source 319
     target 320
-    saccade_duration "66.0"
-    saccade_amplitude "4.9"
+    saccade_duration "132.0"
+    saccade_amplitude "11.3"
   ]
   edge [
     source 320
     target 321
-    saccade_duration "133.0"
-    saccade_amplitude "6.0"
+    saccade_duration "66.0"
+    saccade_amplitude "4.9"
   ]
   edge [
     source 321
     target 322
-    saccade_duration "66.0"
-    saccade_amplitude "0.4"
+    saccade_duration "133.0"
+    saccade_amplitude "6.0"
   ]
   edge [
     source 322
     target 323
-    saccade_duration "67.0"
-    saccade_amplitude "0.9"
+    saccade_duration "66.0"
+    saccade_amplitude "0.4"
   ]
   edge [
     source 323
     target 324
-    saccade_duration "66.0"
-    saccade_amplitude "7.2"
+    saccade_duration "67.0"
+    saccade_amplitude "0.9"
   ]
   edge [
     source 324
     target 325
-    saccade_duration "99.0"
-    saccade_amplitude "0.6"
+    saccade_duration "66.0"
+    saccade_amplitude "7.2"
   ]
   edge [
     source 325
     target 326
-    saccade_duration "66.0"
-    saccade_amplitude "4.4"
+    saccade_duration "99.0"
+    saccade_amplitude "0.6"
   ]
   edge [
     source 326
     target 327
-    saccade_duration "65.0"
-    saccade_amplitude "0.8"
+    saccade_duration "66.0"
+    saccade_amplitude "4.4"
   ]
   edge [
     source 327
     target 328
-    saccade_duration "67.0"
-    saccade_amplitude "1.6"
+    saccade_duration "65.0"
+    saccade_amplitude "0.8"
   ]
   edge [
     source 328
     target 329
-    saccade_duration "100.0"
-    saccade_amplitude "0.6"
+    saccade_duration "67.0"
+    saccade_amplitude "1.6"
   ]
   edge [
     source 329
     target 330
-    saccade_duration "166.0"
-    saccade_amplitude "4.4"
+    saccade_duration "100.0"
+    saccade_amplitude "0.6"
   ]
   edge [
     source 330
     target 331
-    saccade_duration "66.0"
-    saccade_amplitude "1.6"
+    saccade_duration "166.0"
+    saccade_amplitude "4.4"
   ]
   edge [
     source 331
     target 332
     saccade_duration "66.0"
-    saccade_amplitude "1.0"
+    saccade_amplitude "1.6"
   ]
   edge [
     source 332
     target 333
     saccade_duration "66.0"
-    saccade_amplitude "0.6"
+    saccade_amplitude "1.0"
   ]
   edge [
     source 333
     target 334
     saccade_duration "66.0"
-    saccade_amplitude "0.5"
+    saccade_amplitude "0.6"
   ]
   edge [
     source 334
     target 335
     saccade_duration "66.0"
-    saccade_amplitude "4.4"
+    saccade_amplitude "0.5"
   ]
   edge [
     source 335
     target 336
     saccade_duration "66.0"
-    saccade_amplitude "4.1"
+    saccade_amplitude "4.4"
   ]
   edge [
     source 336
     target 337
-    saccade_duration "99.0"
-    saccade_amplitude "0.5"
+    saccade_duration "66.0"
+    saccade_amplitude "4.1"
   ]
   edge [
     source 337
     target 338
-    saccade_duration "66.0"
-    saccade_amplitude "3.2"
+    saccade_duration "99.0"
+    saccade_amplitude "0.5"
   ]
   edge [
     source 338
     target 339
-    saccade_duration "100.0"
-    saccade_amplitude "0.8"
+    saccade_duration "66.0"
+    saccade_amplitude "3.2"
   ]
   edge [
     source 339
     target 340
-    saccade_duration "66.0"
-    saccade_amplitude "0.9"
+    saccade_duration "100.0"
+    saccade_amplitude "0.8"
   ]
   edge [
     source 340
     target 341
     saccade_duration "66.0"
-    saccade_amplitude "0.6"
+    saccade_amplitude "0.9"
   ]
   edge [
     source 341
     target 342
     saccade_duration "66.0"
-    saccade_amplitude "0.5"
+    saccade_amplitude "0.6"
   ]
   edge [
     source 342
@@ -8302,217 +8302,217 @@ graph [
     source 343
     target 344
     saccade_duration "66.0"
-    saccade_amplitude "0.6"
+    saccade_amplitude "0.5"
   ]
   edge [
     source 344
     target 345
     saccade_duration "66.0"
-    saccade_amplitude "2.9"
+    saccade_amplitude "0.6"
   ]
   edge [
     source 345
     target 346
     saccade_duration "66.0"
-    saccade_amplitude "0.5"
+    saccade_amplitude "2.9"
   ]
   edge [
     source 346
     target 347
     saccade_duration "66.0"
-    saccade_amplitude "0.6"
+    saccade_amplitude "0.5"
   ]
   edge [
     source 347
     target 348
-    saccade_duration "100.0"
-    saccade_amplitude "2.8"
+    saccade_duration "66.0"
+    saccade_amplitude "0.6"
   ]
   edge [
     source 348
     target 349
-    saccade_duration "66.0"
-    saccade_amplitude "2.2"
+    saccade_duration "100.0"
+    saccade_amplitude "2.8"
   ]
   edge [
     source 349
     target 350
     saccade_duration "66.0"
-    saccade_amplitude "3.4"
+    saccade_amplitude "2.2"
   ]
   edge [
     source 350
     target 351
     saccade_duration "66.0"
-    saccade_amplitude "5.9"
+    saccade_amplitude "3.4"
   ]
   edge [
     source 351
     target 352
-    saccade_duration "99.0"
-    saccade_amplitude "22.1"
+    saccade_duration "66.0"
+    saccade_amplitude "5.9"
   ]
   edge [
     source 352
     target 353
-    saccade_duration "66.0"
-    saccade_amplitude "4.4"
+    saccade_duration "99.0"
+    saccade_amplitude "22.1"
   ]
   edge [
     source 353
     target 354
-    saccade_duration "99.0"
-    saccade_amplitude "0.8"
+    saccade_duration "66.0"
+    saccade_amplitude "4.4"
   ]
   edge [
     source 354
     target 355
-    saccade_duration "100.0"
-    saccade_amplitude "3.0"
+    saccade_duration "99.0"
+    saccade_amplitude "0.8"
   ]
   edge [
     source 355
     target 356
-    saccade_duration "66.0"
-    saccade_amplitude "1.0"
+    saccade_duration "100.0"
+    saccade_amplitude "3.0"
   ]
   edge [
     source 356
     target 357
     saccade_duration "66.0"
-    saccade_amplitude "0.6"
+    saccade_amplitude "1.0"
   ]
   edge [
     source 357
     target 358
     saccade_duration "66.0"
-    saccade_amplitude "0.9"
+    saccade_amplitude "0.6"
   ]
   edge [
     source 358
     target 359
-    saccade_duration "99.0"
-    saccade_amplitude "1.0"
+    saccade_duration "66.0"
+    saccade_amplitude "0.9"
   ]
   edge [
     source 359
     target 360
-    saccade_duration "66.0"
-    saccade_amplitude "0.6"
+    saccade_duration "99.0"
+    saccade_amplitude "1.0"
   ]
   edge [
     source 360
     target 361
-    saccade_duration "64.0"
-    saccade_amplitude "0.7"
+    saccade_duration "66.0"
+    saccade_amplitude "0.6"
   ]
   edge [
     source 361
     target 362
-    saccade_duration "100.0"
-    saccade_amplitude "1.2"
+    saccade_duration "64.0"
+    saccade_amplitude "0.7"
   ]
   edge [
     source 362
     target 363
-    saccade_duration "66.0"
-    saccade_amplitude "2.4"
+    saccade_duration "100.0"
+    saccade_amplitude "1.2"
   ]
   edge [
     source 363
     target 364
     saccade_duration "66.0"
-    saccade_amplitude "0.6"
+    saccade_amplitude "2.4"
   ]
   edge [
     source 364
     target 365
-    saccade_duration "99.0"
+    saccade_duration "66.0"
     saccade_amplitude "0.6"
   ]
   edge [
     source 365
     target 366
     saccade_duration "99.0"
-    saccade_amplitude "3.0"
+    saccade_amplitude "0.6"
   ]
   edge [
     source 366
     target 367
-    saccade_duration "66.0"
-    saccade_amplitude "1.7"
+    saccade_duration "99.0"
+    saccade_amplitude "3.0"
   ]
   edge [
     source 367
     target 368
-    saccade_duration "99.0"
-    saccade_amplitude "3.8"
+    saccade_duration "66.0"
+    saccade_amplitude "1.7"
   ]
   edge [
     source 368
     target 369
-    saccade_duration "66.0"
-    saccade_amplitude "1.2"
+    saccade_duration "99.0"
+    saccade_amplitude "3.8"
   ]
   edge [
     source 369
     target 370
     saccade_duration "66.0"
-    saccade_amplitude "3.3"
+    saccade_amplitude "1.2"
   ]
   edge [
     source 370
     target 371
     saccade_duration "66.0"
-    saccade_amplitude "2.3"
+    saccade_amplitude "3.3"
   ]
   edge [
     source 371
     target 372
     saccade_duration "66.0"
-    saccade_amplitude "3.0"
+    saccade_amplitude "2.3"
   ]
   edge [
     source 372
     target 373
     saccade_duration "66.0"
-    saccade_amplitude "1.4"
+    saccade_amplitude "3.0"
   ]
   edge [
     source 373
     target 374
     saccade_duration "66.0"
-    saccade_amplitude "1.7"
+    saccade_amplitude "1.4"
   ]
   edge [
     source 374
     target 375
     saccade_duration "66.0"
-    saccade_amplitude "1.4"
+    saccade_amplitude "1.7"
   ]
   edge [
     source 375
     target 376
     saccade_duration "66.0"
-    saccade_amplitude "1.2"
+    saccade_amplitude "1.4"
   ]
   edge [
     source 376
     target 377
-    saccade_duration "99.0"
-    saccade_amplitude "2.1"
+    saccade_duration "66.0"
+    saccade_amplitude "1.2"
   ]
   edge [
     source 377
     target 378
-    saccade_duration "66.0"
-    saccade_amplitude "1.4"
+    saccade_duration "99.0"
+    saccade_amplitude "2.1"
   ]
   edge [
     source 378
     target 379
     saccade_duration "66.0"
-    saccade_amplitude "0.5"
+    saccade_amplitude "1.4"
   ]
   edge [
     source 379
@@ -8524,43 +8524,43 @@ graph [
     source 380
     target 381
     saccade_duration "66.0"
-    saccade_amplitude "1.7"
+    saccade_amplitude "0.5"
   ]
   edge [
     source 381
     target 382
     saccade_duration "66.0"
-    saccade_amplitude "0.8"
+    saccade_amplitude "1.7"
   ]
   edge [
     source 382
     target 383
-    saccade_duration "100.0"
-    saccade_amplitude "1.6"
+    saccade_duration "66.0"
+    saccade_amplitude "0.8"
   ]
   edge [
     source 383
     target 384
-    saccade_duration "66.0"
+    saccade_duration "100.0"
     saccade_amplitude "1.6"
   ]
   edge [
     source 384
     target 385
     saccade_duration "66.0"
-    saccade_amplitude "1.3"
+    saccade_amplitude "1.6"
   ]
   edge [
     source 385
     target 386
-    saccade_duration "98.0"
-    saccade_amplitude "0.7"
+    saccade_duration "66.0"
+    saccade_amplitude "1.3"
   ]
   edge [
     source 386
     target 387
-    saccade_duration "66.0"
-    saccade_amplitude "1.1"
+    saccade_duration "98.0"
+    saccade_amplitude "0.7"
   ]
   edge [
     source 387
@@ -8572,643 +8572,643 @@ graph [
     source 388
     target 389
     saccade_duration "66.0"
-    saccade_amplitude "0.6"
+    saccade_amplitude "1.1"
   ]
   edge [
     source 389
     target 390
     saccade_duration "66.0"
-    saccade_amplitude "1.1"
+    saccade_amplitude "0.6"
   ]
   edge [
     source 390
     target 391
     saccade_duration "66.0"
-    saccade_amplitude "0.8"
+    saccade_amplitude "1.1"
   ]
   edge [
     source 391
     target 392
     saccade_duration "66.0"
-    saccade_amplitude "1.6"
+    saccade_amplitude "0.8"
   ]
   edge [
     source 392
     target 393
-    saccade_duration "100.0"
-    saccade_amplitude "4.5"
+    saccade_duration "66.0"
+    saccade_amplitude "1.6"
   ]
   edge [
     source 393
     target 394
-    saccade_duration "66.0"
-    saccade_amplitude "1.6"
+    saccade_duration "100.0"
+    saccade_amplitude "4.5"
   ]
   edge [
     source 394
     target 395
     saccade_duration "66.0"
-    saccade_amplitude "4.9"
+    saccade_amplitude "1.6"
   ]
   edge [
     source 395
     target 396
-    saccade_duration "67.0"
-    saccade_amplitude "1.9"
+    saccade_duration "66.0"
+    saccade_amplitude "4.9"
   ]
   edge [
     source 396
     target 397
-    saccade_duration "66.0"
-    saccade_amplitude "2.0"
+    saccade_duration "67.0"
+    saccade_amplitude "1.9"
   ]
   edge [
     source 397
     target 398
     saccade_duration "66.0"
-    saccade_amplitude "1.1"
+    saccade_amplitude "2.0"
   ]
   edge [
     source 398
     target 399
-    saccade_duration "99.0"
-    saccade_amplitude "1.5"
+    saccade_duration "66.0"
+    saccade_amplitude "1.1"
   ]
   edge [
     source 399
     target 400
-    saccade_duration "66.0"
-    saccade_amplitude "0.6"
+    saccade_duration "99.0"
+    saccade_amplitude "1.5"
   ]
   edge [
     source 400
     target 401
-    saccade_duration "99.0"
-    saccade_amplitude "2.9"
+    saccade_duration "66.0"
+    saccade_amplitude "0.6"
   ]
   edge [
     source 401
     target 402
-    saccade_duration "66.0"
-    saccade_amplitude "1.7"
+    saccade_duration "99.0"
+    saccade_amplitude "2.9"
   ]
   edge [
     source 402
     target 403
     saccade_duration "66.0"
-    saccade_amplitude "0.9"
+    saccade_amplitude "1.7"
   ]
   edge [
     source 403
     target 404
     saccade_duration "66.0"
-    saccade_amplitude "1.0"
+    saccade_amplitude "0.9"
   ]
   edge [
     source 404
     target 405
     saccade_duration "66.0"
-    saccade_amplitude "1.1"
+    saccade_amplitude "1.0"
   ]
   edge [
     source 405
     target 406
-    saccade_duration "100.0"
-    saccade_amplitude "4.4"
+    saccade_duration "66.0"
+    saccade_amplitude "1.1"
   ]
   edge [
     source 406
     target 407
-    saccade_duration "66.0"
-    saccade_amplitude "2.3"
+    saccade_duration "100.0"
+    saccade_amplitude "4.4"
   ]
   edge [
     source 407
     target 408
-    saccade_duration "99.0"
-    saccade_amplitude "5.8"
+    saccade_duration "66.0"
+    saccade_amplitude "2.3"
   ]
   edge [
     source 408
     target 409
-    saccade_duration "66.0"
-    saccade_amplitude "2.2"
+    saccade_duration "99.0"
+    saccade_amplitude "5.8"
   ]
   edge [
     source 409
     target 410
-    saccade_duration "99.0"
-    saccade_amplitude "1.3"
+    saccade_duration "66.0"
+    saccade_amplitude "2.2"
   ]
   edge [
     source 410
     target 411
-    saccade_duration "66.0"
-    saccade_amplitude "0.6"
+    saccade_duration "99.0"
+    saccade_amplitude "1.3"
   ]
   edge [
     source 411
     target 412
-    saccade_duration "100.0"
-    saccade_amplitude "0.9"
+    saccade_duration "66.0"
+    saccade_amplitude "0.6"
   ]
   edge [
     source 412
     target 413
-    saccade_duration "99.0"
-    saccade_amplitude "1.2"
+    saccade_duration "100.0"
+    saccade_amplitude "0.9"
   ]
   edge [
     source 413
     target 414
-    saccade_duration "133.0"
-    saccade_amplitude "1.3"
+    saccade_duration "99.0"
+    saccade_amplitude "1.2"
   ]
   edge [
     source 414
     target 415
-    saccade_duration "66.0"
-    saccade_amplitude "0.8"
+    saccade_duration "133.0"
+    saccade_amplitude "1.3"
   ]
   edge [
     source 415
     target 416
     saccade_duration "66.0"
-    saccade_amplitude "0.6"
+    saccade_amplitude "0.8"
   ]
   edge [
     source 416
     target 417
-    saccade_duration "64.0"
-    saccade_amplitude "1.9"
+    saccade_duration "66.0"
+    saccade_amplitude "0.6"
   ]
   edge [
     source 417
     target 418
-    saccade_duration "66.0"
-    saccade_amplitude "1.6"
+    saccade_duration "64.0"
+    saccade_amplitude "1.9"
   ]
   edge [
     source 418
     target 419
     saccade_duration "66.0"
-    saccade_amplitude "0.5"
+    saccade_amplitude "1.6"
   ]
   edge [
     source 419
     target 420
     saccade_duration "66.0"
-    saccade_amplitude "1.1"
+    saccade_amplitude "0.5"
   ]
   edge [
     source 420
     target 421
-    saccade_duration "67.0"
-    saccade_amplitude "1.5"
+    saccade_duration "66.0"
+    saccade_amplitude "1.1"
   ]
   edge [
     source 421
     target 422
-    saccade_duration "66.0"
-    saccade_amplitude "1.9"
+    saccade_duration "67.0"
+    saccade_amplitude "1.5"
   ]
   edge [
     source 422
     target 423
     saccade_duration "66.0"
-    saccade_amplitude "1.4"
+    saccade_amplitude "1.9"
   ]
   edge [
     source 423
     target 424
-    saccade_duration "100.0"
-    saccade_amplitude "2.0"
+    saccade_duration "66.0"
+    saccade_amplitude "1.4"
   ]
   edge [
     source 424
     target 425
-    saccade_duration "66.0"
-    saccade_amplitude "0.6"
+    saccade_duration "100.0"
+    saccade_amplitude "2.0"
   ]
   edge [
     source 425
     target 426
     saccade_duration "66.0"
-    saccade_amplitude "2.6"
+    saccade_amplitude "0.6"
   ]
   edge [
     source 426
     target 427
-    saccade_duration "94.0"
-    saccade_amplitude "5.3"
+    saccade_duration "66.0"
+    saccade_amplitude "2.6"
   ]
   edge [
     source 427
     target 428
-    saccade_duration "100.0"
-    saccade_amplitude "1.2"
+    saccade_duration "94.0"
+    saccade_amplitude "5.3"
   ]
   edge [
     source 428
     target 429
-    saccade_duration "99.0"
-    saccade_amplitude "1.3"
+    saccade_duration "100.0"
+    saccade_amplitude "1.2"
   ]
   edge [
     source 429
     target 430
-    saccade_duration "66.0"
-    saccade_amplitude "0.4"
+    saccade_duration "99.0"
+    saccade_amplitude "1.3"
   ]
   edge [
     source 430
     target 431
     saccade_duration "66.0"
-    saccade_amplitude "0.5"
+    saccade_amplitude "0.4"
   ]
   edge [
     source 431
     target 432
     saccade_duration "66.0"
-    saccade_amplitude "0.9"
+    saccade_amplitude "0.5"
   ]
   edge [
     source 432
     target 433
     saccade_duration "66.0"
-    saccade_amplitude "6.3"
+    saccade_amplitude "0.9"
   ]
   edge [
     source 433
     target 434
-    saccade_duration "100.0"
-    saccade_amplitude "5.6"
+    saccade_duration "66.0"
+    saccade_amplitude "6.3"
   ]
   edge [
     source 434
     target 435
-    saccade_duration "66.0"
-    saccade_amplitude "3.7"
+    saccade_duration "100.0"
+    saccade_amplitude "5.6"
   ]
   edge [
     source 435
     target 436
-    saccade_duration "99.0"
-    saccade_amplitude "3.3"
+    saccade_duration "66.0"
+    saccade_amplitude "3.7"
   ]
   edge [
     source 436
     target 437
-    saccade_duration "66.0"
-    saccade_amplitude "5.3"
+    saccade_duration "99.0"
+    saccade_amplitude "3.3"
   ]
   edge [
     source 437
     target 438
     saccade_duration "66.0"
-    saccade_amplitude "1.2"
+    saccade_amplitude "5.3"
   ]
   edge [
     source 438
     target 439
-    saccade_duration "99.0"
-    saccade_amplitude "0.9"
+    saccade_duration "66.0"
+    saccade_amplitude "1.2"
   ]
   edge [
     source 439
     target 440
-    saccade_duration "63.0"
-    saccade_amplitude "0.5"
+    saccade_duration "99.0"
+    saccade_amplitude "0.9"
   ]
   edge [
     source 440
     target 441
-    saccade_duration "65.0"
-    saccade_amplitude "0.6"
+    saccade_duration "63.0"
+    saccade_amplitude "0.5"
   ]
   edge [
     source 441
     target 442
-    saccade_duration "66.0"
-    saccade_amplitude "0.9"
+    saccade_duration "65.0"
+    saccade_amplitude "0.6"
   ]
   edge [
     source 442
     target 443
     saccade_duration "66.0"
-    saccade_amplitude "1.1"
+    saccade_amplitude "0.9"
   ]
   edge [
     source 443
     target 444
-    saccade_duration "83.0"
-    saccade_amplitude "1.8"
+    saccade_duration "66.0"
+    saccade_amplitude "1.1"
   ]
   edge [
     source 444
     target 445
-    saccade_duration "66.0"
-    saccade_amplitude "7.6"
+    saccade_duration "83.0"
+    saccade_amplitude "1.8"
   ]
   edge [
     source 445
     target 446
     saccade_duration "66.0"
-    saccade_amplitude "1.8"
+    saccade_amplitude "7.6"
   ]
   edge [
     source 446
     target 447
     saccade_duration "66.0"
-    saccade_amplitude "0.6"
+    saccade_amplitude "1.8"
   ]
   edge [
     source 447
     target 448
     saccade_duration "66.0"
-    saccade_amplitude "0.5"
+    saccade_amplitude "0.6"
   ]
   edge [
     source 448
     target 449
     saccade_duration "66.0"
-    saccade_amplitude "12.7"
+    saccade_amplitude "0.5"
   ]
   edge [
     source 449
     target 450
-    saccade_duration "65.0"
-    saccade_amplitude "1.2"
+    saccade_duration "66.0"
+    saccade_amplitude "12.7"
   ]
   edge [
     source 450
     target 451
-    saccade_duration "67.0"
-    saccade_amplitude "1.6"
+    saccade_duration "65.0"
+    saccade_amplitude "1.2"
   ]
   edge [
     source 451
     target 452
-    saccade_duration "99.0"
-    saccade_amplitude "0.6"
+    saccade_duration "67.0"
+    saccade_amplitude "1.6"
   ]
   edge [
     source 452
     target 453
-    saccade_duration "66.0"
-    saccade_amplitude "0.4"
+    saccade_duration "99.0"
+    saccade_amplitude "0.6"
   ]
   edge [
     source 453
     target 454
-    saccade_duration "67.0"
-    saccade_amplitude "0.6"
+    saccade_duration "66.0"
+    saccade_amplitude "0.4"
   ]
   edge [
     source 454
     target 455
-    saccade_duration "100.0"
-    saccade_amplitude "11.9"
+    saccade_duration "67.0"
+    saccade_amplitude "0.6"
   ]
   edge [
     source 455
     target 456
-    saccade_duration "66.0"
-    saccade_amplitude "0.5"
+    saccade_duration "100.0"
+    saccade_amplitude "11.9"
   ]
   edge [
     source 456
     target 457
     saccade_duration "66.0"
-    saccade_amplitude "1.7"
+    saccade_amplitude "0.5"
   ]
   edge [
     source 457
     target 458
     saccade_duration "66.0"
-    saccade_amplitude "0.4"
+    saccade_amplitude "1.7"
   ]
   edge [
     source 458
     target 459
-    saccade_duration "102.0"
-    saccade_amplitude "7.6"
+    saccade_duration "66.0"
+    saccade_amplitude "0.4"
   ]
   edge [
     source 459
     target 460
-    saccade_duration "66.0"
-    saccade_amplitude "2.3"
+    saccade_duration "102.0"
+    saccade_amplitude "7.6"
   ]
   edge [
     source 460
     target 461
-    saccade_duration "64.0"
-    saccade_amplitude "6.0"
+    saccade_duration "66.0"
+    saccade_amplitude "2.3"
   ]
   edge [
     source 461
     target 462
-    saccade_duration "66.0"
-    saccade_amplitude "1.2"
+    saccade_duration "64.0"
+    saccade_amplitude "6.0"
   ]
   edge [
     source 462
     target 463
     saccade_duration "66.0"
-    saccade_amplitude "0.6"
+    saccade_amplitude "1.2"
   ]
   edge [
     source 463
     target 464
-    saccade_duration "99.0"
-    saccade_amplitude "1.0"
+    saccade_duration "66.0"
+    saccade_amplitude "0.6"
   ]
   edge [
     source 464
     target 465
-    saccade_duration "66.0"
-    saccade_amplitude "0.5"
+    saccade_duration "99.0"
+    saccade_amplitude "1.0"
   ]
   edge [
     source 465
     target 466
-    saccade_duration "99.0"
-    saccade_amplitude "1.5"
+    saccade_duration "66.0"
+    saccade_amplitude "0.5"
   ]
   edge [
     source 466
     target 467
     saccade_duration "99.0"
-    saccade_amplitude "1.3"
+    saccade_amplitude "1.5"
   ]
   edge [
     source 467
     target 468
-    saccade_duration "66.0"
-    saccade_amplitude "0.6"
+    saccade_duration "99.0"
+    saccade_amplitude "1.3"
   ]
   edge [
     source 468
     target 469
     saccade_duration "66.0"
-    saccade_amplitude "0.8"
+    saccade_amplitude "0.6"
   ]
   edge [
     source 469
     target 470
     saccade_duration "66.0"
-    saccade_amplitude "0.6"
+    saccade_amplitude "0.8"
   ]
   edge [
     source 470
     target 471
     saccade_duration "66.0"
-    saccade_amplitude "6.7"
+    saccade_amplitude "0.6"
   ]
   edge [
     source 471
     target 472
     saccade_duration "66.0"
-    saccade_amplitude "5.5"
+    saccade_amplitude "6.7"
   ]
   edge [
     source 472
     target 473
     saccade_duration "66.0"
-    saccade_amplitude "0.4"
+    saccade_amplitude "5.5"
   ]
   edge [
     source 473
     target 474
     saccade_duration "66.0"
-    saccade_amplitude "0.7"
+    saccade_amplitude "0.4"
   ]
   edge [
     source 474
     target 475
-    saccade_duration "99.0"
-    saccade_amplitude "0.8"
+    saccade_duration "66.0"
+    saccade_amplitude "0.7"
   ]
   edge [
     source 475
     target 476
-    saccade_duration "66.0"
-    saccade_amplitude "0.9"
+    saccade_duration "99.0"
+    saccade_amplitude "0.8"
   ]
   edge [
     source 476
     target 477
-    saccade_duration "67.0"
-    saccade_amplitude "1.6"
+    saccade_duration "66.0"
+    saccade_amplitude "0.9"
   ]
   edge [
     source 477
     target 478
-    saccade_duration "66.0"
-    saccade_amplitude "0.4"
+    saccade_duration "67.0"
+    saccade_amplitude "1.6"
   ]
   edge [
     source 478
     target 479
     saccade_duration "66.0"
-    saccade_amplitude "0.8"
+    saccade_amplitude "0.4"
   ]
   edge [
     source 479
     target 480
     saccade_duration "66.0"
-    saccade_amplitude "0.5"
+    saccade_amplitude "0.8"
   ]
   edge [
     source 480
     target 481
     saccade_duration "66.0"
-    saccade_amplitude "0.7"
+    saccade_amplitude "0.5"
   ]
   edge [
     source 481
     target 482
-    saccade_duration "99.0"
-    saccade_amplitude "1.0"
+    saccade_duration "66.0"
+    saccade_amplitude "0.7"
   ]
   edge [
     source 482
     target 483
-    saccade_duration "66.0"
-    saccade_amplitude "1.7"
+    saccade_duration "99.0"
+    saccade_amplitude "1.0"
   ]
   edge [
     source 483
     target 484
-    saccade_duration "99.0"
-    saccade_amplitude "1.8"
+    saccade_duration "66.0"
+    saccade_amplitude "1.7"
   ]
   edge [
     source 484
     target 485
-    saccade_duration "66.0"
-    saccade_amplitude "1.9"
+    saccade_duration "99.0"
+    saccade_amplitude "1.8"
   ]
   edge [
     source 485
     target 486
     saccade_duration "66.0"
-    saccade_amplitude "0.8"
+    saccade_amplitude "1.9"
   ]
   edge [
     source 486
     target 487
-    saccade_duration "99.0"
-    saccade_amplitude "7.4"
+    saccade_duration "66.0"
+    saccade_amplitude "0.8"
   ]
   edge [
     source 487
     target 488
-    saccade_duration "100.0"
-    saccade_amplitude "2.3"
+    saccade_duration "99.0"
+    saccade_amplitude "7.4"
   ]
   edge [
     source 488
     target 489
-    saccade_duration "66.0"
-    saccade_amplitude "1.2"
+    saccade_duration "100.0"
+    saccade_amplitude "2.3"
   ]
   edge [
     source 489
     target 490
-    saccade_duration "67.0"
-    saccade_amplitude "9.0"
+    saccade_duration "66.0"
+    saccade_amplitude "1.2"
   ]
   edge [
     source 490
     target 491
-    saccade_duration "66.0"
-    saccade_amplitude "1.5"
+    saccade_duration "67.0"
+    saccade_amplitude "9.0"
   ]
   edge [
     source 491
     target 492
     saccade_duration "66.0"
-    saccade_amplitude "1.1"
+    saccade_amplitude "1.5"
   ]
   edge [
     source 492
     target 493
     saccade_duration "66.0"
-    saccade_amplitude "1.5"
+    saccade_amplitude "1.1"
   ]
   edge [
     source 493
     target 494
     saccade_duration "66.0"
-    saccade_amplitude "2.4"
+    saccade_amplitude "1.5"
   ]
   edge [
     source 494
     target 495
     saccade_duration "66.0"
-    saccade_amplitude "1.1"
+    saccade_amplitude "2.4"
   ]
   edge [
     source 495
@@ -9220,13 +9220,13 @@ graph [
     source 496
     target 497
     saccade_duration "66.0"
-    saccade_amplitude "1.2"
+    saccade_amplitude "1.1"
   ]
   edge [
     source 497
     target 498
     saccade_duration "66.0"
-    saccade_amplitude "1.7"
+    saccade_amplitude "1.2"
   ]
   edge [
     source 498
@@ -9238,120 +9238,120 @@ graph [
     source 499
     target 500
     saccade_duration "66.0"
-    saccade_amplitude "1.5"
+    saccade_amplitude "1.7"
   ]
   edge [
     source 500
     target 501
-    saccade_duration "67.0"
-    saccade_amplitude "0.4"
-  ]
-  edge [
-    source 501
-    target 502
-    saccade_duration "66.0"
-    saccade_amplitude "1.1"
-  ]
-  edge [
-    source 502
-    target 503
-    saccade_duration "99.0"
-    saccade_amplitude "7.4"
-  ]
-  edge [
-    source 503
-    target 504
     saccade_duration "66.0"
     saccade_amplitude "1.5"
   ]
   edge [
+    source 501
+    target 502
+    saccade_duration "67.0"
+    saccade_amplitude "0.4"
+  ]
+  edge [
+    source 502
+    target 503
+    saccade_duration "66.0"
+    saccade_amplitude "1.1"
+  ]
+  edge [
+    source 503
+    target 504
+    saccade_duration "99.0"
+    saccade_amplitude "7.4"
+  ]
+  edge [
     source 504
     target 505
-    saccade_duration "100.0"
-    saccade_amplitude "7.7"
+    saccade_duration "66.0"
+    saccade_amplitude "1.5"
   ]
   edge [
     source 505
     target 506
-    saccade_duration "66.0"
-    saccade_amplitude "0.5"
+    saccade_duration "100.0"
+    saccade_amplitude "7.7"
   ]
   edge [
     source 506
     target 507
     saccade_duration "66.0"
-    saccade_amplitude "1.0"
+    saccade_amplitude "0.5"
   ]
   edge [
     source 507
     target 508
     saccade_duration "66.0"
-    saccade_amplitude "1.9"
+    saccade_amplitude "1.0"
   ]
   edge [
     source 508
     target 509
     saccade_duration "66.0"
-    saccade_amplitude "0.7"
+    saccade_amplitude "1.9"
   ]
   edge [
     source 509
     target 510
     saccade_duration "66.0"
-    saccade_amplitude "1.8"
+    saccade_amplitude "0.7"
   ]
   edge [
     source 510
     target 511
     saccade_duration "66.0"
-    saccade_amplitude "1.3"
+    saccade_amplitude "1.8"
   ]
   edge [
     source 511
     target 512
     saccade_duration "66.0"
-    saccade_amplitude "0.3"
+    saccade_amplitude "1.3"
   ]
   edge [
     source 512
     target 513
     saccade_duration "66.0"
-    saccade_amplitude "0.5"
+    saccade_amplitude "0.3"
   ]
   edge [
     source 513
     target 514
     saccade_duration "66.0"
-    saccade_amplitude "0.9"
+    saccade_amplitude "0.5"
   ]
   edge [
     source 514
     target 515
     saccade_duration "66.0"
-    saccade_amplitude "2.0"
+    saccade_amplitude "0.9"
   ]
   edge [
     source 515
     target 516
-    saccade_duration "99.0"
-    saccade_amplitude "0.7"
+    saccade_duration "66.0"
+    saccade_amplitude "2.0"
   ]
   edge [
     source 516
     target 517
-    saccade_duration "66.0"
-    saccade_amplitude "4.2"
+    saccade_duration "99.0"
+    saccade_amplitude "0.7"
   ]
   edge [
     source 517
     target 518
-    saccade_duration "99.0"
-    saccade_amplitude "5.8"
+    saccade_duration "66.0"
+    saccade_amplitude "4.2"
   ]
   edge [
     source 518
     target 519
-    saccade_duration "66.0"
-    saccade_amplitude "1.4"
+    saccade_duration "99.0"
+    saccade_amplitude "5.8"
   ]
 ]

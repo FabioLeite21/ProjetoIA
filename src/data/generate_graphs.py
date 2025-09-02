@@ -48,7 +48,8 @@ def generate_saccadic_graphs(eye_raw_dir=EYE_RAW_DIR, output_base_dir=GRAPHS_OUT
                     'Dispersion X',
                     'Dispersion Y',
                     'Saccade Duration [ms]',
-                    'Amplitude [°]'
+                    'Amplitude [°]',
+                    'Saccade  Count'
                 ]
                 for col in numeric_cols:
                     if col in df.columns:
@@ -57,6 +58,19 @@ def generate_saccadic_graphs(eye_raw_dir=EYE_RAW_DIR, output_base_dir=GRAPHS_OUT
                 # Debug: Imprimir colunas e tipos
                 print(f"Colunas disponíveis em {sheet_name}: {df.columns.tolist()}")
                 print(f"Tipos de dados: {df.dtypes}")
+                
+                # Extrair Saccade Count do df original (agregado, pode estar na última linha ou em linha específica)
+                saccade_count = 0
+                if 'Saccade  Count' in df.columns:
+                    # Procurar o primeiro valor não-NaN na coluna 'Saccade  Count'
+                    saccade_series = df['Saccade  Count'].dropna()
+                    if not saccade_series.empty:
+                        saccade_count = int(saccade_series.iloc[0])
+                        print(f"Saccade Count extraído: {saccade_count}")
+                    else:
+                        print(f"Saccade Count não encontrado em {sheet_name}")
+                else:
+                    print(f"Coluna 'Saccade  Count' não encontrada em {sheet_name}")
                 
                 # Filtrar eventos de fixação (linhas onde 'Fixation Duration [ms]' não é NaN)
                 df_events = df[df['Fixation Duration [ms]'].notna()].copy()
@@ -82,6 +96,7 @@ def generate_saccadic_graphs(eye_raw_dir=EYE_RAW_DIR, output_base_dir=GRAPHS_OUT
                 # Criar mapeamento de índices para nodes
                 node_counter = 0
                 
+                # Adicionar nós
                 for idx, row in df_events.iterrows():
                     start_time = str(row.get('start_time', 'NA'))
                     end_time = str(row.get('end_time', 'NA'))
@@ -94,7 +109,6 @@ def generate_saccadic_graphs(eye_raw_dir=EYE_RAW_DIR, output_base_dir=GRAPHS_OUT
                     # Obter dados EEG correspondentes ao evento atual
                     eeg_data_str = "NA"
                     if eeg_segments and node_counter < len(eeg_segments):
-                        # Converter array numpy para string serializável
                         eeg_array = eeg_segments[node_counter]
                         eeg_data_str = ','.join([f'{x:.6f}' for x in eeg_array])
                     
@@ -110,14 +124,26 @@ def generate_saccadic_graphs(eye_raw_dir=EYE_RAW_DIR, output_base_dir=GRAPHS_OUT
                                eeg_data=eeg_data_str)
                     
                     node_counter += 1
-                    
-                    if idx > 0:
-                        prev_node = idx - 1
-                        saccade_duration = str(row.get('Saccade Duration [ms]', 'NA'))
-                        saccade_amplitude = str(row.get('Amplitude [°]', 'NA'))
-                        G.add_edge(prev_node, node_id,
-                                   saccade_duration=saccade_duration,
-                                   saccade_amplitude=saccade_amplitude)
+                
+                # Adicionar arestas com base no Saccade Count
+                if saccade_count > 0:
+                    # Garantir que o número de arestas não exceda o número de transições possíveis
+                    max_edges = len(df_events) - 1
+                    edges_to_add = min(saccade_count, max_edges)
+                    for i in range(edges_to_add):
+                        prev_node = i
+                        next_node = i + 1
+                        if prev_node < len(df_events) and next_node < len(df_events):
+                            # Use dados da linha atual ou agregados para atributos da aresta
+                            row = df_events.iloc[i]  # Usar linha atual para saccade
+                            saccade_duration = str(row.get('Saccade Duration [ms]', 'NA'))
+                            saccade_amplitude = str(row.get('Amplitude [°]', 'NA'))
+                            G.add_edge(prev_node, next_node,
+                                       saccade_duration=saccade_duration,
+                                       saccade_amplitude=saccade_amplitude)
+                    print(f"Adicionadas {edges_to_add} arestas com base em Saccade Count: {saccade_count}")
+                else:
+                    print(f"Nenhum Saccade Count válido para {sheet_name}, nenhuma aresta adicionada.")
                 
                 # Salvar grafo
                 graph_file = os.path.join(subject_dir, f'session_{session_id}_trial_{trial_idx+1}.gml')
