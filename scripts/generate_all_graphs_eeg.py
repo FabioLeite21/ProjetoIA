@@ -136,8 +136,7 @@ def generate_all_graphs_with_eeg():
                             node_counter += 1
                         
                         graph_file = os.path.join(subject_dir, f'session_{session_id}_trial_{trial_number}.gml')
-                        from ..src.data.graph_utils import save_separate_gml_files
-                        save_separate_gml_files(G, graph_file)
+                        nx.write_gml(G, graph_file)
                         
                         trials_processed += 1
                         total_generated += 1

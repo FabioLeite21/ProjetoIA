@@ -136,8 +136,7 @@ def generate_saccadic_graphs(eye_raw_dir=EYE_RAW_DIR, output_base_dir=GRAPHS_OUT
                     print(f"Nenhum Saccade Count válido para {sheet_name}, nenhuma aresta adicionada.")
                 
                 graph_file = os.path.join(subject_dir, f'session_{session_id}_trial_{trial_idx+1}.gml')
-                from src.data.graph_utils import save_separate_gml_files
-                save_separate_gml_files(G, graph_file)
+                nx.write_gml(G, graph_file)
                 
                 eeg_status = "com dados EEG" if eeg_segments else "sem dados EEG"
                 eeg_count = len(eeg_segments) if eeg_segments else 0

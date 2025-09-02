@@ -130,8 +130,7 @@ def generate_graphs_with_eeg(subjects=[1], sessions=[1], trials=[1, 2, 3]):
                         node_counter += 1
                     
                     graph_file = os.path.join(subject_dir, f'session_{session}_trial_{trial}.gml')
-                    from ..src.data.graph_utils import save_separate_gml_files
-                    save_separate_gml_files(G, graph_file)
+                    nx.write_gml(G, graph_file)
                     
                     eeg_status = "com dados EEG" if eeg_segments else "sem EEG"
                     eeg_count = len(eeg_segments) if eeg_segments else 0
