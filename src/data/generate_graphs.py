@@ -5,7 +5,6 @@ import numpy as np
 from src.data.utils import infer_timestamps, filter_fixation_events
 from src.data.eeg_interpolation import process_subject_data
 
-# Definições de caminhos
 EYE_RAW_DIR = 'database/raw/Eye_raw/seed_v_eye_feature_raw_excel'
 GRAPHS_OUTPUT_DIR = 'database/graph'
 
@@ -36,11 +35,9 @@ def generate_saccadic_graphs(eye_raw_dir=EYE_RAW_DIR, output_base_dir=GRAPHS_OUT
             sheet_names = xls.sheet_names
             
             for trial_idx, sheet_name in enumerate(sheet_names):
-                # Ler o DataFrame com cabeçalho na primeira linha
                 df = pd.read_excel(xls, sheet_name=sheet_name, engine='openpyxl', header=0)
-                df.columns = df.columns.str.strip()  # Remover espaços extras
+                df.columns = df.columns.str.strip()
                 
-                # Converter colunas relevantes para numérico
                 numeric_cols = [
                     'Fixation Duration [ms]',
                     'Average Pupil Size [px] X',
@@ -54,32 +51,25 @@ def generate_saccadic_graphs(eye_raw_dir=EYE_RAW_DIR, output_base_dir=GRAPHS_OUT
                     if col in df.columns:
                         df[col] = pd.to_numeric(df[col], errors='coerce')
                 
-                # Debug: Imprimir colunas e tipos
                 print(f"Colunas disponíveis em {sheet_name}: {df.columns.tolist()}")
                 print(f"Tipos de dados: {df.dtypes}")
                 
-                # Filtrar eventos de fixação (linhas onde 'Fixation Duration [ms]' não é NaN)
                 df_events = df[df['Fixation Duration [ms]'].notna()].copy()
                 
                 if df_events.empty:
                     print(f"Sem dados de fixação válidos em {sheet_name}. Pulando...")
                     continue
                 
-                # Debug: Mostrar primeiras linhas após filtro
                 print(f"Primeiras linhas de df_events em {sheet_name}:\n{df_events.head()}")
                 
-                # Inferir timestamps
                 df_events = infer_timestamps(df_events)
                 
-                # Criar grafo
                 G = nx.DiGraph()
                 
-                # Carregar dados EEG correspondentes
                 eeg_timestamps, eeg_segments, eeg_labels = process_subject_data(
                     int(subject_id), int(session_id), trial_idx + 1
                 )
                 
-                # Criar mapeamento de índices para nodes
                 node_counter = 0
                 
                 for idx, row in df_events.iterrows():
@@ -91,10 +81,8 @@ def generate_saccadic_graphs(eye_raw_dir=EYE_RAW_DIR, output_base_dir=GRAPHS_OUT
                     dispersion_x = str(row.get('Dispersion X', 'NA'))
                     dispersion_y = str(row.get('Dispersion Y', 'NA'))
                     
-                    # Obter dados EEG correspondentes ao evento atual
                     eeg_data_str = "NA"
                     if eeg_segments and node_counter < len(eeg_segments):
-                        # Converter array numpy para string serializável
                         eeg_array = eeg_segments[node_counter]
                         eeg_data_str = ','.join([f'{x:.6f}' for x in eeg_array])
                     
@@ -119,11 +107,10 @@ def generate_saccadic_graphs(eye_raw_dir=EYE_RAW_DIR, output_base_dir=GRAPHS_OUT
                                    saccade_duration=saccade_duration,
                                    saccade_amplitude=saccade_amplitude)
                 
-                # Salvar grafo
                 graph_file = os.path.join(subject_dir, f'session_{session_id}_trial_{trial_idx+1}.gml')
-                nx.write_gml(G, graph_file)
+                from src.data.graph_utils import save_separate_gml_files
+                save_separate_gml_files(G, graph_file)
                 
-                # Log de informações sobre EEG
                 eeg_status = "com dados EEG" if eeg_segments else "sem dados EEG"
                 eeg_count = len(eeg_segments) if eeg_segments else 0
                 print(f"Grafo gerado: {graph_file} ({eeg_status}, {eeg_count} segmentos)")
