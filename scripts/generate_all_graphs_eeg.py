@@ -80,11 +80,19 @@ def generate_all_graphs_with_eeg():
                             'Dispersion X',
                             'Dispersion Y',
                             'Saccade Duration [ms]',
-                            'Amplitude [°]'
+                            'Amplitude [°]',
+                            'Saccade  Count'
                         ]
                         for col in numeric_cols:
                             if col in df.columns:
                                 df[col] = pd.to_numeric(df[col], errors='coerce')
+                        
+                        # Extrair Saccade Count do df original
+                        saccade_count = 0
+                        if 'Saccade  Count' in df.columns:
+                            saccade_series = df['Saccade  Count'].dropna()
+                            if not saccade_series.empty:
+                                saccade_count = int(saccade_series.iloc[0])
                         
                         df_events = df[df['Fixation Duration [ms]'].notna()].copy()
                         
@@ -125,15 +133,23 @@ def generate_all_graphs_with_eeg():
                                        dispersion_y=dispersion_y,
                                        eeg_data=eeg_data_str)
                             
-                            if idx > 0:
-                                prev_node = idx - 1
-                                saccade_duration = str(row.get('Saccade Duration [ms]', 'NA'))
-                                saccade_amplitude = str(row.get('Amplitude [°]', 'NA'))
-                                G.add_edge(prev_node, node_id,
-                                           saccade_duration=saccade_duration,
-                                           saccade_amplitude=saccade_amplitude)
                             
                             node_counter += 1
+                        
+                        # Adicionar arestas com base no Saccade Count
+                        if saccade_count > 0:
+                            max_edges = len(df_events) - 1
+                            edges_to_add = min(saccade_count, max_edges)
+                            for i in range(edges_to_add):
+                                prev_node = i
+                                next_node = i + 1
+                                if prev_node < len(df_events) and next_node < len(df_events):
+                                    row = df_events.iloc[i]
+                                    saccade_duration = str(row.get('Saccade Duration [ms]', 'NA'))
+                                    saccade_amplitude = str(row.get('Amplitude [°]', 'NA'))
+                                    G.add_edge(prev_node, next_node,
+                                               saccade_duration=saccade_duration,
+                                               saccade_amplitude=saccade_amplitude)
                         
                         graph_file = os.path.join(subject_dir, f'session_{session_id}_trial_{trial_number}.gml')
                         nx.write_gml(G, graph_file)
@@ -156,11 +172,11 @@ def generate_all_graphs_with_eeg():
                 total_errors += 1
     
     print(f"\nResumo do processamento:")
-    print(f"• {total_generated} grafos gerados no total")
-    print(f"• {total_with_eeg} grafos incluem dados EEG")
-    print(f"• {total_errors} arquivos apresentaram erros")
+    print(f"{total_generated} grafos gerados no total")
+    print(f"{total_with_eeg} grafos incluem dados EEG")
+    print(f"{total_errors} arquivos apresentaram erros")
     if total_generated > 0:
-        print(f"• Taxa de sucesso na integração EEG: {total_with_eeg/total_generated*100:.1f}%")
+        print(f"Taxa de sucesso na integração EEG: {total_with_eeg/total_generated*100:.1f}%")
     print("\nProcessamento concluído!")
 
 if __name__ == "__main__":

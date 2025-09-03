@@ -72,11 +72,19 @@ def generate_graphs_with_eeg(subjects=[1], sessions=[1], trials=[1, 2, 3]):
                         'Dispersion X',
                         'Dispersion Y',
                         'Saccade Duration [ms]',
-                        'Amplitude [°]'
+                        'Amplitude [°]',
+                        'Saccade  Count'
                     ]
                     for col in numeric_cols:
                         if col in df.columns:
                             df[col] = pd.to_numeric(df[col], errors='coerce')
+                    
+                    # Extrair Saccade Count do df original
+                    saccade_count = 0
+                    if 'Saccade  Count' in df.columns:
+                        saccade_series = df['Saccade  Count'].dropna()
+                        if not saccade_series.empty:
+                            saccade_count = int(saccade_series.iloc[0])
                     
                     df_events = df[df['Fixation Duration [ms]'].notna()].copy()
                     
@@ -119,15 +127,23 @@ def generate_graphs_with_eeg(subjects=[1], sessions=[1], trials=[1, 2, 3]):
                                    dispersion_y=dispersion_y,
                                    eeg_data=eeg_data_str)
                         
-                        if idx > 0:
-                            prev_node = idx - 1
-                            saccade_duration = str(row.get('Saccade Duration [ms]', 'NA'))
-                            saccade_amplitude = str(row.get('Amplitude [°]', 'NA'))
-                            G.add_edge(prev_node, node_id,
-                                       saccade_duration=saccade_duration,
-                                       saccade_amplitude=saccade_amplitude)
                         
                         node_counter += 1
+                    
+                    # Adicionar arestas com base no Saccade Count
+                    if saccade_count > 0:
+                        max_edges = len(df_events) - 1
+                        edges_to_add = min(saccade_count, max_edges)
+                        for i in range(edges_to_add):
+                            prev_node = i
+                            next_node = i + 1
+                            if prev_node < len(df_events) and next_node < len(df_events):
+                                row = df_events.iloc[i]
+                                saccade_duration = str(row.get('Saccade Duration [ms]', 'NA'))
+                                saccade_amplitude = str(row.get('Amplitude [°]', 'NA'))
+                                G.add_edge(prev_node, next_node,
+                                           saccade_duration=saccade_duration,
+                                           saccade_amplitude=saccade_amplitude)
                     
                     graph_file = os.path.join(subject_dir, f'session_{session}_trial_{trial}.gml')
                     nx.write_gml(G, graph_file)

@@ -228,15 +228,15 @@ def generate_all_matrices():
         print(f"  {subject_success}/{subject_processed} grafos processados com sucesso")
     
     print(f"\nResumo do processamento:")
-    print(f"• {total_processed} grafos processados")
-    print(f"• {total_success} matrizes geradas com sucesso")
-    print(f"• {total_errors} erros encontrados")
+    print(f"{total_processed} grafos processados")
+    print(f"{total_success} matrizes geradas com sucesso")
+    print(f"{total_errors} erros encontrados")
     if total_processed > 0:
-        print(f"• Taxa de sucesso: {total_success/total_processed*100:.1f}%")
+        print(f"Taxa de sucesso: {total_success/total_processed*100:.1f}%")
     
     print("\nTipos de arquivos gerados:")
-    print("• *_adjacency_matrix.csv - Matrizes de adjacência (0s e 1s)")
-    print("• *_feature_matrix.csv - Matrizes de features (eye-tracking + EEG)")
+    print("*_adjacency_matrix.csv - Matrizes de adjacência (0s e 1s)")
+    print("*_feature_matrix.csv - Matrizes de features (eye-tracking + EEG)")
     print("\nProcessamento concluído!")
 
 if __name__ == "__main__":

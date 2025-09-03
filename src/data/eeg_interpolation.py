@@ -90,7 +90,7 @@ def interpolate_to_fixation_events(processed_data, graph_timestamps):
     
     return eeg_segments
 
-def normalize_eeg_features(eeg_data, method='standard'):
+def normalize_eeg_features(eeg_data, method='minmax'):
     """
     Normaliza features EEG usando StandardScaler ou MinMaxScaler.
     
