@@ -1,4 +1,7 @@
-networkx==3.3
-pandas==2.2.2
-numpy==2.0.1
+pandas
+networkx
+numpy
+spektral
+tensorflow
+scikit-learn
 openpyxl==3.1.5
