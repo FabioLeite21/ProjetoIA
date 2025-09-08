@@ -28,8 +28,8 @@ def generate_graphs_with_eeg(subjects=[1], sessions=[1], trials=[1, 2, 3]):
     
     print("Gerando grafos com integração de dados EEG...\n")
     
-    eye_raw_dir = '../database/raw/Eye_raw/seed_v_eye_feature_raw_excel'
-    output_base_dir = '../database/graph'
+    eye_raw_dir = 'database/raw/Eye_raw/seed_v_eye_feature_raw_excel'
+    output_base_dir = 'database/graph'
     
     for subject_id in subjects:
         subject_dir = os.path.join(output_base_dir, f'subject_{subject_id}')
