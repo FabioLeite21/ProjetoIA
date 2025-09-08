@@ -4,18 +4,15 @@ import os
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-# Get project root path
 script_dir = os.path.dirname(__file__)
 project_root = os.path.abspath(os.path.join(script_dir, '..', '..'))
 
 class EmotionGraphDataset(Dataset):
     def __init__(self, graph_dir, labels_excel_path=None, **kwargs):
         self.graph_dir = graph_dir
-        # Use default path relative to project root if not provided
         if labels_excel_path is None:
             self.labels_excel_path = os.path.join(project_root, 'database', 'emotion_label_and_stimuli_order.xlsx')
         else:
-            # If relative path provided, make it relative to project root
             if not os.path.isabs(labels_excel_path):
                 self.labels_excel_path = os.path.join(project_root, labels_excel_path)
             else:
