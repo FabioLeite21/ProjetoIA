@@ -106,7 +106,7 @@ class EmotionGraphDataset(Dataset):
             X = (X - np.mean(X, axis=0)) / (np.std(X, axis=0) + 1e-8)
         else:
             print(f"Arquivo de features não encontrado: {feature_matrix_path}. Usando array vazio.")
-            X = np.zeros((1, 12))  # Placeholder com 12 features (5 eye + 7 EEG estatísticas)
+            X = np.zeros((1, 263))  # Placeholder com 263 features (7 eye-tracking + 256 EEG)
 
         return X, A
 

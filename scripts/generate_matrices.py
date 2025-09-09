@@ -17,34 +17,36 @@ sys.path.insert(0, project_root)
 
 def extract_eeg_features(eeg_data_str):
     """
-    Extrai features dos dados EEG.
+    Extrai features dos dados EEG - retorna os 256 valores completos.
     
     Args:
         eeg_data_str (str): String com dados EEG separados por vírgula
         
     Returns:
-        list: Lista com features extraídas dos dados EEG
+        list: Lista com os 256 valores EEG completos
     """
     if eeg_data_str == "NA" or not eeg_data_str:
-        return [0.0] * 7  # 7 features padrão com valores zero
+        return [0.0] * 256  # 256 features padrão com valores zero
     
     try:
         eeg_values = [float(x) for x in eeg_data_str.split(',')]
         
-        # Extrai estatísticas dos dados EEG como features
-        features = [
-            np.mean(eeg_values),        # média
-            np.std(eeg_values),         # desvio padrão
-            np.min(eeg_values),         # valor mínimo
-            np.max(eeg_values),         # valor máximo
-            np.median(eeg_values),      # mediana
-            np.var(eeg_values),         # variância
-            len(eeg_values)             # número de medições
-        ]
+        # Se temos exatamente 256 valores, retorna diretamente
+        if len(eeg_values) == 256:
+            return eeg_values
         
-        return features
-    except:
-        return [0.0] * 7
+        # Se temos menos de 256 valores, preenche com zeros
+        elif len(eeg_values) < 256:
+            eeg_values.extend([0.0] * (256 - len(eeg_values)))
+            return eeg_values
+        
+        # Se temos mais de 256 valores, trunca para 256
+        else:
+            return eeg_values[:256]
+            
+    except Exception as e:
+        print(f"Erro ao processar dados EEG: {e}")
+        return [0.0] * 256
 
 def extract_node_features(node_data):
     """
@@ -54,39 +56,40 @@ def extract_node_features(node_data):
         node_data (dict): Dados do nó
         
     Returns:
-        list: Lista com todas as features do nó
+        list: Lista com todas as features do nó (7 eye-tracking + 256 EEG = 263 total)
     """
     features = []
     
-    # Features básicas do eye-tracking
-    try:
-        features.append(float(node_data.get('fixation_duration', 0)))
-    except:
-        features.append(0.0)
+    # Features básicas do eye-tracking (7 features)
+    eye_tracking_fields = [
+        'fixation_duration',  # duração da fixação
+        'pupil_x',           # tamanho da pupila X
+        'pupil_y',           # tamanho da pupila Y
+        'dispersion_x',      # dispersão X
+        'dispersion_y',      # dispersão Y
+        'start_time',        # tempo de início
+        'end_time'           # tempo de fim
+    ]
     
-    try:
-        features.append(float(node_data.get('pupil_x', 0)))
-    except:
-        features.append(0.0)
+    for field in eye_tracking_fields:
+        try:
+            value = float(node_data.get(field, 0))
+            features.append(value)
+        except (ValueError, TypeError):
+            features.append(0.0)
     
-    try:
-        features.append(float(node_data.get('pupil_y', 0)))
-    except:
-        features.append(0.0)
-    
-    try:
-        features.append(float(node_data.get('dispersion_x', 0)))
-    except:
-        features.append(0.0)
-    
-    try:
-        features.append(float(node_data.get('dispersion_y', 0)))
-    except:
-        features.append(0.0)
-    
-    # Features dos dados EEG
+    # Features dos dados EEG (256 features)
     eeg_features = extract_eeg_features(node_data.get('eeg_data', 'NA'))
     features.extend(eeg_features)
+    
+    # Verificação final: garantir que temos exatamente 263 features
+    if len(features) != 263:
+        print(f"Aviso: Features extraídas = {len(features)}, esperado = 263")
+        # Ajustar para 263 se necessário
+        if len(features) < 263:
+            features.extend([0.0] * (263 - len(features)))
+        else:
+            features = features[:263]
     
     return features
 
@@ -166,11 +169,19 @@ def save_matrices(adj_matrix, feature_matrix, output_base_path):
     # Salva matriz de features
     features_path = output_base_path + "_feature_matrix.csv"
     
-    # Define nomes das colunas para a matriz de features
-    feature_names = [
+    # Define nomes das colunas para a matriz de features (263 total)
+    feature_names = []
+    
+    # Eye-tracking features (7)
+    eye_tracking_names = [
         'fixation_duration', 'pupil_x', 'pupil_y', 'dispersion_x', 'dispersion_y',
-        'eeg_mean', 'eeg_std', 'eeg_min', 'eeg_max', 'eeg_median', 'eeg_var', 'eeg_count'
+        'start_time', 'end_time'
     ]
+    feature_names.extend(eye_tracking_names)
+    
+    # EEG features (256)
+    eeg_names = [f'eeg_{i+1:03d}' for i in range(256)]
+    feature_names.extend(eeg_names)
     
     # Cria DataFrame e salva
     df_features = pd.DataFrame(feature_matrix, columns=feature_names)
