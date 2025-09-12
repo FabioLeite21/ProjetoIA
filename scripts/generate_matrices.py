@@ -9,84 +9,79 @@ import networkx as nx
 import numpy as np
 import pandas as pd
 from pathlib import Path
+from multiprocessing import Pool, cpu_count
+import time
 
-# Add the project root to sys.path
 script_dir = os.path.dirname(__file__)
 project_root = os.path.abspath(os.path.join(script_dir, '..'))
 sys.path.insert(0, project_root)
 
 def extract_eeg_features(eeg_data_str):
     """
-    Extrai features dos dados EEG.
+    Extrai features dos dados EEG - retorna os 310 valores completos (62 canais × 5 bandas).
+    Otimizado com NumPy para melhor performance.
     
     Args:
         eeg_data_str (str): String com dados EEG separados por vírgula
         
     Returns:
-        list: Lista com features extraídas dos dados EEG
+        np.ndarray: Array NumPy com os 310 valores EEG completos
     """
     if eeg_data_str == "NA" or not eeg_data_str:
-        return [0.0] * 7  # 7 features padrão com valores zero
+        return np.zeros(310, dtype=np.float64)
     
     try:
-        eeg_values = [float(x) for x in eeg_data_str.split(',')]
+        eeg_values = np.fromiter(
+            (float(x) for x in eeg_data_str.split(',')),
+            dtype=np.float64
+        )
         
-        # Extrai estatísticas dos dados EEG como features
-        features = [
-            np.mean(eeg_values),        # média
-            np.std(eeg_values),         # desvio padrão
-            np.min(eeg_values),         # valor mínimo
-            np.max(eeg_values),         # valor máximo
-            np.median(eeg_values),      # mediana
-            np.var(eeg_values),         # variância
-            len(eeg_values)             # número de medições
-        ]
+        if len(eeg_values) == 310:
+            return eeg_values
         
-        return features
-    except:
-        return [0.0] * 7
+        elif len(eeg_values) < 310:
+            result = np.zeros(310, dtype=np.float64)
+            result[:len(eeg_values)] = eeg_values
+            return result
+        
+        else:
+            return eeg_values[:310]
+            
+    except Exception as e:
+        print(f"Erro ao processar dados EEG: {e}")
+        return np.zeros(310, dtype=np.float64)
 
 def extract_node_features(node_data):
     """
     Extrai features de um nó do grafo.
+    Otimizado com pré-alocação NumPy para melhor performance.
     
     Args:
         node_data (dict): Dados do nó
         
     Returns:
-        list: Lista com todas as features do nó
+        np.ndarray: Array NumPy com todas as features do nó (7 eye-tracking + 310 EEG = 317 total)
     """
-    features = []
+    features = np.zeros(317, dtype=np.float64)
     
-    # Features básicas do eye-tracking
-    try:
-        features.append(float(node_data.get('fixation_duration', 0)))
-    except:
-        features.append(0.0)
+    eye_tracking_fields = [
+        'fixation_duration',
+        'pupil_x',
+        'pupil_y',
+        'dispersion_x',
+        'dispersion_y',
+        'start_time',
+        'end_time'
+    ]
     
-    try:
-        features.append(float(node_data.get('pupil_x', 0)))
-    except:
-        features.append(0.0)
+    for i, field in enumerate(eye_tracking_fields):
+        try:
+            features[i] = float(node_data.get(field, 0))
+        except (ValueError, TypeError):
+            features[i] = 0.0
     
-    try:
-        features.append(float(node_data.get('pupil_y', 0)))
-    except:
-        features.append(0.0)
-    
-    try:
-        features.append(float(node_data.get('dispersion_x', 0)))
-    except:
-        features.append(0.0)
-    
-    try:
-        features.append(float(node_data.get('dispersion_y', 0)))
-    except:
-        features.append(0.0)
-    
-    # Features dos dados EEG
     eeg_features = extract_eeg_features(node_data.get('eeg_data', 'NA'))
-    features.extend(eeg_features)
+    features[7:317] = eeg_features
     
     return features
 
@@ -100,13 +95,13 @@ def create_adjacency_matrix(graph):
     Returns:
         np.ndarray: Matriz de adjacência
     """
-    # Usa função nativa do NetworkX para criar matriz de adjacência
     adj_matrix = nx.adjacency_matrix(graph, nodelist=sorted(graph.nodes())).toarray()
     return adj_matrix
 
 def create_feature_matrix(graph):
     """
     Cria matriz de features a partir do grafo.
+    Otimizado com pré-alocação NumPy para melhor performance.
     
     Args:
         graph (networkx.DiGraph): Grafo dirigido
@@ -114,17 +109,16 @@ def create_feature_matrix(graph):
     Returns:
         np.ndarray: Matriz de features
     """
-    # Obtém os nós ordenados
     nodes = sorted(graph.nodes())
+    num_nodes = len(nodes)
     
-    # Extrai features de todos os nós
-    all_features = []
-    for node in nodes:
+    feature_matrix = np.zeros((num_nodes, 317), dtype=np.float64)
+    
+    for i, node in enumerate(nodes):
         node_data = graph.nodes[node]
-        features = extract_node_features(node_data)
-        all_features.append(features)
+        feature_matrix[i] = extract_node_features(node_data)
     
-    return np.array(all_features)
+    return feature_matrix
 
 def process_single_graph(gml_file_path):
     """
@@ -137,10 +131,8 @@ def process_single_graph(gml_file_path):
         tuple: (matriz_adjacencia, matriz_features, sucesso)
     """
     try:
-        # Carrega o grafo
         G = nx.read_gml(gml_file_path)
         
-        # Cria as matrizes
         adj_matrix = create_adjacency_matrix(G)
         feature_matrix = create_feature_matrix(G)
         
@@ -149,6 +141,49 @@ def process_single_graph(gml_file_path):
     except Exception as e:
         print(f"    Erro ao processar {os.path.basename(gml_file_path)}: {str(e)[:50]}...")
         return None, None, False
+
+def process_and_save_single_graph(args):
+    """
+    Processa um único grafo e salva suas matrizes para processamento paralelo.
+    
+    Args:
+        args (tuple): (gml_file_path, output_base_path, skip_existing)
+        
+    Returns:
+        tuple: (arquivo_base, sucesso, num_nodes, tempo_processamento)
+    """
+    gml_file_path, output_base_path, skip_existing = args
+    
+    start_time = time.time()
+    
+    try:
+        if skip_existing:
+            adj_path = output_base_path + "_adjacency_matrix.csv"
+            features_path = output_base_path + "_feature_matrix.csv"
+            
+            if os.path.exists(adj_path) and os.path.exists(features_path):
+                gml_time = os.path.getmtime(gml_file_path)
+                adj_time = os.path.getmtime(adj_path)
+                features_time = os.path.getmtime(features_path)
+                
+                if adj_time > gml_time and features_time > gml_time:
+                    return os.path.basename(gml_file_path), True, 0, 0.0
+        
+        G = nx.read_gml(gml_file_path)
+        num_nodes = G.number_of_nodes()
+        
+        adj_matrix = create_adjacency_matrix(G)
+        feature_matrix = create_feature_matrix(G)
+        
+        save_matrices(adj_matrix, feature_matrix, output_base_path)
+        
+        processing_time = time.time() - start_time
+        return os.path.basename(gml_file_path), True, num_nodes, processing_time
+    
+    except Exception as e:
+        error_msg = str(e)[:50] + "..." if len(str(e)) > 50 else str(e)
+        processing_time = time.time() - start_time
+        return os.path.basename(gml_file_path), False, 0, processing_time
 
 def save_matrices(adj_matrix, feature_matrix, output_base_path):
     """
@@ -159,85 +194,149 @@ def save_matrices(adj_matrix, feature_matrix, output_base_path):
         feature_matrix (np.ndarray): Matriz de features
         output_base_path (str): Caminho base para salvar os arquivos
     """
-    # Salva matriz de adjacência
     adj_path = output_base_path + "_adjacency_matrix.csv"
     np.savetxt(adj_path, adj_matrix, delimiter=',', fmt='%d')
     
-    # Salva matriz de features
     features_path = output_base_path + "_feature_matrix.csv"
     
-    # Define nomes das colunas para a matriz de features
-    feature_names = [
-        'fixation_duration', 'pupil_x', 'pupil_y', 'dispersion_x', 'dispersion_y',
-        'eeg_mean', 'eeg_std', 'eeg_min', 'eeg_max', 'eeg_median', 'eeg_var', 'eeg_count'
-    ]
+    feature_names = []
     
-    # Cria DataFrame e salva
+    eye_tracking_names = [
+        'fixation_duration', 'pupil_x', 'pupil_y', 'dispersion_x', 'dispersion_y',
+        'start_time', 'end_time'
+    ]
+    feature_names.extend(eye_tracking_names)
+    
+    eeg_names = [f'eeg_{i+1:03d}' for i in range(310)]
+    feature_names.extend(eeg_names)
+    
     df_features = pd.DataFrame(feature_matrix, columns=feature_names)
     df_features.to_csv(features_path, index=False)
 
-def generate_all_matrices():
+def generate_all_matrices(num_processes=None, skip_existing=False):
     """
-    Gera matrizes de adjacência e features para todos os grafos.
-    """
-    print("Iniciando geração de matrizes de adjacência e features...\n")
+    Gera matrizes de adjacência e features para todos os grafos usando processamento paralelo.
+    Por padrão substitui todas as matrizes existentes.
     
-    # Diretório base dos grafos
+    Args:
+        num_processes (int): Número de processos paralelos. Se None, usa cpu_count()
+        skip_existing (bool): Se True, pula arquivos que já existem e são mais novos.
+                             Por padrão False (sempre regenera as matrizes)
+    """
+    start_total_time = time.time()
+    
+    print("Iniciando geracao paralela de matrizes de adjacencia e features...")
+    
+    if num_processes is None:
+        num_processes = min(cpu_count(), 8)
+    
+    print(f"Usando {num_processes} processos paralelos")
+    if skip_existing:
+        print("Modo: Skip arquivos existentes mais novos")
+    else:
+        print("Modo: SUBSTITUIR todas as matrizes existentes")
+    print()
+    
     graph_base_dir = os.path.join(project_root, 'database', 'graph')
     
-    # Estatísticas
-    total_processed = 0
-    total_success = 0
-    total_errors = 0
+    all_tasks = []
     
-    # Processa todos os sujeitos
     for subject_dir in sorted(os.listdir(graph_base_dir)):
         subject_path = os.path.join(graph_base_dir, subject_dir)
         
         if not os.path.isdir(subject_path):
             continue
         
-        print(f"Processando {subject_dir}...")
-        
-        # Encontra todos os arquivos GML do sujeito
         gml_pattern = os.path.join(subject_path, "*.gml")
         gml_files = sorted(glob.glob(gml_pattern))
         
-        subject_processed = 0
-        subject_success = 0
-        
         for gml_file in gml_files:
-            # Obtém o nome base do arquivo sem extensão
             base_name = os.path.splitext(os.path.basename(gml_file))[0]
             output_base_path = os.path.join(subject_path, base_name)
             
-            # Processa o grafo
-            adj_matrix, feature_matrix, success = process_single_graph(gml_file)
-            
-            total_processed += 1
-            subject_processed += 1
-            
-            if success:
-                # Salva as matrizes
-                save_matrices(adj_matrix, feature_matrix, output_base_path)
-                total_success += 1
-                subject_success += 1
-            else:
-                total_errors += 1
-        
-        print(f"  {subject_success}/{subject_processed} grafos processados com sucesso")
+            all_tasks.append((gml_file, output_base_path, skip_existing))
     
-    print(f"\nResumo do processamento:")
-    print(f"• {total_processed} grafos processados")
-    print(f"• {total_success} matrizes geradas com sucesso")
-    print(f"• {total_errors} erros encontrados")
-    if total_processed > 0:
-        print(f"• Taxa de sucesso: {total_success/total_processed*100:.1f}%")
+    total_files = len(all_tasks)
+    print(f"Total de {total_files} grafos para processar...\n")
     
-    print("\nTipos de arquivos gerados:")
-    print("• *_adjacency_matrix.csv - Matrizes de adjacência (0s e 1s)")
-    print("• *_feature_matrix.csv - Matrizes de features (eye-tracking + EEG)")
-    print("\nProcessamento concluído!")
+    if total_files == 0:
+        print("Nenhum arquivo GML encontrado!")
+        return
+    
+    successful_results = []
+    failed_results = []
+    skipped_count = 0
+    total_nodes = 0
+    
+    print("Processando em paralelo...")
+    
+    with Pool(processes=num_processes) as pool:
+        results = pool.map(process_and_save_single_graph, all_tasks)
+    
+    for filename, success, num_nodes, proc_time in results:
+        if success:
+            successful_results.append((filename, num_nodes, proc_time))
+            total_nodes += num_nodes
+            if proc_time == 0.0:
+                skipped_count += 1
+        else:
+            failed_results.append((filename, proc_time))
+    
+    total_time = time.time() - start_total_time
+    
+    print(f"\nRelatorio final - processamento paralelo:")
+    print(f"Total de arquivos: {total_files}")
+    print(f"Processados com sucesso: {len(successful_results)}")
+    print(f"Erros encontrados: {len(failed_results)}")
+    print(f"Arquivos pulados (ja existentes): {skipped_count}")
+    if total_files > 0:
+        success_rate = (len(successful_results) / total_files) * 100
+        print(f"Taxa de sucesso: {success_rate:.1f}%")
+    
+    print(f"\nEstatisticas de performance:")
+    print(f"Tempo total: {total_time:.2f}s")
+    if len(successful_results) > 0:
+        avg_time = sum(t for _, _, t in successful_results if t > 0) / max(1, len(successful_results) - skipped_count)
+        print(f"Tempo medio por grafo: {avg_time:.3f}s")
+    print(f"Total de nos processados: {total_nodes:,}")
+    print(f"Processos paralelos: {num_processes}")
+    
+    print(f"\nTipos de arquivos gerados:")
+    print(f"*_adjacency_matrix.csv - Matrizes de adjacencia (0s e 1s)")
+    print(f"*_feature_matrix.csv - Matrizes de features (317 colunas: 7 eye-tracking + 310 EEG)")
+    
+    if failed_results:
+        print(f"\nArquivos com erro:")
+        for filename, _ in failed_results[:5]:
+            print(f"  {filename}")
+        if len(failed_results) > 5:
+            print(f"  ... e mais {len(failed_results) - 5} arquivos")
+    
+    print(f"\nProcessamento paralelo concluido!")
+
+def main():
+    """
+    Função principal para execução via linha de comando.
+    
+    Processa argumentos da linha de comando e executa a geração de matrizes
+    com os parâmetros especificados.
+    """
+    import argparse
+    
+    parser = argparse.ArgumentParser(description='Gera matrizes de adjacência e features dos grafos')
+    parser.add_argument('--processes', '-p', type=int, default=None,
+                        help='Número de processos paralelos (padrão: auto)')
+    parser.add_argument('--skip-existing', '-s', action='store_true',
+                        help='Pula arquivos que ja existem e sao mais novos que o GML')
+    
+    args = parser.parse_args()
+    
+    print(f"Executando generate_matrices.py")
+    print(f"Processos: {args.processes if args.processes else 'auto'}")
+    print(f"Skip existing: {'Sim' if args.skip_existing else 'Nao (substitui tudo)'}")
+    print()
+    
+    generate_all_matrices(num_processes=args.processes, skip_existing=args.skip_existing)
 
 if __name__ == "__main__":
-    generate_all_matrices()
+    main()

@@ -5,7 +5,6 @@ Script para gerar grafos com dados EEG - versão de teste para alguns sujeitos.
 import sys
 import os
 
-# Add the project root to sys.path
 script_dir = os.path.dirname(__file__)
 project_root = os.path.abspath(os.path.join(script_dir, '..'))
 sys.path.insert(0, project_root)
@@ -21,12 +20,15 @@ def generate_graphs_with_eeg(subjects=[1], sessions=[1], trials=[1, 2, 3]):
     Gera grafos com dados EEG para sujeitos, sessões e trials específicos.
     
     Args:
-        subjects (list): Lista de IDs de sujeitos
-        sessions (list): Lista de sessões
-        trials (list): Lista de trials (1-based)
+        subjects (list): Lista de IDs de sujeitos para processamento
+        sessions (list): Lista de sessões para processamento
+        trials (list): Lista de trials (1-based) para processamento
+    
+    Returns:
+        None: Salva os grafos gerados em arquivos .gml no diretório de saída
     """
     
-    print("Gerando grafos com integração de dados EEG...\n")
+    print("Gerando grafos com integracao de dados EEG...")
     
     eye_raw_dir = '../database/raw/Eye_raw/seed_v_eye_feature_raw_excel'
     output_base_dir = '../database/graph'
@@ -81,12 +83,12 @@ def generate_graphs_with_eeg(subjects=[1], sessions=[1], trials=[1, 2, 3]):
                     df_events = df[df['Fixation Duration [ms]'].notna()].copy()
                     
                     if df_events.empty:
-                        print(f"    Trial {trial}: sem dados de fixação válidos")
+                        print(f"    Trial {trial}: sem dados de fixacao validos")
                         continue
                     
                     df_events = infer_timestamps(df_events)
                     
-                    print(f"    Trial {trial}: integrando dados EEG...")
+                    print(f"    Trial {trial}: integrando dados EEG")
                     eeg_timestamps, eeg_segments, eeg_labels = process_subject_data(
                         subject_id, session, trial
                     )
@@ -135,16 +137,16 @@ def generate_graphs_with_eeg(subjects=[1], sessions=[1], trials=[1, 2, 3]):
                     eeg_status = "com dados EEG" if eeg_segments else "sem EEG"
                     eeg_count = len(eeg_segments) if eeg_segments else 0
                     
-                    print(f"    Trial {trial}: {G.number_of_nodes()} eventos processados, {eeg_status} ({eeg_count} segmentos)")
+                    print(f"    Trial {trial}: {G.number_of_nodes()} eventos processados, {eeg_status}")
                     
                 except Exception as e:
                     print(f"    Trial {trial}: erro no processamento - {e}")
                     
-        print(f"Sujeito {subject_id} processado com sucesso!\n")
+        print(f"Sujeito {subject_id} processado com sucesso")
 
 if __name__ == "__main__":
-    print("Teste de geração de grafos com dados EEG")
-    print("Processando sujeito 1, sessão 1, trials 1-3\n")
+    print("Teste de geracao de grafos com dados EEG")
+    print("Processando sujeito 1, sessao 1, trials 1-3")
     
     generate_graphs_with_eeg(
         subjects=[1], 
@@ -152,5 +154,4 @@ if __name__ == "__main__":
         trials=[1, 2, 3]
     )
     
-    print("\nTeste concluído!")
-    print("Execute verify_eeg_graphs.py para verificar os resultados")
+    print("Teste concluido!")

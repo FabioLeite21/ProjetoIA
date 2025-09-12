@@ -5,7 +5,6 @@ Script para gerar TODOS os grafos com dados EEG.
 import sys
 import os
 
-# Add the project root to sys.path
 script_dir = os.path.dirname(__file__)
 project_root = os.path.abspath(os.path.join(script_dir, '..'))
 sys.path.insert(0, project_root)
@@ -17,9 +16,21 @@ from src.data.utils import infer_timestamps
 from src.data.eeg_interpolation import process_subject_data
 
 def generate_all_graphs_with_eeg():
-    """Gera todos os grafos com dados EEG para todos os sujeitos e sessões."""
+    """
+    Gera todos os grafos com dados EEG para todos os sujeitos e sessões.
     
-    print("Iniciando geração de grafos com dados EEG integrados...\n")
+    Processa dados de eye-tracking de todos os arquivos Excel nas sessões 1-3,
+    integrando dados EEG correspondentes quando disponíveis. Para cada sujeito
+    e trial, cria um grafo direcionado onde os nós representam eventos de fixação
+    com características como duração, tamanho da pupila e dados EEG, e as arestas
+    representam movimentos sacádicos com duração e amplitude.
+    
+    Returns:
+        None: A função imprime o progresso e estatísticas finais, salvando
+              os grafos como arquivos .gml na estrutura de diretórios.
+    """
+    
+    print("Iniciando geracao de grafos com dados EEG integrados...")
     print("Processamento completo - isso pode levar alguns minutos")
     
     eye_raw_dir = '../database/raw/Eye_raw/seed_v_eye_feature_raw_excel'
@@ -36,7 +47,7 @@ def generate_all_graphs_with_eeg():
         session_dir = os.path.join(eye_raw_dir, session_name)
         
         if not os.path.exists(session_dir):
-            print(f"Aviso: Diretório da sessão não encontrado - {session_dir}")
+            print(f"Aviso: Diretorio da sessao nao encontrado - {session_dir}")
             continue
         
         print(f"\nProcessando {session_name.replace('_', ' ')}...")
@@ -156,12 +167,12 @@ def generate_all_graphs_with_eeg():
                 total_errors += 1
     
     print(f"\nResumo do processamento:")
-    print(f"• {total_generated} grafos gerados no total")
-    print(f"• {total_with_eeg} grafos incluem dados EEG")
-    print(f"• {total_errors} arquivos apresentaram erros")
+    print(f"{total_generated} grafos gerados no total")
+    print(f"{total_with_eeg} grafos incluem dados EEG")
+    print(f"{total_errors} arquivos apresentaram erros")
     if total_generated > 0:
-        print(f"• Taxa de sucesso na integração EEG: {total_with_eeg/total_generated*100:.1f}%")
-    print("\nProcessamento concluído!")
+        print(f"Taxa de sucesso na integracao EEG: {total_with_eeg/total_generated*100:.1f}%")
+    print("\nProcessamento concluido!")
 
 if __name__ == "__main__":
     generate_all_graphs_with_eeg()
