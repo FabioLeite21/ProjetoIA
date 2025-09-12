@@ -107,7 +107,7 @@ class EmotionGraphDataset(Dataset):
             X = (X - np.mean(X, axis=0)) / (np.std(X, axis=0) + 1e-8)
         else:
             print(f"Arquivo de features não encontrado: {feature_matrix_path}. Usando array vazio.")
-            X = np.zeros((1, 263))  # Placeholder com 263 features (7 eye-tracking + 256 EEG)
+            X = np.zeros((7, 310))  # Placeholder com 317 features (7 eye-tracking + 310 EEG)
 
         return X, A
 
@@ -140,23 +140,3 @@ class EmotionGraphDataset(Dataset):
 
     def read(self):
         return self.graph_list
-
-# exemplo:  
-if __name__ == "__main__":
-    # Use caminho relativo ao projeto
-    graph_dir = os.path.join(project_root, 'database', 'graph')
-    dataset = EmotionGraphDataset(graph_dir)
-    print(f"Total de grafos carregados: {len(dataset)}")
-    
-    # Split train/val/test (80/10/10)
-    train_dataset, test_dataset = train_test_split(dataset, test_size=0.2, random_state=42)
-    val_dataset, test_dataset = train_test_split(test_dataset, test_size=0.5, random_state=42)
-    
-    print(f"Treino: {len(train_dataset)}, Validação: {len(val_dataset)}, Teste: {len(test_dataset)}")
-    
-    from spektral.data import DisjointLoader
-    train_loader = DisjointLoader(train_dataset, batch_size=32, shuffle=True)
-    val_loader = DisjointLoader(val_dataset, batch_size=32, shuffle=False)
-    test_loader = DisjointLoader(test_dataset, batch_size=32, shuffle=False)
-    
-    print("Loaders prontos para treinamento!")

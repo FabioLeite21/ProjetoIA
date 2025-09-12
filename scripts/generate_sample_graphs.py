@@ -30,8 +30,8 @@ def generate_graphs_with_eeg(subjects=[1], sessions=[1], trials=[1, 2, 3]):
     
     print("Gerando grafos com integracao de dados EEG...")
     
-    eye_raw_dir = '../database/raw/Eye_raw/seed_v_eye_feature_raw_excel'
-    output_base_dir = '../database/graph'
+    eye_raw_dir = 'database/raw/Eye_raw/seed_v_eye_feature_raw_excel'
+    output_base_dir = 'database/graph'
     
     for subject_id in subjects:
         subject_dir = os.path.join(output_base_dir, f'subject_{subject_id}')
@@ -110,7 +110,7 @@ def generate_graphs_with_eeg(subjects=[1], sessions=[1], trials=[1, 2, 3]):
                             eeg_array = eeg_segments[node_counter]
                             eeg_data_str = ','.join([f'{x:.6f}' for x in eeg_array])
                         
-                        node_id = idx
+                        node_id = node_counter
                         G.add_node(node_id, 
                                    start_time=start_time,
                                    end_time=end_time,
@@ -121,8 +121,8 @@ def generate_graphs_with_eeg(subjects=[1], sessions=[1], trials=[1, 2, 3]):
                                    dispersion_y=dispersion_y,
                                    eeg_data=eeg_data_str)
                         
-                        if idx > 0:
-                            prev_node = idx - 1
+                        if node_counter > 0:
+                            prev_node = node_counter - 1
                             saccade_duration = str(row.get('Saccade Duration [ms]', 'NA'))
                             saccade_amplitude = str(row.get('Amplitude [°]', 'NA'))
                             G.add_edge(prev_node, node_id,

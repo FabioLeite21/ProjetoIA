@@ -523,7 +523,7 @@ def batch_gaussian_de(signals):
 
 def extract_de_features_batch(all_segments, fs=200):
     """
-    Extrai features DE para múltiplos segmentos simultaneamente (ULTRA-BATCH).
+    Extrai features DE para múltiplos segmentos simultaneamente usando abordagem robusta.
     
     Args:
         all_segments (np.ndarray): (n_events, n_channels, n_samples)
@@ -534,23 +534,45 @@ def extract_de_features_batch(all_segments, fs=200):
     """
     n_events, n_channels, n_samples = all_segments.shape
     
-    band_masks = create_band_masks(n_samples, fs)
-    band_names = ['delta', 'theta', 'alpha', 'beta', 'gamma']
-    
-    fft_all = np.fft.fft(all_segments, axis=2)
+    bands = {
+        'delta': (1, 4),
+        'theta': (4, 8),
+        'alpha': (8, 14), 
+        'beta': (14, 31),
+        'gamma': (31, 50)
+    }
     
     de_features = np.zeros((n_events, n_channels, 5))
     
-    for band_idx, band_name in enumerate(band_names):
-        mask = band_masks[band_name]
+    for event_idx in range(n_events):
+        segment = all_segments[event_idx]  # (n_channels, n_samples)
         
-        fft_filtered = fft_all.copy()
-        fft_filtered[:, :, ~mask] = 0
-        
-        band_signals = np.real(np.fft.ifft(fft_filtered, axis=2))
-        
-        de_values = batch_gaussian_de(band_signals)
-        de_features[:, :, band_idx] = de_values
+        for ch in range(n_channels):
+            channel_signal = segment[ch, :]
+            
+            for band_idx, (band_name, (freq_min, freq_max)) in enumerate(bands.items()):
+                # Usar filtragem FFT robusta
+                fft_signal = np.fft.fft(channel_signal)
+                freqs = np.fft.fftfreq(len(channel_signal), 1/fs)
+                
+                # Criar máscara para a banda de frequência
+                mask = (np.abs(freqs) >= freq_min) & (np.abs(freqs) <= freq_max)
+                
+                # Aplicar filtro
+                fft_filtered = fft_signal.copy()
+                fft_filtered[~mask] = 0
+                
+                # Converter de volta para domínio temporal
+                band_signal = np.real(np.fft.ifft(fft_filtered))
+                
+                # Calcular DE Gaussiana
+                variance = np.var(band_signal)
+                if variance <= 0:
+                    de_value = 0.0
+                else:
+                    de_value = 0.5 * np.log(2 * np.pi * np.e * variance)
+                
+                de_features[event_idx, ch, band_idx] = de_value
     
     return de_features
 
@@ -603,8 +625,8 @@ def extract_graph_timestamps(graph_path):
 
 def synchronize_eeg_to_fixations_batch(processed_data, graph_timestamps, fs=200, window_size_ms=1000):
     """
-    Sincroniza dados EEG com eventos de fixação usando processamento ULTRA-BATCH.
-    Extrai todas as janelas e processa simultaneamente com normalização MinMax.
+    Sincroniza dados EEG com eventos de fixação usando processamento individual (sem padding zeros).
+    Reverte para lógica original que funcionava, processando cada segmento individualmente.
     
     Args:
         processed_data (np.ndarray): Dados EEG processados (n_channels, n_samples)
@@ -618,15 +640,13 @@ def synchronize_eeg_to_fixations_batch(processed_data, graph_timestamps, fs=200,
     if not graph_timestamps:
         return []
     
-    n_events = len(graph_timestamps)
-    n_channels = processed_data.shape[0]
+    synchronized_features = []
     window_size_samples = int(window_size_ms * fs / 1000)
     
-    print(f"    Processamento ULTRA-BATCH: {n_events} eventos simultâneos")
+    print(f"    Processamento sem padding: {len(graph_timestamps)} eventos")
     
-    all_windows = np.zeros((n_events, n_channels, window_size_samples))
-    
-    for i, (fix_start_ms, fix_end_ms) in enumerate(graph_timestamps):
+    # Processar cada evento individualmente (como na versão original)
+    for fix_start_ms, fix_end_ms in graph_timestamps:
         fix_center_ms = (fix_start_ms + fix_end_ms) / 2
         fix_center_sample = int(fix_center_ms * fs / 1000)
         
@@ -639,27 +659,19 @@ def synchronize_eeg_to_fixations_batch(processed_data, graph_timestamps, fs=200,
             else:
                 start_sample = max(0, end_sample - window_size_samples)
         
-        actual_size = end_sample - start_sample
-        if actual_size > 0:
-            segment = processed_data[:, start_sample:end_sample]
-            
-            if segment.shape[1] < window_size_samples:
-                padding = window_size_samples - segment.shape[1]
-                segment = np.pad(segment, ((0, 0), (0, padding)), mode='constant')
-            
-            all_windows[i] = segment
+        # CRÍTICO: Não adicionar padding - usar segmento natural
+        segment = processed_data[:, start_sample:end_sample]
+        
+        # Processar com tamanho natural (sem forçar tamanho fixo)
+        de_features = extract_de_features_segment(segment, fs)
+        synchronized_features.append(de_features.flatten())
     
-    start_time = time.time()
-    all_de_features = extract_de_features_batch(all_windows, fs)
-    batch_time = time.time() - start_time
-    print(f"    Batch DE extraction: {batch_time:.2f}s ({n_events/batch_time:.0f} eventos/s)")
-    
-    features_flat = all_de_features.reshape(n_events, -1)
-    
-    scaler = MinMaxScaler()
-    normalized_features = scaler.fit_transform(features_flat)
-    
-    synchronized_features = [normalized_features[i] for i in range(n_events)]
+    # Aplicar normalização MinMax apenas nos valores reais (sem zeros artificiais)
+    if synchronized_features:
+        features_matrix = np.array(synchronized_features)
+        scaler = MinMaxScaler()
+        normalized_features = scaler.fit_transform(features_matrix)
+        return [normalized_features[i] for i in range(len(synchronized_features))]
     
     return synchronized_features
 
@@ -739,19 +751,34 @@ def process_subject_data(subject_id, session, trial):
             return load_preprocessed_fallback_direct(subject_id, session, trial)
         preprocess_time = time.time() - preprocess_start
         
-        graph_path = os.path.join(
-            project_root, 'database', 'graph',
-            f'subject_{subject_id}', f'session_{session}_trial_{trial}.gml'
-        )
-        graph_timestamps = extract_graph_timestamps(graph_path)
-        
-        if not graph_timestamps:
-            return None, None, None
-        
+        # For graph generation, we return raw processed EEG data without synchronization
+        # The synchronization will happen in the graph generation script with eye-tracking timestamps
         sync_start = time.time()
-        synchronized_features = synchronize_eeg_to_fixations(
-            processed_data, graph_timestamps, fs=200, window_size_ms=1000
-        )
+        
+        # Extract DE features for the entire trial in segments
+        # Use a fixed window size to create consistent feature segments
+        window_size_ms = 1000
+        window_size_samples = int(window_size_ms * 200 / 1000)  # 200 samples for 1000ms at 200Hz
+        
+        n_channels, n_samples = processed_data.shape
+        synchronized_features = []
+        
+        # Create overlapping windows across the entire trial
+        step_size = window_size_samples // 2  # 50% overlap
+        for start_sample in range(0, n_samples - window_size_samples + 1, step_size):
+            end_sample = start_sample + window_size_samples
+            segment = processed_data[:, start_sample:end_sample]
+            
+            de_features = extract_de_features_segment(segment, fs=200)
+            synchronized_features.append(de_features.flatten())
+        
+        # Apply normalization
+        if synchronized_features:
+            features_matrix = np.array(synchronized_features)
+            scaler = MinMaxScaler()
+            normalized_features = scaler.fit_transform(features_matrix)
+            synchronized_features = [normalized_features[i] for i in range(len(synchronized_features))]
+        
         sync_time = time.time() - sync_start
         
         try:
@@ -768,7 +795,7 @@ def process_subject_data(subject_id, session, trial):
         print(f"Processado: Subject {subject_id}, Session {session}, Trial {trial} ({len(synchronized_features)} eventos)")
         
         
-        return graph_timestamps, synchronized_features, labels
+        return None, synchronized_features, labels
         
     except Exception as e:
         print(f"Erro Subject {subject_id}, Session {session}, Trial {trial}: {str(e)[:60]}")

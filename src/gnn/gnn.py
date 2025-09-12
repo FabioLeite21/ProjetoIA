@@ -11,7 +11,7 @@ from data.emotion_graph_dataset import EmotionGraphDataset
 class SeedGCNModel(keras.Model):
     def __init__(self, num_classes=5, **kwargs):
         super().__init__(**kwargs)
-        # Primeira camada de convolução: 263 -> 32
+        # Primeira camada de convolução: 317 -> 32
         self.gcn1 = GCNConv(32, activation='relu')
         # Segunda camada de convolução: 32 -> 64
         self.gcn2 = GCNConv(64, activation='relu')
