@@ -148,4 +148,5 @@ Thumbs.db
 *.npz.backup
 *.xlsx.backup
 /database/graph_eeg_test/
+/database/raw/EEG_raw/
 /examples/
