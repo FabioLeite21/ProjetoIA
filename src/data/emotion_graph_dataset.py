@@ -10,7 +10,7 @@ class EmotionGraphDataset(Dataset):
         self.labels_excel_path = labels_excel_path
         self.graph_list = []
         self.labels = []
-        self.session_emotion_maps = self.load_emotion_maps()  # Carrega mapeamentos de emoções por sessão
+        self.session_emotion_maps = self.load_emotion_maps()  # carrega mapeamentos de emoções por sessão
         super().__init__(**kwargs)
         self.load_graphs()
 
@@ -19,10 +19,10 @@ class EmotionGraphDataset(Dataset):
         Carrega os mapeamentos de emoções por sessão a partir do Excel.
         Retorna um dicionário com chaves 'Session 1', 'Session 2', 'Session 3' e listas de labels (0-4).
         """
-        # Carregar o Excel (assumindo uma única sheet com os dados)
+        # carregar o excel 
         df = pd.read_excel(self.labels_excel_path, header=None)
         
-        # Mapeamento de emoções para labels numéricos
+        # mapeamento de emoções para labels numéricos
         emotion_to_label = {'Disgust': 0, 'Fear': 1, 'Sad': 2, 'Neutral': 3, 'Happy': 4}
         
         session_maps = {}
@@ -30,11 +30,11 @@ class EmotionGraphDataset(Dataset):
         
         for i, row in df.iterrows():
             if pd.notna(row[0]) and 'Movie orders for three sessions' in str(row[0]):
-                continue  # Pular cabeçalho
+                continue  
             if pd.notna(row[0]) and 'Session' in str(row[0]):
                 current_session = str(row[0]).strip()
-                emotions = row[1:].dropna().tolist()  # Lista de emoções como 'Happy', 'Fear', etc.
-                labels = [emotion_to_label.get(e, -1) for e in emotions]  # Converter para numérico
+                emotions = row[1:].dropna().tolist()  
+                labels = [emotion_to_label.get(e, -1) for e in emotions]  
                 session_maps[current_session] = labels
                 print(f"Mapeamento carregado para {current_session}: {labels}")
         
@@ -65,21 +65,21 @@ class EmotionGraphDataset(Dataset):
         adj_matrix_path = f"{base_name}_adjacency_matrix.csv"
         feature_matrix_path = f"{base_name}_feature_matrix.csv"
 
-        # Carregar matriz de adjacência
+        # carrega a matriz de adjacência
         if os.path.exists(adj_matrix_path):
             A = np.loadtxt(adj_matrix_path, delimiter=',')
         else:
             print(f"Arquivo de adjacência não encontrado: {adj_matrix_path}. Usando matriz vazia.")
-            A = np.zeros((1, 1))  # Placeholder
+            A = np.zeros((1, 1)) 
 
-        # Carregar matriz de features
+        # carrega a matriz de features
         if os.path.exists(feature_matrix_path):
             X = np.loadtxt(feature_matrix_path, delimiter=',')
-            # Normalização
+            # normalização
             X = (X - np.mean(X, axis=0)) / (np.std(X, axis=0) + 1e-8)
         else:
             print(f"Arquivo de features não encontrado: {feature_matrix_path}. Usando array vazio.")
-            X = np.zeros((1, 263))  # Placeholder com 263 features (7 eye + 256 EEG)
+            X = np.zeros((1, 263))  # placeholder com 263 features (7 eye + 256 EEG)
 
         return X, A
 
@@ -113,9 +113,8 @@ class EmotionGraphDataset(Dataset):
     def read(self):
         return self.graph_list
 
-# Exemplo de uso para criar loaders
+# exemplo:  
 if __name__ == "__main__":
-    # Ajuste o caminho do diretório de grafos conforme necessário
     dataset = EmotionGraphDataset('database/graph')
     print(f"Total de grafos carregados: {len(dataset)}")
     
