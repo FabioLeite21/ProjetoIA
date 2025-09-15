@@ -103,8 +103,17 @@ class EmotionGraphDataset(Dataset):
         if os.path.exists(feature_matrix_path):
             df_features = pd.read_csv(feature_matrix_path)
             X = df_features.values  # Converte para numpy array
-            # Normalização
-            X = (X - np.mean(X, axis=0)) / (np.std(X, axis=0) + 1e-8)
+            # Normalização mais robusta
+            mean_vals = np.mean(X, axis=0)
+            std_vals = np.std(X, axis=0)
+            # Evitar divisão por zero substituindo std=0 por 1
+            std_vals = np.where(std_vals == 0, 1, std_vals)
+            X = (X - mean_vals) / std_vals
+            
+            # Verificar se há valores inválidos
+            if np.isnan(X).any() or np.isinf(X).any():
+                print(f"Aviso: valores inválidos encontrados em {feature_matrix_path}")
+                X = np.nan_to_num(X, nan=0.0, posinf=1.0, neginf=-1.0)
         else:
             print(f"Arquivo de features não encontrado: {feature_matrix_path}. Usando array vazio.")
             X = np.zeros((7, 310))  # Placeholder com 317 features (7 eye-tracking + 310 EEG)
