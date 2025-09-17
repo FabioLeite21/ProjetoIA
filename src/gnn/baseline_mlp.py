@@ -245,12 +245,60 @@ class EmotionMLPTrainer:
         # Predições detalhadas
         y_pred = self.model.predict(X_test)
         y_pred_classes = np.argmax(y_pred, axis=1)
+        
+        # Adicionado por: Davi Augusto - Calcular métricas detalhadas para gráficos
+        from sklearn.metrics import precision_score, recall_score, f1_score, classification_report, confusion_matrix
+        
+        # Calcular métricas detalhadas
+        accuracy = test_results[1]
+        precision_macro = precision_score(y_test, y_pred_classes, average='macro', zero_division=0)
+        recall_macro = recall_score(y_test, y_pred_classes, average='macro', zero_division=0)
+        f1_macro = f1_score(y_test, y_pred_classes, average='macro', zero_division=0)
+        
+        precision_micro = precision_score(y_test, y_pred_classes, average='micro', zero_division=0)
+        recall_micro = recall_score(y_test, y_pred_classes, average='micro', zero_division=0)
+        f1_micro = f1_score(y_test, y_pred_classes, average='micro', zero_division=0)
+        
+        # Métricas por classe
+        precision_per_class = precision_score(y_test, y_pred_classes, average=None, zero_division=0)
+        recall_per_class = recall_score(y_test, y_pred_classes, average=None, zero_division=0)
+        f1_per_class = f1_score(y_test, y_pred_classes, average=None, zero_division=0)
+        
+        # Matriz de confusão
+        conf_matrix = confusion_matrix(y_test, y_pred_classes)
+        
+        # Relatório de classificação
+        class_names = ['Disgust', 'Fear', 'Sad', 'Neutral', 'Happy']
+        class_report = classification_report(
+            y_test, y_pred_classes, 
+            target_names=class_names,
+            zero_division=0
+        )
+        
+        detailed_metrics = {
+            'accuracy': accuracy,
+            'precision_macro': precision_macro,
+            'recall_macro': recall_macro,
+            'f1_macro': f1_macro,
+            'precision_micro': precision_micro,
+            'recall_micro': recall_micro,
+            'f1_micro': f1_micro,
+            'precision_per_class': precision_per_class,
+            'recall_per_class': recall_per_class,
+            'f1_per_class': f1_per_class,
+            'confusion_matrix': conf_matrix,
+            'classification_report': class_report
+        }
 
         return {
             'history': history,
             'test_accuracy': test_results[1],
+            'test_loss': test_results[0],  # Adicionado por: Davi Augusto
             'y_true': y_test,
             'y_pred': y_pred_classes,
+            'test_predictions': y_pred_classes.tolist(),  # Adicionado por: Davi Augusto
+            'test_targets': y_test.tolist(),  # Adicionado por: Davi Augusto
+            'detailed_metrics': detailed_metrics,  # Adicionado por: Davi Augusto
             'X_test': X_test
         }
 

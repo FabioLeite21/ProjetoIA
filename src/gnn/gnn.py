@@ -332,6 +332,25 @@ class EmotionGNN:
             detailed_metrics = evaluate_model_metrics(self.model, test_loader)
             print_metrics_report(detailed_metrics)
             
+            # Adicionado por: Davi Augusto - Coletar predições para gráficos
+            # Coletar predições do conjunto de teste para gráficos
+            test_predictions = []
+            test_targets = []
+            
+            # Reinicializar o loader para coleta de predições
+            test_loader_for_pred = DisjointLoader(test_dataset, batch_size=8, epochs=1)
+            
+            for batch in test_loader_for_pred:
+                inputs, targets = batch
+                predictions = self.model(inputs, training=False)
+                
+                # Converter para numpy
+                pred_classes = tf.argmax(predictions, axis=1).numpy()
+                target_classes = targets.numpy() if hasattr(targets, 'numpy') else targets
+                
+                test_predictions.extend(pred_classes.tolist())
+                test_targets.extend(target_classes.tolist())
+            
         except Exception as e:
             print(f"Erro durante o treinamento: {e}")
             import traceback
@@ -340,9 +359,14 @@ class EmotionGNN:
 
         # Retornar resultados
         return {
-            'history': history,
-            'train_loader': train_loader,
-            'val_loader': val_loader,
-            'test_loader': test_loader
-        }
+        'history': history,
+        'train_loader': train_loader,
+        'val_loader': val_loader,
+        'test_loader': test_loader,
+        'test_predictions': test_predictions,  # Adicionado por: Davi Augusto
+        'test_targets': test_targets,  # Adicionado por: Davi Augusto
+        'detailed_metrics': detailed_metrics,  # Adicionado por: Davi Augusto
+        'test_loss': test_loss,  # Adicionado por: Davi Augusto
+        'test_accuracy': test_accuracy  # Adicionado por: Davi Augusto
+    }
 

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
 Script para treinar modelos com data augmentation.
+Modificado por: Davi Augusto - Adicionada análise visual de treinamento
 """
 
 import sys
@@ -13,8 +14,133 @@ sys.path.insert(0, project_root)
 from src.gnn.gnn import EmotionGNN
 from src.gnn.baseline_mlp import EmotionMLPTrainer
 from src.data.emotion_graph_dataset import EmotionGraphDataset
+from src.utils.plot_training_metrics import (
+    plot_training_history, plot_confusion_matrix, plot_classification_metrics,
+    plot_model_comparison, generate_summary_report, create_output_dir
+)
 import numpy as np
-from sklearn.metrics import classification_report, confusion_matrix
+from sklearn.metrics import (
+    classification_report, confusion_matrix, accuracy_score, precision_score, 
+    recall_score, f1_score, precision_recall_fscore_support
+)
+
+
+def plot_analysis(results, output_dir=None):
+    """
+    Função para gerar análise visual dos resultados de treinamento.
+    Adicionado por: Davi Augusto
+    
+    Args:
+        results (dict): Dicionário com resultados dos modelos
+        output_dir (str): Diretório para salvar os gráficos
+    """
+    if output_dir is None:
+        output_dir = create_output_dir("results")
+    
+    print(f"\nGERANDO ANÁLISE VISUAL DOS RESULTADOS...")
+    print(f"Salvando gráficos em: {output_dir}")
+    print("-" * 60)
+    
+    # Preparar dados para comparação de modelos
+    comparison_data = {}
+    gnn_results = None
+    mlp_results = None
+    
+    # Processar resultados do MLP
+    if 'mlp_augmented' in results and results['mlp_augmented'].get('training_successful', True):
+        mlp_data = results['mlp_augmented']
+        mlp_results = mlp_data  # Armazenar para comparação
+        
+        # Gerar gráficos do MLP se tiver histórico
+        if 'history' in mlp_data:
+            print("Gerando gráficos de histórico do MLP...")
+            plot_training_history(mlp_data['history'], output_dir)
+        
+        # Gerar matriz de confusão e métricas se tiver predições
+        if 'y_true' in mlp_data and 'y_pred' in mlp_data:
+            print("Gerando matriz de confusão do MLP...")
+            class_names = ['Disgust', 'Fear', 'Sad', 'Neutral', 'Happy']
+            plot_confusion_matrix(mlp_data['y_true'], mlp_data['y_pred'], 
+                                class_names, output_dir)
+            
+            print("Gerando métricas de classificação do MLP...")
+            
+            # Calcular métricas detalhadas para o MLP
+            y_true, y_pred = mlp_data['y_true'], mlp_data['y_pred']
+            
+            # Calcular métricas por classe
+            precision_per_class, recall_per_class, f1_per_class, _ = precision_recall_fscore_support(
+                y_true, y_pred, average=None, zero_division=0
+            )
+            
+            # Criar estrutura de métricas detalhadas
+            detailed_metrics = {
+                'accuracy': accuracy_score(y_true, y_pred),
+                'precision_macro': precision_score(y_true, y_pred, average='macro', zero_division=0),
+                'recall_macro': recall_score(y_true, y_pred, average='macro', zero_division=0),
+                'f1_macro': f1_score(y_true, y_pred, average='macro', zero_division=0),
+                'precision_weighted': precision_score(y_true, y_pred, average='weighted', zero_division=0),
+                'recall_weighted': recall_score(y_true, y_pred, average='weighted', zero_division=0),
+                'f1_weighted': f1_score(y_true, y_pred, average='weighted', zero_division=0),
+                'precision_per_class': precision_per_class,
+                'recall_per_class': recall_per_class,
+                'f1_per_class': f1_per_class
+            }
+            
+            plot_classification_metrics(detailed_metrics, class_names, output_dir)
+            
+            # Calcular métricas para comparação
+            y_true, y_pred = mlp_data['y_true'], mlp_data['y_pred']
+            comparison_data['MLP com Augmentation'] = {
+                'accuracy': accuracy_score(y_true, y_pred),
+                'precision': precision_score(y_true, y_pred, average='weighted', zero_division=0),
+                'recall': recall_score(y_true, y_pred, average='weighted', zero_division=0),
+                'f1': f1_score(y_true, y_pred, average='weighted', zero_division=0)
+            }
+    
+    # Processar resultados da GNN
+    if 'gnn_augmented' in results and results['gnn_augmented'].get('training_successful', False):
+        gnn_data = results['gnn_augmented']
+        gnn_results = gnn_data  # Armazenar para comparação
+        
+        # Gerar gráficos da GNN se tiver histórico
+        if 'history' in gnn_data:
+            print("Gerando gráficos de histórico da GNN...")
+            plot_training_history(gnn_data['history'], output_dir)
+        
+        # Gerar matriz de confusão e métricas se tiver predições
+        if 'y_true' in gnn_data and 'y_pred' in gnn_data:
+            print("Gerando matriz de confusão da GNN...")
+            class_names = ['Disgust', 'Fear', 'Sad', 'Neutral', 'Happy']
+            plot_confusion_matrix(gnn_data['y_true'], gnn_data['y_pred'],
+                                class_names, output_dir)
+            
+            print("Gerando métricas de classificação da GNN...")
+            plot_classification_metrics(gnn_data['detailed_metrics'], class_names, output_dir)
+            
+            # Calcular métricas para comparação
+            y_true, y_pred = gnn_data['y_true'], gnn_data['y_pred']
+            comparison_data['GNN com Augmentation'] = {
+                'accuracy': accuracy_score(y_true, y_pred),
+                'precision': precision_score(y_true, y_pred, average='weighted', zero_division=0),
+                'recall': recall_score(y_true, y_pred, average='weighted', zero_division=0),
+                'f1': f1_score(y_true, y_pred, average='weighted', zero_division=0)
+            }
+    
+    # Gerar comparação entre modelos se houver dados de ambos
+    if gnn_results is not None and mlp_results is not None:
+        print("Gerando comparação entre modelos...")
+        plot_model_comparison(gnn_results, mlp_results, output_dir)
+    
+    # Gerar relatório resumo
+    if comparison_data:
+        print("Gerando relatório resumo...")
+        generate_summary_report(comparison_data, output_dir)
+    
+    print(f"\nAnálise visual concluída! Arquivos salvos em: {output_dir}")
+    print("-" * 60)
+    
+    return output_dir
 
 
 def train_with_augmentation():
@@ -168,3 +294,7 @@ def train_with_augmentation():
 
 if __name__ == "__main__":
     results = train_with_augmentation()
+    
+    # Adicionado por: Davi Augusto - Gerar análise visual após o treinamento
+    if results:
+        plot_analysis(results)
