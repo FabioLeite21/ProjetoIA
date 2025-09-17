@@ -7,6 +7,7 @@ from spektral.layers import GlobalAvgPool
 from src.gnn.custom_layers import CustomGCNConv, CustomGlobalAvgPool, gcn_filter
 from spektral.data import DisjointLoader
 from sklearn.model_selection import train_test_split
+from sklearn.utils.class_weight import compute_class_weight
 
 # Configurar GPU de forma robusta
 def configure_gpu():
@@ -61,22 +62,26 @@ from src.data.emotion_graph_dataset import EmotionGraphDataset
 from src.data.dataset_splits import create_emotion_splits
 from src.gnn.metrics import evaluate_model_metrics, print_metrics_report
 
-# Classe do modelo GNN
+# Classe do modelo GNN simplificado para dataset pequeno
 class SeedGCNModel(keras.Model):
     def __init__(self, num_classes=5, **kwargs):
         super().__init__(**kwargs)
         self.num_classes = num_classes
-        # Primeira camada de convolução: 317 -> 32 (usando camada customizada)
-        self.gcn1 = CustomGCNConv(32, activation='relu')
-        # Segunda camada de convolução: 32 -> 64 (usando camada customizada)
-        self.gcn2 = CustomGCNConv(64, activation='relu')
-        # Camada de pooling global (usando versão customizada)
+
+        # Arquitetura balanceada - 2 camadas GCN otimizadas
+        # Normalização corrigida permite arquitetura mais robusta
+
+        # Primeira camada: 317 -> 64
+        self.gcn1 = CustomGCNConv(64, activation='relu')
+        self.dropout1 = layers.Dropout(0.1)  # Dropout muito baixo
+
+        # Segunda camada: 64 -> 32
+        self.gcn2 = CustomGCNConv(32, activation='relu')
+
+        # Camada de pooling global
         self.global_pool = CustomGlobalAvgPool()
-        # Camada densa intermediária: 64 -> 64
-        self.dense = layers.Dense(64, activation='relu')
-        # Dropout de 50% para regularização
-        self.dropout = layers.Dropout(0.5)
-        # Camada de saída: 64 -> 5 (softmax para 5 classes)
+
+        # Saída direta
         self.output_layer = layers.Dense(num_classes, activation='softmax')
     
     def build(self, input_shape):
@@ -85,33 +90,33 @@ class SeedGCNModel(keras.Model):
         super().build(input_shape)
 
     def call(self, inputs, training=False):
-        # As camadas customizadas lidam com os inputs automaticamente
-        # DisjointLoader passa (x, a, i) onde i é o batch index
-        
-        # Primeira convolução com normalização GCN
+        # Pipeline balanceado - 2 camadas GCN
+
+        # Primeira convolução
         h1 = self.gcn1(inputs)
-        
-        # Segunda convolução - passar features e adjacência
+        h1 = self.dropout1(h1, training=training)
+
+        # Segunda convolução
         if len(inputs) == 3:
             x, a, i = inputs
             h2 = self.gcn2([h1, a])
-            # Pooling global com batch index para DisjointLoader
-            pooled = self.global_pool([h2, i])
         else:
             x, a = inputs
             h2 = self.gcn2([h1, a])
-            # Pooling global simples
+
+        # Pooling global
+        if len(inputs) == 3:
+            pooled = self.global_pool([h2, i])
+        else:
             pooled = self.global_pool(h2)
-            
-        # Camadas densas finais
-        dense_output = self.dense(pooled)
-        dropout_out = self.dropout(dense_output, training=training)
-        return self.output_layer(dropout_out)
+
+        # Saída direta
+        return self.output_layer(pooled)
 
 # Classe wrapper para gerenciar o modelo
 class EmotionGNN:
-    def __init__(self, input_features=263, num_classes=5):
-        self.input_features = input_features  # Número de features por nó (263)
+    def __init__(self, input_features=317, num_classes=5):
+        self.input_features = input_features  # Número de features por nó (317: 7 eye-tracking + 310 EEG)
         self.num_classes = num_classes  # Número de classes (5 emoções)
         self.model = None  # Modelo será inicializado depois
 
@@ -122,16 +127,23 @@ class EmotionGNN:
         self.model = SeedGCNModel(num_classes=self.num_classes)
         return self.model
 
-    def compile_model(self, learning_rate=0.001):
+    def compile_model(self, learning_rate=0.001, class_weights=None):
         """Compila o modelo com otimizador e métricas."""
         if self.model is None:
             raise ValueError("Modelo deve ser construído antes de compilar.")
+
         # Definir métricas para classificação sparse categorical
         precision_metric = keras.metrics.SparseCategoricalAccuracy(name='sparse_categorical_accuracy')
-        
+
+        # Usar weighted categorical crossentropy se class_weights fornecido
+        if class_weights is not None:
+            loss = self._weighted_categorical_crossentropy(class_weights)
+        else:
+            loss = 'sparse_categorical_crossentropy'
+
         self.model.compile(
             optimizer=Adam(learning_rate=learning_rate),
-            loss='sparse_categorical_crossentropy',  # Para labels inteiros (0-4)
+            loss=loss,  # Para labels inteiros (0-4)
             metrics=['accuracy', precision_metric]
         )
 
@@ -153,6 +165,64 @@ class EmotionGNN:
         self.model = keras.models.load_model(filepath)
         print(f"Modelo carregado de {filepath}")
 
+    def _weighted_categorical_crossentropy(self, class_weights):
+        """
+        Cria uma função de loss com pesos de classe.
+
+        Args:
+            class_weights (dict): Dicionário com pesos por classe
+
+        Returns:
+            function: Função de loss customizada
+        """
+        def loss(y_true, y_pred):
+            # Converter class_weights dict para tensor
+            weights_tensor = tf.constant([class_weights.get(i, 1.0) for i in range(self.num_classes)], dtype=tf.float32)
+
+            # Calcular pesos para cada amostra baseado no label verdadeiro
+            sample_weights = tf.gather(weights_tensor, tf.cast(y_true, tf.int32))
+
+            # Calcular cross entropy padrão
+            ce_loss = tf.keras.losses.sparse_categorical_crossentropy(y_true, y_pred)
+
+            # Aplicar pesos
+            weighted_loss = ce_loss * sample_weights
+
+            return tf.reduce_mean(weighted_loss)
+
+        return loss
+
+    def calculate_class_weights(self, labels):
+        """
+        Calcula pesos balanceados para as classes.
+
+        Args:
+            labels (list): Lista de labels
+
+        Returns:
+            dict: Dicionário com pesos por classe
+        """
+        import numpy as np
+
+        # Obter classes únicas e calcular pesos
+        unique_classes = np.unique(labels)
+        class_weights = compute_class_weight(
+            'balanced',
+            classes=unique_classes,
+            y=labels
+        )
+
+        # Converter para dicionário
+        class_weight_dict = {int(cls): weight for cls, weight in zip(unique_classes, class_weights)}
+
+        print("Pesos de classe calculados:")
+        emotion_names = ['Disgust', 'Fear', 'Sad', 'Neutral', 'Happy']
+        for cls, weight in class_weight_dict.items():
+            if cls < len(emotion_names):
+                print(f"  {emotion_names[cls]} (classe {cls}): {weight:.3f}")
+
+        return class_weight_dict
+
     def train_model(self):
         """Treina o modelo usando o dataset e loaders."""
         try:
@@ -168,16 +238,24 @@ class EmotionGNN:
             train_dataset, val_dataset, test_dataset = create_emotion_splits(
                 base_dataset, test_size=0.2, val_size=0.1, random_state=42
             )
+
+            # Calcular pesos de classe baseados no conjunto de treino
+            train_labels = [base_dataset.labels[i] for i in train_dataset.indices]
+            class_weights = self.calculate_class_weights(train_labels)
+
+            # Recompilar modelo com pesos de classe e learning rate menor
+            print("Recompilando modelo com balanceamento de classes...")
+            self.compile_model(learning_rate=0.0001, class_weights=class_weights)  # LR menor para dataset pequeno
+
         except Exception as e:
             print(f"Erro ao criar splits: {e}")
             return None
 
-        # Criar loaders usando datasets corretamente estruturados
-        # Nota: epochs=None permite que o loader rode indefinidamente
+        # Criar loaders com batch size menor para dataset pequeno
         try:
-            train_loader = DisjointLoader(train_dataset, batch_size=32, epochs=None, shuffle=True)
-            val_loader = DisjointLoader(val_dataset, batch_size=32, epochs=None) if val_dataset else None
-            test_loader = DisjointLoader(test_dataset, batch_size=32, epochs=1)  # Teste usa epochs=1
+            train_loader = DisjointLoader(train_dataset, batch_size=8, epochs=None, shuffle=True)  # Batch size menor
+            val_loader = DisjointLoader(val_dataset, batch_size=8, epochs=None) if val_dataset else None
+            test_loader = DisjointLoader(test_dataset, batch_size=8, epochs=1)  # Teste usa epochs=1
         except Exception as e:
             print(f"Erro ao criar loaders: {e}")
             return None
@@ -185,22 +263,22 @@ class EmotionGNN:
         # Configurar callbacks com métricas disponíveis
         callbacks = []
         
-        # Early stopping e reduce LR apenas se tivermos validação
+        # Early stopping e reduce LR mais agressivos para dataset pequeno
         if val_loader:
             callbacks.extend([
                 keras.callbacks.EarlyStopping(
-                    monitor='val_accuracy',  # Usar accuracy ao invés de loss
+                    monitor='val_accuracy',
                     mode='max',
-                    patience=10,
+                    patience=5,  # Patience menor para parar overfitting rapidamente
                     restore_best_weights=True,
                     verbose=1
                 ),
                 keras.callbacks.ReduceLROnPlateau(
-                    monitor='val_accuracy',  # Usar accuracy ao invés de loss
+                    monitor='val_accuracy',
                     mode='max',
                     factor=0.5,
-                    patience=5,
-                    min_lr=1e-7,
+                    patience=3,  # Reduzir LR mais rapidamente
+                    min_lr=1e-8,
                     verbose=1
                 )
             ])
@@ -210,7 +288,7 @@ class EmotionGNN:
                 keras.callbacks.EarlyStopping(
                     monitor='loss',
                     mode='min',
-                    patience=15,
+                    patience=8,  # Patience menor
                     restore_best_weights=True,
                     verbose=1
                 ),
@@ -218,8 +296,8 @@ class EmotionGNN:
                     monitor='loss',
                     mode='min',
                     factor=0.5,
-                    patience=7,
-                    min_lr=1e-7,
+                    patience=4,  # Reduzir LR mais rapidamente
+                    min_lr=1e-8,
                     verbose=1
                 )
             ])
@@ -234,7 +312,7 @@ class EmotionGNN:
             history = self.model.fit(
                 train_loader.load(),
                 validation_data=validation_data,
-                epochs=50,
+                epochs=30,  # Menos épocas para evitar overfitting
                 steps_per_epoch=train_loader.steps_per_epoch,
                 validation_steps=val_loader.steps_per_epoch if val_loader else None,
                 callbacks=callbacks,

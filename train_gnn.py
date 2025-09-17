@@ -18,7 +18,7 @@ def main():
     print("=" * 60)
     
     # Criar instância do modelo
-    emotion_gnn = EmotionGNN(input_features=263, num_classes=5)
+    emotion_gnn = EmotionGNN(input_features=317, num_classes=5)
     
     # Construir o modelo
     print("Construindo modelo...")

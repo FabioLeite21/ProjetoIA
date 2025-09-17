@@ -3,13 +3,20 @@ import numpy as np
 import os
 import pandas as pd
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import MinMaxScaler, StandardScaler
+from .augmentation import DataAugmenter
 
 script_dir = os.path.dirname(__file__)
 project_root = os.path.abspath(os.path.join(script_dir, '..', '..'))
 
 class EmotionGraphDataset(Dataset):
-    def __init__(self, graph_dir, labels_excel_path=None, **kwargs):
+    def __init__(self, graph_dir, labels_excel_path=None, normalization='minmax',
+                 use_augmentation=False, augmentation_config=None, **kwargs):
         self.graph_dir = graph_dir
+        self.normalization = normalization  # 'minmax', 'standard', or 'none'
+        self.use_augmentation = use_augmentation
+        self.augmentation_config = augmentation_config or {}
+
         if labels_excel_path is None:
             self.labels_excel_path = os.path.join(project_root, 'database', 'emotion_label_and_stimuli_order.xlsx')
         else:
@@ -17,8 +24,10 @@ class EmotionGraphDataset(Dataset):
                 self.labels_excel_path = os.path.join(project_root, labels_excel_path)
             else:
                 self.labels_excel_path = labels_excel_path
+
         self.graph_list = []
         self.labels = []
+        self.original_graph_list = []  # Keep original graphs separate
         self.session_emotion_maps = self.load_emotion_maps()  # carrega mapeamentos de emoções por sessão
         super().__init__(**kwargs)
         self.load_graphs()
@@ -76,13 +85,42 @@ class EmotionGraphDataset(Dataset):
             for file in files:
                 if file.endswith('.gml'):
                     gml_files.append(os.path.join(root, file))
-        
+
+        print(f"Encontrados {len(gml_files)} arquivos GML para processar")
+
         for gml_file in gml_files:
-            X, A = self.process_gml(gml_file)
-            label = self.extract_label(gml_file)
-            graph = Graph(x=X, a=A, y=label)
-            self.graph_list.append(graph)
-            self.labels.append(label)
+            try:
+                X, A = self.process_gml(gml_file)
+                label = self.extract_label(gml_file)
+
+                # Validar dados antes de criar o grafo
+                if X.size == 0 or A.size == 0:
+                    print(f"Aviso: Dados vazios em {gml_file}, pulando...")
+                    continue
+
+                # Verificar consistência entre matriz de features e adjacência
+                if X.shape[0] != A.shape[0] or A.shape[0] != A.shape[1]:
+                    print(f"Aviso: Inconsistência nas dimensões em {gml_file}")
+                    print(f"  Features: {X.shape}, Adjacência: {A.shape}")
+                    # Tentar corrigir redimensionando a menor
+                    min_nodes = min(X.shape[0], A.shape[0])
+                    X = X[:min_nodes]
+                    A = A[:min_nodes, :min_nodes]
+
+                graph = Graph(x=X, a=A, y=label)
+                self.graph_list.append(graph)
+                self.original_graph_list.append(graph)  # Keep original
+                self.labels.append(label)
+
+            except Exception as e:
+                print(f"Erro ao processar {gml_file}: {e}")
+                continue
+
+        print(f"Carregados {len(self.graph_list)} grafos válidos")
+
+        # Apply data augmentation if requested
+        if self.use_augmentation and len(self.graph_list) > 0:
+            self._apply_augmentation()
 
     def process_gml(self, gml_file):
         """
@@ -103,22 +141,55 @@ class EmotionGraphDataset(Dataset):
         if os.path.exists(feature_matrix_path):
             df_features = pd.read_csv(feature_matrix_path)
             X = df_features.values  # Converte para numpy array
-            # Normalização mais robusta
-            mean_vals = np.mean(X, axis=0)
-            std_vals = np.std(X, axis=0)
-            # Evitar divisão por zero substituindo std=0 por 1
-            std_vals = np.where(std_vals == 0, 1, std_vals)
-            X = (X - mean_vals) / std_vals
-            
+
+            # Aplicar normalização baseada no parâmetro
+            if self.normalization != 'none' and not self._is_already_normalized(X):
+                if self.normalization == 'minmax':
+                    scaler = MinMaxScaler()
+                elif self.normalization == 'standard':
+                    scaler = StandardScaler()
+                else:
+                    raise ValueError(f"Normalização '{self.normalization}' não suportada")
+
+                X = scaler.fit_transform(X)
+                # print(f"Normalização '{self.normalization}' aplicada em {feature_matrix_path}")
+            elif self.normalization == 'none':
+                pass  # Silencioso quando desabilitado
+                # print(f"Normalização desabilitada para {feature_matrix_path}")
+            else:
+                pass  # Silencioso quando já normalizado
+                # print(f"Dados já normalizados em {feature_matrix_path}")
+
             # Verificar se há valores inválidos
             if np.isnan(X).any() or np.isinf(X).any():
                 print(f"Aviso: valores inválidos encontrados em {feature_matrix_path}")
                 X = np.nan_to_num(X, nan=0.0, posinf=1.0, neginf=-1.0)
         else:
             print(f"Arquivo de features não encontrado: {feature_matrix_path}. Usando array vazio.")
-            X = np.zeros((7, 310))  # Placeholder com 317 features (7 eye-tracking + 310 EEG)
+            X = np.zeros((7, 317))  # Placeholder com 317 features (7 eye-tracking + 310 EEG)
 
         return X, A
+
+    def _is_already_normalized(self, X, tolerance=0.1):
+        """
+        Verifica se os dados já estão normalizados (valores aproximadamente entre 0 e 1).
+
+        Args:
+            X (np.ndarray): Matriz de features
+            tolerance (float): Tolerância para considerar normalizado
+
+        Returns:
+            bool: True se já normalizado
+        """
+        if X.size == 0:
+            return True
+
+        min_val = np.min(X)
+        max_val = np.max(X)
+
+        # Considerar normalizado se valores estão aproximadamente entre 0 e 1
+        return (min_val >= -tolerance and max_val <= 1 + tolerance and
+                max_val - min_val > 0.1)  # Deve ter variação mínima
 
     def extract_label(self, gml_file):
         """
@@ -146,6 +217,36 @@ class EmotionGraphDataset(Dataset):
         
         print(f"Sessão {session_key} não encontrada. Usando label default 0.")
         return 0
+
+    def _apply_augmentation(self):
+        """Apply data augmentation to increase dataset size."""
+        print(f"\nAplicando data augmentation...")
+
+        # Separate augmenter parameters from dataset parameters
+        augmenter_params = {
+            'noise_prob': self.augmentation_config.get('noise_prob', 0.7),
+            'temporal_prob': self.augmentation_config.get('temporal_prob', 0.5),
+            'graph_prob': self.augmentation_config.get('graph_prob', 0.3),
+            'noise_std': self.augmentation_config.get('noise_std', 0.05),
+            'time_shift_range': self.augmentation_config.get('time_shift_range', 0.1),
+            'eye_jitter_std': self.augmentation_config.get('eye_jitter_std', 2.0)
+        }
+
+        # Create augmenter with only valid parameters
+        augmenter = DataAugmenter(**augmenter_params)
+
+        # Augment the original graphs
+        augmented_graphs = augmenter.augment_dataset(
+            self.original_graph_list,
+            augmentation_factor=self.augmentation_config.get('augmentation_factor', 3),
+            preserve_class_balance=self.augmentation_config.get('preserve_class_balance', True)
+        )
+
+        # Update graph list and labels
+        self.graph_list = augmented_graphs
+        self.labels = [graph.y for graph in augmented_graphs]
+
+        print(f"Dataset augmentation aplicada: {len(self.original_graph_list)} -> {len(self.graph_list)} grafos")
 
     def read(self):
         return self.graph_list
