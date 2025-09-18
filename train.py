@@ -66,7 +66,9 @@ def train_with_augmentation():
             results['mlp_augmented'] = {
                 'accuracy': mlp_results['test_accuracy'],
                 'y_true': mlp_results['y_true'],
-                'y_pred': mlp_results['y_pred']
+                'y_pred': mlp_results['y_pred'],
+                'history': mlp_results.get('history'),
+                'training_successful': True
             }
             print(f"MLP com augmentation: {mlp_results['test_accuracy']*100:.2f}% acurácia")
         else:
@@ -91,8 +93,41 @@ def train_with_augmentation():
         gnn_results = emotion_gnn.train_model()
 
         if gnn_results is not None:
+            # Extração de predições do conjunto de teste para matriz de confusão
+            y_true_gnn = None
+            y_pred_gnn = None
+            test_loader = gnn_results.get('test_loader')
+            model = emotion_gnn.model if hasattr(emotion_gnn, 'model') else None
+            if test_loader is not None and model is not None:
+                import numpy as np
+                y_true_list = []
+                y_pred_list = []
+                batch_count = 0
+                for batch in test_loader.load():
+                    batch_count += 1
+                    # Depuração: printar formato do batch
+                    if batch_count == 1:
+                        print(f"[DEBUG] Primeiro batch test_loader: type={type(batch)}, len={len(batch) if hasattr(batch, '__len__') else 'N/A'}")
+                        print(f"[DEBUG] batch[0] type: {type(batch[0])}, batch[1] type: {type(batch[1])}")
+                        if hasattr(batch[0], '__len__'):
+                            print(f"[DEBUG] batch[0] len: {len(batch[0])}")
+                    try:
+                        x, a, i = batch[0]
+                        y_true_batch = batch[1]
+                        y_pred_batch = model.predict_on_batch([x, a, i])
+                        y_true_list.extend(y_true_batch)
+                        y_pred_list.extend(np.argmax(y_pred_batch, axis=1))
+                    except Exception as e:
+                        print(f"[ERRO] Falha ao processar batch do test_loader: {e}")
+                print(f"[DEBUG] Total de batches processados no test_loader: {batch_count}")
+                print(f"[DEBUG] y_true_list size: {len(y_true_list)}, y_pred_list size: {len(y_pred_list)}")
+                y_true_gnn = np.array(y_true_list)
+                y_pred_gnn = np.array(y_pred_list)
             results['gnn_augmented'] = {
                 'accuracy': 0.0,  # Será extraído se disponível
+                'history': gnn_results.get('history'),
+                'y_true': y_true_gnn,
+                'y_pred': y_pred_gnn,
                 'training_successful': True
             }
             print("GNN com augmentation treinada com sucesso!")
@@ -168,3 +203,36 @@ def train_with_augmentation():
 
 if __name__ == "__main__":
     results = train_with_augmentation()
+
+    # Plotar curvas de treinamento para MLP e GNN, se disponíveis
+    import sys
+    sys.path.append("scripts")
+    from scripts.plot_utils import plot_training_curves
+
+    save_dir = "src/data/training_plots"
+
+    # MLP
+    if 'mlp_augmented' in results and results['mlp_augmented'].get('history') is not None:
+        print("\nGerando gráficos de acurácia, perda e matriz de confusão para o MLP...")
+        plot_training_curves(
+            results['mlp_augmented']['history'],
+            model_name="MLP com Augmentation",
+            save_dir=save_dir,
+            y_true=results['mlp_augmented'].get('y_true'),
+            y_pred=results['mlp_augmented'].get('y_pred')
+        )
+    else:
+        print("\n[AVISO] Histórico de treinamento do MLP não encontrado para plotagem.")
+
+    # GNN
+    if 'gnn_augmented' in results and results['gnn_augmented'].get('history') is not None:
+        print("\nGerando gráficos de acurácia, perda e matriz de confusão para a GNN...")
+        plot_training_curves(
+            results['gnn_augmented']['history'],
+            model_name="GNN com Augmentation",
+            save_dir=save_dir,
+            y_true=results['gnn_augmented'].get('y_true'),
+            y_pred=results['gnn_augmented'].get('y_pred')
+        )
+    else:
+        print("\n[AVISO] Histórico de treinamento da GNN não encontrado para plotagem.")
