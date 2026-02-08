@@ -156,49 +156,58 @@ class EmotionMLPTrainer:
 
         return class_weight_dict
 
-    def train_model(self, dataset):
+    def train_model(self, train_dataset, val_dataset=None, test_dataset=None):
         """
         Treina o modelo MLP baseline.
 
         Args:
-            dataset: Dataset de grafos para converter
+            train_dataset: Dataset de grafos de treino (pode incluir augmentation)
+            val_dataset: Dataset de grafos de validação (sem augmentation)
+            test_dataset: Dataset de grafos de teste (sem augmentation)
 
         Returns:
             dict: Resultados do treinamento
         """
         print("Preparando dados para MLP baseline...")
 
-        # Converter grafos em features agregadas
-        X, y = self.prepare_data_from_graphs(dataset)
+        # Converter grafos de treino em features agregadas
+        X_train, y_train = self.prepare_data_from_graphs(train_dataset)
 
-        # Verificar se os dados foram carregados corretamente
-        if len(X) == 0:
-            print("ERRO: Nenhum grafo foi processado pelo dataset")
+        if len(X_train) == 0:
+            print("ERRO: Nenhum grafo foi processado pelo dataset de treino")
             return None
 
-        X = np.array(X)
-        y = np.array(y)
+        X_train = np.array(X_train)
+        y_train = np.array(y_train)
 
-        print(f"Dataset convertido: {X.shape[0]} amostras", end="")
-        if len(X.shape) > 1:
-            print(f", {X.shape[1]} features agregadas")
+        print(f"Treino convertido: {X_train.shape[0]} amostras, {X_train.shape[1]} features")
+
+        if val_dataset is not None and test_dataset is not None:
+            # Datasets já divididos externamente (sem vazamento)
+            X_val, y_val = self.prepare_data_from_graphs(val_dataset)
+            X_test, y_test = self.prepare_data_from_graphs(test_dataset)
+            X_val = np.array(X_val)
+            y_val = np.array(y_val)
+            X_test = np.array(X_test)
+            y_test = np.array(y_test)
+
+            # Normalizar: fit APENAS no treino, transform em todos
+            self.scaler.fit(X_train)
+            X_train = self.scaler.transform(X_train)
+            X_val = self.scaler.transform(X_val)
+            X_test = self.scaler.transform(X_test)
         else:
-            print(f", formato inesperado: {X.shape}")
-            return None
+            # Fallback legado: split interno (sem augmentation externa)
+            print("AVISO: val/test datasets nao fornecidos, usando split interno")
+            X_train = self.scaler.fit_transform(X_train)
+            X_train, X_test, y_train, y_test = train_test_split(
+                X_train, y_train, test_size=0.2, random_state=42, stratify=y_train
+            )
+            X_train, X_val, y_train, y_val = train_test_split(
+                X_train, y_train, test_size=0.125, random_state=42, stratify=y_train
+            )
 
-        # Normalizar features
-        X = self.scaler.fit_transform(X)
-
-        # Criar splits
-        X_train, X_test, y_train, y_test = train_test_split(
-            X, y, test_size=0.2, random_state=42, stratify=y
-        )
-
-        X_train, X_val, y_train, y_val = train_test_split(
-            X_train, y_train, test_size=0.125, random_state=42, stratify=y_train  # 0.125 de 0.8 = 0.1 do total
-        )
-
-        print(f"Splits criados - Treino: {len(X_train)}, Validação: {len(X_val)}, Teste: {len(X_test)}")
+        print(f"Splits - Treino: {len(X_train)}, Validação: {len(X_val)}, Teste: {len(X_test)}")
 
         # Calcular pesos de classe
         class_weights = self.calculate_class_weights(y_train)

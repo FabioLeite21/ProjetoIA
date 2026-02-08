@@ -125,15 +125,34 @@ class DataAugmenter:
         elif aug_type == 'interpolate' and n_nodes > 2:
             # Add interpolated nodes between existing ones
             new_features = []
+            # Mapeia índice original -> índice no novo array
+            original_to_new = {}
             for i in range(n_nodes - 1):
+                original_to_new[i] = len(new_features)
                 new_features.append(features[i])
-                # 50% chance to add interpolated point
+                # 30% chance to add interpolated point
                 if random.random() < 0.3:
                     interpolated = 0.5 * (features[i] + features[i + 1])
                     new_features.append(interpolated)
+            original_to_new[n_nodes - 1] = len(new_features)
             new_features.append(features[-1])
 
             graph.x = np.array(new_features)
+
+            # Atualizar matriz de adjacência para o novo número de nós
+            new_n = len(new_features)
+            if hasattr(graph, 'a') and graph.a is not None:
+                new_a = np.zeros((new_n, new_n), dtype=graph.a.dtype)
+                # Copiar arestas originais com índices remapeados
+                for orig_i in range(n_nodes):
+                    for orig_j in range(n_nodes):
+                        if graph.a[orig_i, orig_j] != 0:
+                            new_a[original_to_new[orig_i], original_to_new[orig_j]] = graph.a[orig_i, orig_j]
+                # Conectar nós interpolados sequencialmente
+                for idx in range(new_n - 1):
+                    if idx not in original_to_new.values() or (idx + 1) not in original_to_new.values():
+                        new_a[idx, idx + 1] = 1
+                graph.a = new_a
 
         return graph
 

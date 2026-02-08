@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
 Script para treinar modelos com data augmentation.
+Augmentation aplicada APENAS ao conjunto de treino para evitar vazamento de dados.
 """
 
 import sys
@@ -13,13 +14,14 @@ sys.path.insert(0, project_root)
 from src.gnn.gnn import EmotionGNN
 from src.gnn.baseline_mlp import EmotionMLPTrainer
 from src.data.emotion_graph_dataset import EmotionGraphDataset
+from src.data.dataset_splits import create_emotion_splits, AugmentedEmotionDatasetSplit
 import numpy as np
 from sklearn.metrics import classification_report, confusion_matrix
 
 
 def train_with_augmentation():
-    """Treina modelos com dataset augmentado."""
-    print("TREINAMENTO COM DATA AUGMENTATION")
+    """Treina modelos com data augmentation (sem vazamento de dados)."""
+    print("TREINAMENTO COM DATA AUGMENTATION (SEM DATA LEAKAGE)")
     print("=" * 80)
 
     # Configuração de augmentation otimizada
@@ -30,37 +32,42 @@ def train_with_augmentation():
         'noise_std': 0.03,          # Ruído moderado (3%)
         'time_shift_range': 0.1,    # 10% de shift temporal
         'eye_jitter_std': 1.5,      # Jitter leve no eye-tracking
-        'augmentation_factor': 2,   # 3x o tamanho (720 -> 2160)
+        'augmentation_factor': 2,   # 3x o tamanho (original + 2x augmentado)
         'preserve_class_balance': True
     }
 
     results = {}
 
-    # 1. Dataset base (sem augmentation) para comparação
-    print("\nDATASET BASE (SEM AUGMENTATION)")
+    # 1. Carregar dataset base SEM augmentation
+    print("\nCARREGANDO DATASET BASE (SEM AUGMENTATION)")
     print("-" * 50)
-    base_dataset = EmotionGraphDataset('database/graph', normalization='none')
+    base_dataset = EmotionGraphDataset('database/graph', normalization='minmax')
     print(f"Dataset base: {len(base_dataset.read())} grafos")
 
-    # 2. Dataset augmentado
-    print("\nDATASET AUGMENTADO")
+    # 2. Dividir em train/val/test com dados ORIGINAIS (antes de qualquer augmentation)
+    print("\nDIVIDINDO DADOS (ORIGINAIS APENAS)")
     print("-" * 50)
-    augmented_dataset = EmotionGraphDataset(
-        'database/graph',
-        normalization='none',
-        use_augmentation=True,
-        augmentation_config=augmentation_config
+    train_split, val_split, test_split = create_emotion_splits(
+        base_dataset, test_size=0.2, val_size=0.1, random_state=42
     )
-    print(f"Dataset augmentado: {len(augmented_dataset.read())} grafos")
 
-    # 3. Treinar MLP com dataset augmentado
+    # 3. Aplicar augmentation APENAS ao conjunto de treino
+    print("\nAPLICANDO AUGMENTATION APENAS AO TREINO")
+    print("-" * 50)
+    train_augmented = AugmentedEmotionDatasetSplit(train_split, augmentation_config)
+    print(f"Treino original: {len(train_split)} grafos")
+    print(f"Treino augmentado: {len(train_augmented.read())} grafos")
+    print(f"Validação: {len(val_split)} grafos (sem augmentation)")
+    print(f"Teste: {len(test_split)} grafos (sem augmentation)")
+
+    # 4. Treinar MLP com augmentation (apenas no treino)
     print("\nTREINANDO MLP COM AUGMENTATION...")
     print("-" * 50)
 
     try:
         mlp_trainer = EmotionMLPTrainer(input_features=317*8, num_classes=5)
         mlp_trainer.build_model()
-        mlp_results = mlp_trainer.train_model(augmented_dataset)
+        mlp_results = mlp_trainer.train_model(train_augmented, val_split, test_split)
 
         if mlp_results is not None:
             results['mlp_augmented'] = {
@@ -79,18 +86,15 @@ def train_with_augmentation():
         print(f"Erro no MLP: {e}")
         results['mlp_augmented'] = {'accuracy': 0.0, 'training_successful': False}
 
-    # 4. Treinar GNN com dataset augmentado
+    # 5. Treinar GNN com augmentation (apenas no treino)
     print("\nTREINANDO GNN COM AUGMENTATION...")
     print("-" * 50)
 
     try:
-        # NÃO aplicar reversão - usar grafos originais como estão
-        print("Usando grafos originais (sem modificação de conectividade)...")
-
         emotion_gnn = EmotionGNN(input_features=317, num_classes=5)
         emotion_gnn.build_model()
         emotion_gnn.compile_model(learning_rate=0.0001)
-        gnn_results = emotion_gnn.train_model()
+        gnn_results = emotion_gnn.train_model(train_augmented, val_split, test_split)
 
         if gnn_results is not None:
             # Extração de predições do conjunto de teste para matriz de confusão
@@ -99,13 +103,11 @@ def train_with_augmentation():
             test_loader = gnn_results.get('test_loader')
             model = emotion_gnn.model if hasattr(emotion_gnn, 'model') else None
             if test_loader is not None and model is not None:
-                import numpy as np
                 y_true_list = []
                 y_pred_list = []
                 batch_count = 0
                 for batch in test_loader.load():
                     batch_count += 1
-                    # Depuração: printar formato do batch
                     if batch_count == 1:
                         print(f"[DEBUG] Primeiro batch test_loader: type={type(batch)}, len={len(batch) if hasattr(batch, '__len__') else 'N/A'}")
                         print(f"[DEBUG] batch[0] type: {type(batch[0])}, batch[1] type: {type(batch[1])}")
@@ -124,7 +126,7 @@ def train_with_augmentation():
                 y_true_gnn = np.array(y_true_list)
                 y_pred_gnn = np.array(y_pred_list)
             results['gnn_augmented'] = {
-                'accuracy': 0.0,  # Será extraído se disponível
+                'accuracy': 0.0,
                 'history': gnn_results.get('history'),
                 'y_true': y_true_gnn,
                 'y_pred': y_pred_gnn,
@@ -146,7 +148,7 @@ def train_with_augmentation():
             'error': str(e)
         }
 
-    # 5. Comparar resultados
+    # 6. Comparar resultados
     print("\nRESULTADOS COM DATA AUGMENTATION")
     print("=" * 80)
 
@@ -154,27 +156,19 @@ def train_with_augmentation():
         mlp_acc = results['mlp_augmented']['accuracy']
         print(f"MLP com Augmentation:")
         print(f"   Acurácia: {mlp_acc*100:.2f}%")
-        print(f"   Dataset: {len(augmented_dataset.read())} grafos (3x augmentado)")
+        print(f"   Treino augmentado: {len(train_augmented.read())} grafos")
+        print(f"   Teste (sem augmentation): {len(test_split)} grafos")
         print(f"   Features: 8x agregações expandidas")
-
-        # Comparar com baseline anterior (sem augmentation)
-        baseline_acc = 0.42  # Performance anterior
-        improvement = (mlp_acc - baseline_acc) / baseline_acc * 100 if baseline_acc > 0 else 0
-        if improvement > 5:
-            print(f"   Melhoria de {improvement:.1f}% vs baseline sem augmentation!")
-        elif improvement > 0:
-            print(f"   Melhoria leve de {improvement:.1f}% vs baseline")
-        else:
-            print(f"   Performance similar ao baseline ({improvement:.1f}%)")
 
     if 'gnn_augmented' in results and results['gnn_augmented']['training_successful']:
         print(f"\nGNN com Augmentation:")
         print(f"   Status: Treinamento bem-sucedido")
         print(f"   Arquitetura: 2 camadas balanceadas")
         print(f"   Conectividade: Sequential (esparsa)")
-        print(f"   Dataset: {len(augmented_dataset.read())} grafos (3x augmentado)")
+        print(f"   Treino augmentado: {len(train_augmented.read())} grafos")
+        print(f"   Teste (sem augmentation): {len(test_split)} grafos")
 
-    # 6. Análise detalhada se MLP funcionou
+    # 7. Análise detalhada se MLP funcionou
     if 'mlp_augmented' in results and 'y_true' in results['mlp_augmented']:
         print(f"\nANÁLISE DETALHADA - MLP COM AUGMENTATION")
         print("-" * 50)
@@ -192,10 +186,10 @@ def train_with_augmentation():
         print(report)
 
     print("\n" + "=" * 80)
-    print("IMPACTO DA DATA AUGMENTATION:")
-    print("Dataset 3x maior: Redução significativa de overfitting")
-    print("Classes balanceadas: 432 amostras por emoção")
-    print("Diversidade aumentada: Múltiplas variações das features")
+    print("CORREÇÃO DE DATA LEAKAGE:")
+    print("Augmentation aplicada APENAS ao conjunto de treino")
+    print("Validação e teste usam apenas dados originais")
+    print("Scaler ajustado apenas nos dados de treino")
     print("=" * 80)
 
     return results
@@ -205,8 +199,6 @@ if __name__ == "__main__":
     results = train_with_augmentation()
 
     # Plotar curvas de treinamento para MLP e GNN, se disponíveis
-    import sys
-    sys.path.append("scripts")
     from scripts.plot_utils import plot_training_curves
 
     save_dir = "src/data/training_plots"

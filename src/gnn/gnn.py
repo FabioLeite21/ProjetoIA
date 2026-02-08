@@ -223,30 +223,40 @@ class EmotionGNN:
 
         return class_weight_dict
 
-    def train_model(self):
-        """Treina o modelo usando o dataset e loaders."""
-        try:
-            # Carregar o dataset principal
-            base_dataset = EmotionGraphDataset('database/graph')
-            print(f"Total de grafos carregados: {len(base_dataset.read())}")
-        except Exception as e:
-            print(f"Erro ao carregar o dataset: {e}")
-            return None
+    def train_model(self, train_dataset=None, val_dataset=None, test_dataset=None):
+        """Treina o modelo usando o dataset e loaders.
 
-        # Criar splits usando a nova abordagem
-        try:
-            train_dataset, val_dataset, test_dataset = create_emotion_splits(
-                base_dataset, test_size=0.2, val_size=0.1, random_state=42
-            )
+        Args:
+            train_dataset: Dataset de treino (pode incluir augmentation). Se None, carrega internamente.
+            val_dataset: Dataset de validação (sem augmentation).
+            test_dataset: Dataset de teste (sem augmentation).
+        """
+        if train_dataset is not None:
+            # Datasets fornecidos externamente (já divididos, sem vazamento)
+            print(f"Usando datasets externos - Treino: {len(train_dataset.read())} grafos")
+            train_labels = [g.y for g in train_dataset.read()]
+        else:
+            # Comportamento legado: carregar e dividir internamente
+            try:
+                base_dataset = EmotionGraphDataset('database/graph')
+                print(f"Total de grafos carregados: {len(base_dataset.read())}")
+            except Exception as e:
+                print(f"Erro ao carregar o dataset: {e}")
+                return None
 
-            # Calcular pesos de classe baseados no conjunto de treino
-            train_labels = [base_dataset.labels[i] for i in train_dataset.indices]
+            try:
+                train_dataset, val_dataset, test_dataset = create_emotion_splits(
+                    base_dataset, test_size=0.2, val_size=0.1, random_state=42
+                )
+                train_labels = [base_dataset.labels[i] for i in train_dataset.indices]
+            except Exception as e:
+                print(f"Erro ao criar splits: {e}")
+                return None
+
+        try:
             class_weights = self.calculate_class_weights(train_labels)
-
-            # Recompilar modelo com pesos de classe e learning rate menor
             print("Recompilando modelo com balanceamento de classes...")
-            self.compile_model(learning_rate=0.0001, class_weights=class_weights)  # LR menor para dataset pequeno
-
+            self.compile_model(learning_rate=0.0001, class_weights=class_weights)
         except Exception as e:
             print(f"Erro ao criar splits: {e}")
             return None

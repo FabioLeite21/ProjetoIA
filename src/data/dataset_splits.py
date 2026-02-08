@@ -5,6 +5,7 @@ Classes para criar splits de train/validation/test dos datasets de grafos de emo
 from spektral.data import Dataset
 import numpy as np
 from collections.abc import Sequence
+from .augmentation import DataAugmenter
 
 
 class EmotionDatasetSplit(Dataset, Sequence):
@@ -67,6 +68,71 @@ class EmotionDatasetSplit(Dataset, Sequence):
         """
         Verifica se um item está no dataset.
         """
+        return item in self.read()
+
+
+class AugmentedEmotionDatasetSplit(Dataset, Sequence):
+    """
+    Split de treino com data augmentation aplicada apenas aos grafos deste split.
+    Compatível com DisjointLoader e iteração direta.
+    """
+
+    def __init__(self, base_split, augmentation_config=None, **kwargs):
+        """
+        Args:
+            base_split: EmotionDatasetSplit contendo os grafos originais de treino
+            augmentation_config: Dicionário com parâmetros de augmentation
+        """
+        self.base_split = base_split
+        self.augmentation_config = augmentation_config or {}
+        self._graphs_cache = None
+        super().__init__(**kwargs)
+
+    def read(self):
+        """
+        Retorna grafos originais + aumentados (apenas do split de treino).
+        """
+        if self._graphs_cache is None:
+            original_graphs = self.base_split.read()
+
+            # Separar parâmetros do augmenter dos parâmetros do dataset
+            augmenter_params = {
+                'noise_prob': self.augmentation_config.get('noise_prob', 0.7),
+                'temporal_prob': self.augmentation_config.get('temporal_prob', 0.5),
+                'graph_prob': self.augmentation_config.get('graph_prob', 0.3),
+                'noise_std': self.augmentation_config.get('noise_std', 0.05),
+                'time_shift_range': self.augmentation_config.get('time_shift_range', 0.1),
+                'eye_jitter_std': self.augmentation_config.get('eye_jitter_std', 2.0),
+            }
+
+            augmenter = DataAugmenter(**augmenter_params)
+            self._graphs_cache = augmenter.augment_dataset(
+                original_graphs,
+                augmentation_factor=self.augmentation_config.get('augmentation_factor', 2),
+                preserve_class_balance=self.augmentation_config.get('preserve_class_balance', True),
+            )
+        return self._graphs_cache
+
+    def __len__(self):
+        return len(self.read())
+
+    def __getitem__(self, idx):
+        graphs = self.read()
+        if isinstance(idx, slice):
+            return graphs[idx]
+        elif isinstance(idx, (list, tuple)):
+            return [graphs[i] for i in idx]
+        else:
+            if idx < 0:
+                idx = len(graphs) + idx
+            if not 0 <= idx < len(graphs):
+                raise IndexError(f"Index {idx} fora do range para dataset de tamanho {len(graphs)}")
+            return graphs[idx]
+
+    def __iter__(self):
+        return iter(self.read())
+
+    def __contains__(self, item):
         return item in self.read()
 
 
